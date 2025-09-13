@@ -1,465 +1,1114 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Alumni360</title>
-    <!-- Open Graph (for Facebook, LinkedIn, etc.) -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.alumni360.web.app">
-    <meta property="og:title" content="Alumni360">
-    <meta property="og:description" content="Connect with your alumni.">
-
+    <meta charset="utf-8" />
+    <title>Home - Alumni 360</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Foster meaningful connections while keeping information updated" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            color-scheme: light;
+            --blue-600: #0A4FCA;
+            --blue-700: #0848BD;
+            --purple-600: #4923E0;
+            --gray-700: #6F7482;
+            --ink: #000000;
+            --bg-50: #F8FAFC;
+            --bg-100: #F0EDFF;
+            --brand: #0A4FCA;
+            --radius: 12px;
+            --shadow: 0 6px 24px rgba(0, 0, 0, .08);
+            --transition: .25s cubic-bezier(.4, 0, .2, 1);
+        }
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            box-sizing: border-box
         }
-        
+        html,
         body {
-            font-family: 'Open Sans', sans-serif;
-            background-color: #e9ecef; /* Fallback color */
-            color: #333;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            line-height: 1.6;
-
-          /* --- Updated Background Properties --- */
-            background-image: url('https://cdn.wallpapersafari.com/7/24/UjJoPk.jpg');
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-attachment: fixed;
-            background-size: cover;
+            height: 100%
         }
-        
+        body {
+            margin: 0;
+            font-family: 'Ubuntu', system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif;
+            color: var(--ink);
+            background: #ffffff;
+            overflow-x: hidden;
+        }
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+        img {
+            max-width: 100%;
+            display: block
+        }
         .container {
-            max-width: 1000px;
-            width: 100%;
-            padding: 50px 30px;
-            background: linear-gradient(130deg, rgba(251, 255, 220, 0.93) 0%, hsla(248, 100%, 97%, 0.93) 100%);
+            width: min(1120px, 90vw);
+            margin-inline: auto
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+            padding: .7rem 1rem;
             border-radius: 10px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-            text-align: center;
+            border: 0;
+            background: var(--blue-700);
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform var(--transition), opacity var(--transition), box-shadow var(--transition);
+            box-shadow: 0 6px 16px rgba(8, 72, 189, .25);
+        }
+        .btn:hover {
+            transform: translateY(-1px)
+        }
+        .btn.outline {
+            background: #fff;
+            color: var(--blue-700);
+            border: 1px solid var(--blue-700);
+            box-shadow: none
+        }
+        .badge {
+            display: inline-block;
+            padding: .25rem .6rem;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--purple-600), var(--blue-700));
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: .02em
+        }
+        .section {
             position: relative;
-            overflow: hidden;
-            z-index: 1;
-            /* border: 1px solid rgba(0, 0, 0, 0.05); */
+            margin-top: 30px;
         }
-        
-        .container::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(90deg, #ff9100, #00b68e, #d62788);
-            border-radius: 12px 12px 0 0;
+        .section-tight {
+            padding: 48px 0
         }
-
-        #particle-canvas {
-            position: absolute;
+        .title-xl {
+            font-size: clamp(32px, 4.5vw, 48px);
+            line-height: 1.1;
+            margin: 0
+        }
+        .title-lg {
+            font-size: clamp(22px, 3.5vw, 32px);
+            line-height: 1.2;
+            margin: 0 0 .5rem
+        }
+        .title-md {
+            font-size: 20px;
+            margin: 0 0 .25rem
+        }
+        .lead {
+            font-size: 1.05rem;
+            color: #17212b;
+            opacity: .9
+        }
+        .muted {
+            color: var(--gray-700);
+            font-size: 25px
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px
+        }
+        .card {
+            background: linear-gradient(180deg, #fef7ff, #f2fffe);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            position: relative;
+            margin-bottom: 40px;
+            border: 1px solid #26354177;
+            overflow: hidden
+        }
+        .pill {
+            display: inline-block;
+            padding: .35rem .8rem;
+            border-radius: 999px;
+            border: #0e1525;
+            background: var(--bg-100);
+            color: var(--blue-700);
+            font-weight: 700;
+            font-size: 1.7rem
+        }
+        .kicker {
+            font-weight: 800;
+            color: var(--blue-700);
+            letter-spacing: .04em;
+            font-size: .8rem
+        }
+        .bg-svg {
+            position: fixed;
+            inset: -10vw -10vw auto -10vw;
+            height: 120vh;
+            width: 120vw;
+            z-index: -1;
+            pointer-events: none;
+            opacity: .6;
+            filter: blur(0px)
+        }
+        header {
+            position: sticky;
             top: 0;
+            background: rgba(255, 255, 255, .8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, .06);
+            z-index: 50
+        }
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 12px 0
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800
+        }
+        .brand-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--blue-700), var(--purple-600))
+        }
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 16px
+        }
+        .menu a {
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-weight: 600
+        }
+        .dropdown {
+            position: relative
+        }
+        .dropdown>button {
+            background: transparent;
+            border: 0;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            font-family: 'Ubuntu', sans-serif;
+        }
+        .dropdown>button:hover {
+            background: rgba(10, 79, 202, .08)
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 1px);
             left: 0;
+            min-width: 240px;
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, .08);
+            border-radius: 12px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, .12);
+            padding: 8px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(6px);
+            transition: all var(--transition)
+        }
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0)
+        }
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: #1b2430
+        }
+        .dropdown-menu a:hover {
+            background: rgba(73, 35, 224, .08)
+        }
+        .nav-cta {
+            margin-left: 8px
+        }
+        .nav-toggle {
+            display: none;
+            background: transparent;
+            border: 0;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px
+        }
+        .nav-toggle span,
+        .nav-toggle::before,
+        .nav-toggle::after {
+            content: '';
+            display: block;
+            height: 2px;
+            background: #1b2430;
+            border-radius: 2px;
+            margin: 8px 0;
+            transition: transform var(--transition), opacity var(--transition)
+        }
+        .hero .title-xl span {
+            background: linear-gradient(90deg, var(--blue-700), var(--purple-600));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+        .hero-visual {
             width: 100%;
             height: 100%;
-            z-index: -1; /* Places the canvas behind the content */
-            border-radius: 12px; /* Match container's border-radius */
+            background: linear-gradient(135deg, rgba(10, 79, 202, .08), rgba(73, 35, 224, .08));
+            border: 1px solid rgba(0, 0, 0, .06);
+            border-radius: 16px;
+            padding: 10px
         }
-        
-        .logo {
-            font-size: 2.8rem;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            font-family: 'Montserrat', sans-serif;
-            letter-spacing: 1px;
-        }
-
-        .logo span {
-            color: #3498db;
-            position: relative;
-        }
-        
-        .logo span::after {
-            content: "";
-            position: absolute;
-            bottom: 5px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #3498db, transparent);
-        }
-        
-        .header {
-            margin: 30px 0;
-        }
-        
-        .header h1 {
-            font-size: 3.2rem;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 10px;
-            line-height: 1.3;
-            font-family: 'Montserrat', sans-serif;
-        }
-        
-        .highlight {
-            color: #e74c3c;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .content {
-            margin: 40px 0;
-            padding: 0 10px;
-        }
-        
-        .content p {
-            font-size: 1.5rem;
-            color: #2c3e50;
-            margin-bottom: 18px;
-            font-weight: 300;
-            line-height: 1.7;
-        }
-        
-        .stay-tuned {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: #3498db;
-            margin: 40px 0 30px;
-            letter-spacing: 0.5px;
-            font-family: 'Montserrat', sans-serif;
-        }
-        
-        .countdown-container {
-            margin: 0 0;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        
-        .countdown-box {
-            width: 140px;
-            height: 140px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(130deg, rgba(251, 255, 220, 0.7) 0%, hsla(248, 100%, 97%, 0.7) 100%);
-            border-radius: 9px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(0, 0, 0, 0.05);
-            position: relative;
+        .marquee {
             overflow: hidden;
+            mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
+            -webkit-mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
         }
-        
-        .countdown-box::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, #51b1ff, #ff6822);
+        .marquee-track {
+            display: flex;
+            gap: 36px;
+            will-change: transform;
         }
-        
-        .countdown-value {
-            font-size: 3.5rem;
+        .logo-chip {
+            flex: 0 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid rgba(0, 0, 0, .08);
+            background: #fff;
+            padding: 10px 14px;
+            border-radius: 999px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .06);
             font-weight: 700;
-            color: #2c3e50;
-            font-family: 'Montserrat', sans-serif;
-            margin-bottom: 5px;
-            line-height: 1;
+            color: #1b2430
         }
-        
-        .countdown-label {
-            font-size: 1.1rem;
-            color: #7f8c8d;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
+        .logo-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, var(--purple-600), var(--blue-700))
         }
-        
-        /* Responsive styles */
-        @media (max-width: 768px) {
-            .container {
-                padding: 40px 20px;
+        .slider {
+            position: relative
+        }
+        .slides {
+            display: flex;
+            transition: transform .6s cubic-bezier(.22, .7, 0, 1);
+            will-change: transform
+        }
+        .slide {
+            flex: 0 0 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            align-items: center;
+            padding: 10px 0
+        }
+        .slide-card {
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, .06);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 24px
+        }
+        .slide-bg {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px dashed rgba(10, 79, 202, .25);
+            padding: 10px
+        }
+        .dots {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 16px
+        }
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 999px;
+            background: rgba(10, 79, 202, .4);
+            cursor: pointer;
+            transition: opacity var(--transition), transform var(--transition)
+        }
+        .dot.active {
+            background: var(--blue-700);
+            transform: scale(1.1)
+        }
+        .feature-image {
+            border-radius: 16px;
+            border: 1px dashed rgba(73, 35, 224, .25);
+            background: linear-gradient(135deg, rgba(73, 35, 224, .06), rgba(10, 79, 202, .06))
+        }
+        .grid-2.reverse-order-mobile> :last-child {
+            order: -1;
+        }
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px
+        }
+        .mini-card {
+            background: linear-gradient(180deg, #f4fffe, #fef6ff);
+            border: 1px solid rgba(57, 98, 99, 0.358);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--shadow)
+        }
+        .measure-card .icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--blue-700), var(--purple-600));
+            box-shadow: 0 8px 22px rgba(10, 79, 202, .25)
+        }
+        .cta-card {
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 24px;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(10, 79, 202, .06), rgba(73, 35, 224, .06));
+            border: 1px solid rgba(0, 0, 0, .06);
+            border-radius: 16px;
+            padding: 28px
+        }
+        footer {
+            background: radial-gradient(1200px 600px at 50% 0, rgba(73, 35, 224, .12), transparent), #0e1525;
+            color: #eaf0ff
+        }
+        footer .columns {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            gap: 24px
+        }
+        footer a {
+            color: #eaf0ff;
+            opacity: .9
+        }
+        footer a:hover {
+            opacity: 1
+        }
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px
+        }
+        .chip {
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 999px;
+            padding: .4rem .8rem;
+            font-weight: 700
+        }
+        .modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            place-items: center;
+            background: rgba(0, 0, 0, .4);
+            z-index: 100
+        }
+        .modal.open {
+            display: grid
+        }
+        .modal .panel {
+            width: min(720px, 92vw);
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 64px rgba(0, 0, 0, .25);
+            padding: 20px
+        }
+        .modal .panel header {
+            position: relative;
+            top: auto;
+            background: transparent;
+            border: 0;
+            padding: 0;
+            margin: 0
+        }
+        .modal .close {
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, .1);
+            border-radius: 10px;
+            float: right;
+            padding: .5rem .7rem;
+            cursor: pointer
+        }
+        body.noscroll {
+            overflow: hidden
+        }
+        input,
+        select,
+        textarea,
+        button {
+            font-size: 16px;
+            font-family: 'Ubuntu', sans-serif;
+        }
+        html {
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+        @media (max-width:980px) {
+            .grid-2,
+            .grid-3,
+            .cta-card,
+            footer .columns,
+            .slide {
+                grid-template-columns: 1fr
             }
-            
-            .logo {
-                font-size: 2.2rem;
+            .title-xl {
+                font-size: 25px;
             }
-            
-            .header h1 {
-                font-size: 2.5rem;
+            .title-lg {
+                font-size: 25px;
             }
-            
-            .content p {
-                font-size: 1.3rem;
-            }
-            
-            .countdown-box {
-                width: 100px;
-                height: 100px;
-            }
-            
-            .countdown-value {
-                font-size: 2.5rem;
-            }
-
-            .countdown-label {
+            .lead {
                 font-size: 1rem;
             }
-
-            .logo span::after {
-            bottom: 3px;
+            .btn{
+                font-size: 11px;
+            }
+            .hero-visual {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, rgba(10, 79, 202, .08), rgba(73, 35, 224, .08));
+            border: 1px solid rgba(0, 0, 0, .06);
+            border-radius: 16px;
+            padding: 10px
+        }
+            .card {
+                border-radius: var(--radius);
+                box-shadow: var(--shadow);
+                padding: 24px;
+                position: relative;
+                margin-bottom: 1px;
+                border: 1px solid #26354177;
+                overflow: hidden
+            }
+            .nav-toggle {
+                display: block
+            }
+            .muted {
+                color: var(--gray-700);
+                font-size: 15px
+            }
+            .menu {
+                position: fixed;
+                inset: 60px 0 auto 0;
+                background: #fff;
+                border-bottom: 1px solid rgba(0, 0, 0, .06);
+                display: grid;
+                padding: 12px;
+                gap: 4px;
+                transform: translateY(-140%);
+                transition: transform var(--transition)
+            }
+            .pill {
+                display: inline-block;
+                padding: .35rem .8rem;
+                border-radius: 999px;
+                background: var(--bg-100);
+                color: var(--blue-700);
+                font-weight: 700;
+                font-size: .85rem
+            }
+            .dropdown:hover .dropdown-menu {
+                opacity: 0;
+                pointer-events: none;
+                transform: translateY(6px)
+            }
+            .dropdown.open .dropdown-menu {
+                position: relative;
+                top: auto;
+                left: auto;
+                transform: none;
+                opacity: 1;
+                pointer-events: auto;
+                margin: 6px 0
+            }
+            header.open .menu {
+                transform: translateY(0)
+            }
+            header.open .nav-toggle::before {
+                transform: translateY(10px) rotate(45deg)
+            }
+            header.open .nav-toggle::after {
+                transform: translateY(-10px) rotate(-45deg)
+            }
+            header.open .nav-toggle span {
+                opacity: 0
+            }
+            .grid-2.reverse-order-mobile> :last-child {
+                order: 0;
+            }
+            input,
+            select,
+            textarea,
+            button {
+                font-size: 16px;
             }
         }
-        
-        @media (max-width: 576px) {
+        @media (min-width: 1200px) {
             .container {
-                padding: 30px 15px;
+                width: min(1400px, 90vw);
             }
-            
-            .logo {
-                font-size: 1.8rem;
+            .title-xl {
+                font-size: 56px;
             }
-            
-            .header h1 {
-                font-size: 1.8rem;
+            .title-lg {
+                font-size: 40px;
             }
-            
-            .content p {
-                font-size: 1.1rem;
-                margin-bottom: 15px;
-            }
-            
-            .stay-tuned {
-                font-size: 1.5rem;
-            }
-            
-            .countdown-container {
-                gap: 10px;
-            }
-            
-            .countdown-box {
-                width: 60px;
-                height: 60px;
-            }
-            
-            .countdown-value {
-                font-size: 1.4rem;
-            }
-            
-            .countdown-label {
-                font-size: 0.5rem;
-            }
-
-            .logo span::after {
-            bottom: 2px;
+            .lead {
+                font-size: 1.25rem;
             }
         }
-        
-        @media (max-width: 400px) {
-            .countdown-box {
-                width: 60px;
-                height: 60px;
-            }
-            
-            .countdown-value {
-                font-size: 1.4rem;
-            }
-
-            .countdown-label {
-                font-size: 0.5rem;
-            }
-
-            .logo span::after {
-            bottom: 2px;
-            }
-        }
-        
-        /* Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .header, .content, .countdown-container, .contact {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-        
-        .header { animation-delay: 0.1s; }
-        .content { animation-delay: 0.3s; }
-        .countdown-container { animation-delay: 0.5s; }
-        .contact { animation-delay: 0.7s; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <canvas id="particle-canvas"></canvas>
-        <div class="logo">Alumni<span>360</span></div>
-        
-        <div class="header">
-            <h1>We are <span class="highlight">launching</span><br>our website soon!</h1>
+    <svg class="bg-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+            <pattern id="placeholder-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(73, 35, 224, 0.1)" stroke-width="1" />
+            </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#placeholder-grid)" />
+    </svg>
+    <header id="site-header">
+        <div class="container nav">
+            <a class="brand" href="#">
+                <img src="logo.png" alt="Brand logo" loading="lazy" style="height:25px;width:auto;border-radius:6px">
+                <span>Alumni360</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span></button>
+            <nav class="menu" id="mainMenu" aria-label="Primary">
+                <div class="dropdown">
+                    <button type="button" data-toggle="dd">Products</button>
+                    <div class="dropdown-menu">
+                        <a href="#">Digital Engagement Platform</a>
+                        <a href="#">Event Management</a>
+                        <a href="#">Online Giving</a>
+                        <div style="height:1px;background:#eee;margin:6px 0"></div>
+                        <a href="#" style="font-weight:800">Alumni Directory</a>
+                        <a href="#">Job board</a>
+                        <a href="#">Mentorship</a>
+                        <a href="#">Business Directory</a>
+                        <a href="#">Affinity group</a>
+                        <a href="#">News &amp; updates</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button type="button" data-toggle="dd">Solution</button>
+                    <div class="dropdown-menu">
+                        <a href="#">Alumni Relations</a>
+                        <a href="#">Annual Fund</a>
+                        <a href="#">Advancement Services</a>
+                        <a href="#">Advancement Leadership</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button type="button" data-toggle="dd">Advancement Pulse</button>
+                    <div class="dropdown-menu">
+                        <a href="#">eBooks</a>
+                        <a href="#">Blog</a>
+                        <a href="#">Guides</a>
+                        <a href="#">Webinars</a>
+                        <a href="#">Newsletter</a>
+                        <a href="#">Spotlights</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button type="button" data-toggle="dd">Customer Spotlight</button>
+                    <div class="dropdown-menu">
+                        <a href="#">Success stories</a>
+                        <a href="#">Customers</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button type="button" data-toggle="dd">Integration</button>
+                    <div class="dropdown-menu">
+                        <a href="#">TrueSync</a>
+                        <a href="#">Blackbaud CRM</a>
+                    </div>
+                </div>
+                <a class="btn nav-cta" href="#" data-open="#demoModal">Contact Us</a>
+            </nav>
         </div>
-        
-        <div class="content">
-            <p class="stay-tuned">Stay tuned ;)</p>
+    </header>
+    <main>
+        <section class="section hero">
+            <div class="container grid-2">
+                <div>
+                    <span class="badge">Welcome to Alumni360</span>
+                    <h1 class="title-xl" style="margin-top:14px">
+                        <span>Foster meaningful connections</span> among Alumni, Students, Institutions &amp;
+                        Recruiters.
+                    </h1>
+                    <p class="lead" style="margin:14px 0 18px">
+                        Keep constituent data always updated through self‑serve engagement and automations. Set up a
+                        directory for affinities with custom filters to facilitate peer‑to‑peer networking.
+                    </p>
+                    <div>
+                        <a class="btn" href="#" data-open="#login">Login/Signup</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="feature-image"
+                        style="height:100%;display:grid;place-items:center;
+                         background-image:url('https://media.licdn.com/dms/image/v2/C4D12AQEPyLwBZlKVvg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1652679909773?e=2147483647&v=beta&t=vDO1qbXnUGCyx6nji3pS-wH0Atz3C0uSaH6pYP6c2dE');background-size:cover;background-position:center">
+                        <div class="pill">Connect &bull; Engage &bull; Grow</div>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="margin-top:30px">
+                <p class="muted" style="text-align:center;font-weight:800;">Chosen by leading institutions across the
+                    world</p>
+                <div class="marquee" style="margin-top:20px">
+                    <div class="marquee-track">
+                        <div class="logo-chip">
+                            <img src="sershah.jpeg" alt="Institution logo" loading="lazy"
+                                style="width:20px;height:20px;object-fit:cover">
+                            Shershah Engineering College, Sasaram
+                        </div>
+                        <div class="logo-chip">
+                            <img src="sershah.jpeg" alt="Institution logo" loading="lazy"
+                                style="width:20px;height:20px;object-fit:cover">
+                            Shershah Engineering College, Sasaram
+                        </div>
+                        <div class="logo-chip">
+                            <img src="sershah.jpeg" alt="Institution logo" loading="lazy"
+                                style="width:20px;height:20px;object-fit:cover">
+                            Shershah Engineering College, Sasaram
+                        </div>
+                        <div class="logo-chip">
+                            <img src="sershah.jpeg" alt="Institution logo" loading="lazy"
+                                style="width:20px;height:20px;object-fit:cover">
+                            Shershah Engineering College, Sasaram
+                        </div>
+                        <div class="logo-chip">
+                            <img src="sershah.jpeg" alt="Institution logo" loading="lazy"
+                                style="width:20px;height:20px;object-fit:cover">
+                            Shershah Engineering College, Sasaram
+                        </div>
+                        <div class="logo-chip">
+                            <img src="sershah.jpeg" alt="Institution logo" loading="lazy"
+                                style="width:20px;height:20px;object-fit:cover">
+                            Shershah Engineering College, Sasaram
+                        </div>
+                        <div class="logo-chip">
+                            <img src="sershah.jpeg" alt="Institution logo" loading="lazy"
+                                style="width:20px;height:20px;object-fit:cover">
+                            Shershah Engineering College, Sasaram
+                        </div>
+                        <div class="logo-chip">
+                            <img src="sershah.jpeg" alt="Institution logo" loading="lazy"
+                                style="width:20px;height:20px;object-fit:cover">
+                            Shershah Engineering College, Sasaram
+                        </div>
+                        <div class="logo-chip">
+                            <img src="sershah.jpeg" alt="Institution logo" loading="lazy"
+                                style="width:20px;height:20px;object-fit:cover">
+                            Shershah Engineering College, Sasaram
+                        </div>
+                        <div class="logo-chip">
+                            <img src="sershah.jpeg" alt="Institution logo" loading="lazy"
+                                style="width:20px;height:20px;object-fit:cover">
+                            Shershah Engineering College, Sasaram
+                        </div>
+                        <div class="logo-chip">
+                            <img src="sershah.jpeg" alt="Institution logo" loading="lazy"
+                                style="width:20px;height:20px;object-fit:cover">
+                            Shershah Engineering College, Sasaram
+                        </div>
+                        <div class="logo-chip">
+                            <img src="sershah.jpeg" alt="Institution logo" loading="lazy"
+                                style="width:20px;height:20px;object-fit:cover">
+                            Shershah Engineering College, Sasaram
+                        </div>
+                        <div class="logo-chip">
+                            <img src="sershah.jpeg" alt="Institution logo" loading="lazy"
+                                style="width:20px;height:20px;object-fit:cover">
+                            Shershah Engineering College, Sasaram
+                        </div>
+                        <div class="logo-chip">
+                            <img src="sershah.jpeg" alt="Institution logo" loading="lazy"
+                                style="width:20px;height:20px;object-fit:cover">
+                            Shershah Engineering College, Sasaram
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section">
+            <div class="container" style="text-align:center;margin-bottom:28px;">
+                <h2 class="title-lg">Why Digital Engagement on Alumni360?</h2>
+            </div>
+            <div class="container grid-3">
+                <div class="card">
+                    <div class="feature-image"
+                        style="height:120px;margin-bottom:20px;
+                         background-image:url('https://t3.ftcdn.net/jpg/07/11/26/60/360_F_711266053_vk4mgNhKyUXqFgxEuQ8xOQkKQ03fg7Vj.jpg');background-size:cover;background-position:center">
+                    </div>
+                    <h3 class="title-md"; style="text-align: center;">Measure of impact</h3>
+                    <p class="muted">Measure engagement activities of various segments, and understand the return on
+                        your programs.</p>
+                </div>
+                <div class="card">
+                    <div class="feature-image"
+                        style="height:120px;margin-bottom:20px;
+                         background-image:url('https://www.mhcautomation.com/wp-content/uploads/2019/09/business-automation-banner-1024x332.jpg');background-size:cover;background-position:center">
+                    </div>
+                    <h3 class="title-md" style="text-align: center;">Switch to auto‑pilot</h3>
+                    <p class="muted">Stop spending days on clunky tools and scattered data. Automate the process
+                        end‑to‑end.</p>
+                </div>
+                <div class="card">
+                    <div class="feature-image"
+                        style="height:120px;margin-bottom:20px;
+                         background-image:url('https://www.lrsoutputmanagement.com/Resources/a31f5597-23fa-4ff5-89ed-628cacaab9c8/LRS-Output-Management-Document-Process-Automation-Banner.jpg');background-size:cover;background-position:center">
+                    </div>
+                    <h3 class="title-md" style="text-align: center;">Easy set‑up</h3>
+                    <p class="muted">Setting up and getting value is only a matter of a few simple steps.</p>
+                </div>
+            </div>
+        </section>
+        <section class="section">
+            <div class="container" style="text-align:center;margin-bottom:20px">
+                <h2 class="title-lg">Keep it in Sync</h2>
+            </div>
+            <div class="container grid-3">
+                <div class="mini-card">
+                    <h3 class="title-md">Import your database</h3>
+                    <p class="muted">Instant access to members on your database.</p>
+                </div>
+                <div class="mini-card">
+                    <h3 class="title-md">Two‑way sync</h3>
+                    <p class="muted">Keep information updated across tools.</p>
+                </div>
+                <div class="mini-card">
+                    <h3 class="title-md">Enrich profile information</h3>
+                    <p class="muted">Use engagement to progressively improve information.</p>
+                </div>
+            </div>
+            <div class="container" style="text-align:center;margin-top:22px">
+                <a class="btn outline" href="#" data-open="#demoModal">Learn more about integrations</a>
+            </div>
+        </section>
+        <section class="section">
+            <div class="container" style="text-align:center;margin-bottom:20px">
+                <h2 class="title-lg">Measure and grow engagement</h2>
+            </div>
+            <div class="container grid-3">
+                <div class="card measure-card">
+                    <h3 class="title-md" style="margin-top:1px">Measure growth</h3>
+                    <p class="muted">Get monthly reports on community engagement delivered to your inbox.</p>
+                </div>
+                <div class="card measure-card">
+                    <h3 class="title-md" style="margin-top:1px">Set‑up automation</h3>
+                    <p class="muted">Continuously improve constituent data and sync updates to your CRM.</p>
+                </div>
+                <div class="card measure-card">
+                    <h3 class="title-md" style="margin-top:1px">Approve profiles</h3>
+                    <p class="muted">Moderate the directory by approving sign‑ups.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="section" style="padding-top:40px; padding-bottom: 24px;">
+        <div class="container">
+            <div class="columns" style="margin-bottom:24px">
+                <div>
+                    <div style="display:flex;align-items:center;gap:10px;font-weight:800;margin-bottom:20px">
+                        <img src="logo2.png" alt="Brand logo" loading="lazy"
+                            style="height:28px;width:auto;border-radius:6px">
+                    </div>
+                    <p style="margin:0 0 14px;opacity:.9">Hundreds of advancement teams use Alumni360 to engage
+                        constituents meaningfully and grow their donor pipeline.</p>
+                    <div>
+                        <form onsubmit="event.preventDefault(); alert('Subscribed!');">
+                            <label for="email" style="display:block;margin-bottom:6px;opacity:.9">Subscribe for
+                                updates</label>
+                            <div style="display:flex;gap:8px">
+                                <input id="email" type="email" required placeholder="name@institution.edu"
+                                    style="flex:1;padding:.8rem;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff" />
+                                <button class="btn" type="submit"
+                                    style="background:#fff;color:#0e1525">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <div style="font-weight:800;margin-bottom:8px">Compare With</div>
+                    <div style="display:grid;gap:8px">
+                        <a href="#">Graduway</a>
+                        <a href="#">GiveCampus</a>
+                        <a href="#">Hivebrite</a>
+                        <a href="#">360Alumni</a>
+                        <a href="#">iModules (Anthology)</a>
+                        <a href="#">NetCommunity</a>
+                    </div>
+                </div>
+                <div>
+                    <div style="font-weight:800;margin-bottom:8px">Resources</div>
+                    <div style="display:grid;gap:8px">
+                        <a href="#">Case Studies</a>
+                        <a href="#">Blog</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Careers</a>
+                        <a href="#">Giving Day toolkit</a>
+                        <a href="#">Cultivating the Next Wave of Donors</a>
+                    </div>
+                </div>
+            </div>
+            <div
+                style="border-top:1px solid rgba(255,255,255,.15);padding-top:12px;display:flex;justify-content:space-between;gap:10px;opacity:.8">
+                <span>&copy; <span id="year"></span> Tech Titans</span>
+                <span>All rights reserved</span>
+            </div>
         </div>
-        
-        <div class="countdown-container">
-            <div class="countdown-box">
-                <div class="countdown-value" id="days">00</div>
-                <div class="countdown-label">Days</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-value" id="hours">00</div>
-                <div class="countdown-label">Hours</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-value" id="minutes">00</div>
-                <div class="countdown-label">Minutes</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-value" id="seconds">00</div>
-                <div class="countdown-label">Seconds</div>
+    </footer>
+    <div class="modal" id="demoModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="panel">
+            <button class="close" data-close>&times;</button>
+            <h3 class="title-md">Contact Us</h3>
+            <p class="muted">Share a few details and the team will get in touch.</p>
+            <form
+                onsubmit="event.preventDefault(); this.closest('.modal').classList.remove('open'); alert('Demo request submitted!');">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
+                    <div><label>Name<br><input required
+                                style="width:100%;padding:.7rem;border-radius:10px;border:1px solid #ddd" /></label>
+                    </div>
+                    <div><label>Email<br><input type="email" required
+                                style="width:100%;padding:.7rem;border-radius:10px;border:1px solid #ddd" /></label>
+                    </div>
+                    <div><label>Institution<br><input
+                                style="width:100%;padding:.7rem;border-radius:10px;border:1px solid #ddd" /></label>
+                    </div>
+                    <div><label>Designation<br><input
+                                style="width:100%;padding:.7rem;border-radius:10px;border:1px solid #ddd" /></label>
+                    </div>
+                </div>
+                <div style="margin-top:14px"><button class="btn" type="submit">Submit</button></div>
+            </form>
+        </div>
+    </div>
+    <div class="modal" id="login" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="panel">
+            <button class="close" data-close>&times;</button>
+            <h3 class="title-md" style="text-align: center;">Login/Signup</h3>
+            <p class="muted" style="font-size: 1rem; text-align: center; margin-top: 4px; margin-bottom: 20px;">as a
+            </p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <a href="#" class="btn" data-open="#loginModal">Student</a>
+                <a href="#" class="btn" data-open="#loginModal">Alumni</a>
+                <a href="#" class="btn" data-open="#loginModal">Institution</a>
+                <a href="#" class="btn" data-open="#loginModal">Recruiter</a>
             </div>
         </div>
     </div>
-
+    <div class="modal" id="loginModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="panel">
+            <button class="close" data-close>&times;</button>
+            <h3 class="title-md" style="text-align: center;">Login to Your Account</h3>
+            <p class="muted" style="font-size: 1rem; text-align: center; margin-top: 4px; margin-bottom: 20px;">
+                Welcome back! Please enter your details.
+            </p>
+            <form onsubmit="event.preventDefault(); alert('Login submitted!');">
+                <div style="display: grid; gap: 14px;">
+                    <div>
+                        <label for="login-email"
+                            style="display: block; margin-bottom: 6px; font-weight: 500;">Email</label>
+                        <input id="login-email" type="email" required placeholder="name@domain.com"
+                            style="width:100%; padding:.7rem; border-radius:10px; border:1px solid #ddd" />
+                    </div>
+                    <div>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                            <label for="login-password" style="font-weight: 500;">Password</label>
+                            <a href="#"
+                                style="font-size: 0.85rem; color: var(--blue-700); text-decoration: none;">Forgot
+                                Password?</a>
+                        </div>
+                        <input id="login-password" type="password" required placeholder="••••••••"
+                            style="width:100%; padding:.7rem; border-radius:10px; border:1px solid #ddd" />
+                    </div>
+                </div>
+                <div style="margin-top:20px">
+                    <button class="btn" type="submit" style="width: 100%;">Sign In</button>
+                </div>
+            </form>
+            <div style="display: flex; align-items: center; text-align: center; color: #aaa; margin: 20px 0;">
+                <div style="flex-grow: 1; height: 1px; background-color: #ddd;"></div>
+                <span style="padding: 0 10px; font-size: 0.9rem;">OR</span>
+                <div style="flex-grow: 1; height: 1px; background-color: #ddd;"></div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
+                <a href="#" class="btn outline" style="width: 100%;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"
+                        fill="currentColor">
+                        <path fill="#FFC107"
+                            d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z">
+                        </path>
+                        <path fill="#FF3D00"
+                            d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z">
+                        </path>
+                        <path fill="#4CAF50"
+                            d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.222,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z">
+                        </path>
+                        <path fill="#1976D2"
+                            d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.089,5.571l6.19,5.238C44.438,36.334,48,30.637,48,24C48,22.659,47.862,21.35,47.611,20.083z">
+                        </path>
+                    </svg>
+                    Continue with Google
+                </a>
+                <a href="#" class="btn outline" style="width: 100%;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                        fill="currentColor">
+                        <path
+                            d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                    </svg>
+                    Continue with LinkedIn
+                </a>
+            </div>
+            <div style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--gray-700);">
+                Don't have an account?
+                <a href="#" style="font-weight: 700; color: var(--blue-700); text-decoration: none;">Sign Up</a>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="storyModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="panel">
+            <button class="close" data-close>&times;</button>
+            <h3 class="title-md" id="storyTitle">Customer success story</h3>
+            <p class="muted" id="storyBody">Full story content placeholder.</p>
+            <div style="margin-top:14px"><button class="btn outline" data-close>Close</button></div>
+        </div>
+    </div>
     <script>
-
-        // --- Twinkling Stars Animation JavaScript ---
-
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
-
-        let starsArray;
-
-        // Set canvas dimensions to match the container
-        function setCanvasSize() {
-            const container = document.querySelector('.container');
-            canvas.width = container.offsetWidth;
-            canvas.height = container.offsetHeight;
+        document.getElementById('year').textContent = new Date().getFullYear();
+        const header = document.getElementById('site-header');
+        const navToggle = document.getElementById('navToggle');
+        const mainMenu = document.getElementById('mainMenu');
+        if (navToggle) {
+            navToggle.addEventListener('click', () => {
+                header.classList.toggle('open');
+            });
         }
-
-        setCanvasSize();
-        
-        // Create star
-        class Star {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                // --- MODIFIED LINE: Increased star radius ---
-                this.radius = Math.random() * 2 + 1; // Radius is now between 1 and 3
-                this.alpha = 0; // Initial opacity
-                this.maxAlpha = Math.random() * 0.5 + 0.1; // Max opacity
-                this.fadeSpeed = (Math.random() * 0.01) + 0.005;
-                this.fadingIn = true;
-            }
-
-            // Method to draw individual star
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(100, 100, 100, ${this.alpha})`;
-                ctx.fill();
-            }
-
-            // Update star's opacity
-            update() {
-                if (this.fadingIn) {
-                    this.alpha += this.fadeSpeed;
-                    if (this.alpha >= this.maxAlpha) {
-                        this.alpha = this.maxAlpha;
-                        this.fadingIn = false;
+        if (mainMenu) {
+            mainMenu.querySelectorAll('[data-toggle="dd"]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    if (window.matchMedia('(max-width:980px)').matches) {
+                        e.preventDefault();
+                        const parent = btn.parentElement;
+                        parent.classList.toggle('open');
                     }
-                } else {
-                    this.alpha -= this.fadeSpeed;
-                    if (this.alpha <= 0) {
-                        this.alpha = 0;
-                        // Reset the star to a new position to keep the animation dynamic
-                        this.x = Math.random() * canvas.width;
-                        this.y = Math.random() * canvas.height;
-                        this.fadingIn = true;
-                    }
+                });
+            });
+        }
+        function openModal(sel) {
+            const m = document.querySelector(sel);
+            if (!m) return;
+            const onEsc = (ev) => { if (ev.key === 'Escape') { closeModal(m); } };
+            document.addEventListener('keydown', onEsc, { once: true });
+            m.addEventListener('click', (e) => { if (e.target === m) { closeModal(m); } });
+            m.classList.add('open');
+            document.body.classList.add('noscroll');
+        }
+        function closeModal(modalEl) {
+            if (!modalEl) return;
+            modalEl.classList.remove('open');
+            document.body.classList.remove('noscroll');
+            document.removeEventListener('keydown', onEsc);
+        }
+        document.querySelectorAll('[data-open]').forEach(el => {
+            el.addEventListener('click', (e) => {
+                e.preventDefault();
+                openModal(el.getAttribute('data-open'));
+            });
+        });
+        document.querySelectorAll('[data-close]').forEach(el => {
+            el.addEventListener('click', (e) => {
+                const modal = el.closest('.modal');
+                if (modal) closeModal(modal);
+            });
+        });
+        document.querySelectorAll('button[data-open="#storyModal"][data-title][data-body]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const storyTitle = document.getElementById('storyTitle');
+                const storyBody = document.getElementById('storyBody');
+                if (storyTitle) storyTitle.textContent = btn.dataset.title || 'Customer success story';
+                if (storyBody) storyBody.textContent = btn.dataset.body || '';
+            });
+        });
+        (function () {
+            const root = document.getElementById('spotlightSlider');
+            if (!root) return; 
+            const track = root.querySelector('.slides');
+            const slides = Array.from(root.querySelectorAll('.slide'));
+            const dots = Array.from(root.querySelectorAll('.dot'));
+            if (!track || slides.length === 0 || dots.length === 0) return;
+            let idx = 0;
+            let timer = null;
+            function go(i) {
+                idx = (i + slides.length) % slides.length;
+                track.style.transform = `translateX(-${idx * 100}%)`;
+                dots.forEach((d, j) => d.classList.toggle('active', j === idx));
+            }
+            function autoplay() {
+                clearInterval(timer);
+                timer = setInterval(() => go(idx + 1), 15000);
+            }
+            dots.forEach((d, i) => d.addEventListener('click', () => { go(i); autoplay(); }));
+            go(0);
+            autoplay();
+            root.addEventListener('mouseenter', () => clearInterval(timer));
+            root.addEventListener('mouseleave', autoplay);
+        })();
+        function initializeMarquee(selector, speed) {
+            const marquee = document.querySelector(selector);
+            if (!marquee) return;
+            const track = marquee.querySelector('.marquee-track');
+            const content = Array.from(track.children);
+            content.forEach(item => {
+                const clone = item.cloneNode(true);
+                clone.setAttribute('aria-hidden', true);
+                track.appendChild(clone);
+            });
+            let position = 0;
+            let animationFrameId = null;
+            function animate() {
+                position += speed;
+                const originalContentWidth = track.scrollWidth / 2;
+                if (position >= originalContentWidth) {
+                    position = 0;
                 }
-                this.draw();
+                track.style.transform = `translateX(-${position}px)`;
+                animationFrameId = requestAnimationFrame(animate);
             }
-        }
-
-        // Create star array
-        function init() {
-            starsArray = [];
-            let numberOfStars = (canvas.width * canvas.height) / 4000;
-            for (let i = 0; i < numberOfStars; i++) {
-                starsArray.push(new Star());
-            }
-        }
-
-        // Animation loop
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < starsArray.length; i++) {
-                starsArray[i].update();
-            }
+            marquee.addEventListener('mouseenter', () => cancelAnimationFrame(animationFrameId));
+            marquee.addEventListener('mouseleave', () => requestAnimationFrame(animate));
             requestAnimationFrame(animate);
         }
-
-        // Resize event
-        window.addEventListener('resize', 
-            function() {
-                setCanvasSize();
-                init();
-            }
-        );
-
-        init();
-        animate();
-
-    
-        const countDownDate = new Date("Sep 7, 2025 00:00:00").getTime();
-        
-        // Update the countdown every 1 second
-        const countdown = setInterval(function() {
-            // Get today's date and time
-            const now = new Date().getTime();
-            
-            // Find the distance between now and the countdown date
-            const distance = countDownDate - now;
-            
-            // Calculate days, hours, minutes and seconds
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            // Output the result in elements with their respective ids
-            document.getElementById("days").innerHTML = days;
-            document.getElementById("hours").innerHTML = hours;
-            document.getElementById("minutes").innerHTML = minutes;
-            document.getElementById("seconds").innerHTML = seconds;
-            
-            // If the countdown is over, display a message
-            if (distance < 0) {
-                clearInterval(countdown);
-                document.getElementById("days").innerHTML = "0";
-                document.getElementById("hours").innerHTML = "0";
-                document.getElementById("minutes").innerHTML = "0";
-                document.getElementById("seconds").innerHTML = "0";
-            }
-        }, 1000);
+        initializeMarquee('.marquee', 1);
     </script>
 </body>
 </html>

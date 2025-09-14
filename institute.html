@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Alumni360 — Institute Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Institute admin dashboard to manage users, events, fundraising, communications, and analytics" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      color-scheme: light;
+      --blue-50:#F3F7FF;
+      --blue-600:#0A4FCA;
+      --blue-700:#0848BD;
+      --purple-600:#4923E0;
+      --teal-600:#00796B;
+      --rose-600:#C62828;
+      --amber-600:#8D6E00;
+      --gray-500:#8A90A0;
+      --gray-600:#7A8090;
+      --gray-700:#5E6678;
+      --ink:#0e1525;
+      --bg-50:#F8FAFC;
+      --bg-100:#F0EDFF;
+      --radius:12px;
+      --shadow:0 6px 24px rgba(0,0,0,.08);
+      --transition:.25s cubic-bezier(.4,0,.2,1);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:'Ubuntu',system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;color:var(--ink);background:#fff;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:min(1440px,94vw);margin-inline:auto}
+
+    /* Buttons */
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+      padding:.7rem 1rem;border-radius:10px;border:0;cursor:pointer;
+      background:var(--blue-700);color:#fff;font-weight:700;
+      transition:transform var(--transition),opacity var(--transition),box-shadow var(--transition),background var(--transition);
+      box-shadow:0 6px 16px rgba(8,72,189,.20);
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn:focus-visible{outline:3px solid rgba(10,79,202,.25);outline-offset:2px}
+    .btn.small{padding:.48rem .7rem}
+    .btn.outline{background:#fff;color:var(--blue-700);border:1px solid var(--blue-700);box-shadow:none}
+    .btn.ghost{background:transparent;color:var(--blue-700);border:1px dashed var(--blue-700);box-shadow:none}
+    .icon-btn{
+      width:40px;height:40px;border-radius:10px;border:1px solid rgba(0,0,0,.08);background:#fff;display:grid;place-items:center;cursor:pointer;
+      transition:transform var(--transition),box-shadow var(--transition)
+    }
+    .icon-btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.08)}
+    .badge{display:inline-block;padding:.25rem .6rem;border-radius:999px;background:linear-gradient(90deg,var(--purple-600),var(--blue-700));color:#fff;font-size:1rem;font-weight:700;letter-spacing:.02em}
+    .pill{display:inline-block;padding:.35rem .8rem;border-radius:999px;background:var(--bg-100);color:var(--blue-700);font-weight:700;font-size:.95rem}
+    .pill.success{background:#E8F5E9;color:#1B5E20}
+    .pill.warn{background:#FFF8E1;color:var(--amber-600)}
+    .pill.danger{background:#FFEBEE;color:var(--rose-600)}
+    .pill.neutral{background:#ECEFF1;color:#607D8B}
+
+    /* Headings */
+    .section{position:relative;padding:24px 0}
+    .title-lg{font-size:clamp(22px,3.2vw,32px);line-height:1.2;margin:0 0 .5rem}
+    .title-md{font-size:18px;margin:0 0 .25rem}
+    .muted{color:var(--gray-700);font-size:1rem}
+
+    /* Header */
+    header{
+      position:sticky;top:0;background:rgba(255,255,255,.8);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(0,0,0,.06);z-index:50
+    }
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:8px;font-weight:800}
+    .nav-right{display:flex;align-items:center;gap:10px}
+    .top-search{display:flex;align-items:center;gap:8px;border:1px solid rgba(0,0,0,.08);border-radius:999px;padding:8px 12px;background:#fff;min-width:min(46vw,640px)}
+    .top-search input{border:0;outline:0;flex:1;font-size:15px}
+    .avatar{width:25px;height:25px;border-radius:50%;object-fit:cover;border:1px solid rgba(0,0,0,.08)}
+    .dropdown{position:relative}
+    .dropdown-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:220px;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;box-shadow:0 16px 48px rgba(0,0,0,.12);padding:8px;opacity:0;pointer-events:none;transform:translateY(6px);transition:all var(--transition)}
+    .dropdown.open .dropdown-menu{opacity:1;pointer-events:auto;transform:translateY(0)}
+    .dropdown-menu a{display:block;padding:10px 12px;border-radius:8px;font-weight:600}
+    .dropdown-menu a:hover{background:rgba(73,35,224,.08)}
+
+    /* Layout: 3 columns */
+    .grid-app{display:grid;grid-template-columns:260px 1fr 360px;gap:20px;width:min(1440px,94vw);margin:18px auto}
+    .sidebar{position:sticky;top:78px;align-self:start;border:1px solid rgba(0,0,0,.08);border-radius:14px;background:#fff;box-shadow:var(--shadow);padding:12px}
+    .side-title{font-weight:800;margin:6px 10px 10px;color:#1b2430}
+    .side-nav{display:grid;gap:4px}
+    .side-nav a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-weight:700;color:#1b2430;position:relative}
+    .side-nav a.active,.side-nav a:hover{background:rgba(10,79,202,.08);color:var(--blue-700)}
+    .side-nav a.active::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:4px;border-radius:3px;background:linear-gradient(180deg,var(--blue-700),var(--purple-600))}
+    .main{min-height:60vh}
+    .right-panel{position:sticky;top:78px;align-self:start;border:1px solid rgba(0,0,0,.08);border-radius:14px;background:#fff;box-shadow:var(--shadow);padding:12px;display:grid;gap:12px;height:fit-content}
+    .panel-header{display:flex;align-items:center;justify-content:space-between}
+    .panel-section{border:1px dashed rgba(73,35,224,.25);border-radius:12px;padding:12px;background:linear-gradient(135deg,rgba(73,35,224,.06),rgba(10,79,202,.06))}
+    .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:12px}
+    .grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+    .kpi{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+    .card{background:linear-gradient(180deg,#fef7ff,#f2fffe);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;border:1px solid #26354122;overflow:hidden;transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition)}
+    .card:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.10);border-color:#26354133}
+
+    /* Table */
+    .table{width:100%;border-collapse:collapse;border:1px solid rgba(0,0,0,.08);border-radius:12px;overflow:hidden;background:#fff}
+    .table th,.table td{padding:10px;border-bottom:1px solid rgba(0,0,0,.06);text-align:left;vertical-align:top}
+    .table th{background:#f7f8fd}
+    .table-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+    /* Charts (inline SVG & CSS pies) */
+    .chart{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;padding:12px}
+    .legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:.9rem;color:#1b2430}
+    .dot{width:12px;height:12px;border-radius:3px;display:inline-block;vertical-align:middle}
+
+    /* Inputs */
+    .field{display:grid;gap:6px;margin-bottom:10px}
+    .field label{font-weight:700;font-size:.95rem}
+    .input, select, textarea{width:100%;padding:.65rem .7rem;border-radius:10px;border:1px solid #ddd;background:#fff;font-family:'Ubuntu',sans-serif;font-size:15px}
+
+    /* Quick filters */
+    .quick-filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .chip{padding:.35rem .7rem;border-radius:999px;border:1px solid rgba(0,0,0,.08);background:#fff;cursor:pointer}
+    .chip.active{background:var(--blue-50);border-color:var(--blue-700);color:var(--blue-700);font-weight:800}
+
+    /* Mobile */
+    .nav-toggle{display:none;background:transparent;border:0;width:42px;height:42px;border-radius:10px}
+    .nav-toggle span,.nav-toggle::before,.nav-toggle::after{content:'';display:block;height:2px;background:#1b2430;border-radius:2px;margin:8px 0;transition:transform var(--transition),opacity var(--transition)}
+    .panel-toggle{display:none}
+    @media (max-width:1280px){
+      .grid-app{grid-template-columns:220px 1fr}
+      .right-panel{grid-column:1/-1}
+      .panel-toggle{display:inline-flex}
+    }
+    @media (max-width:980px){
+      .container{width:min(96vw,1000px)}
+      .top-search{min-width:0;flex:1}
+      .grid-app{grid-template-columns:1fr}
+      .sidebar{position:fixed;inset:72px 0 auto 0;transform:translateY(-120%);transition:transform var(--transition);z-index:40}
+      .sidebar.open{transform:translateY(0)}
+    }
+    footer{
+      background:radial-gradient(1200px 600px at 50% 0, rgba(73,35,224,.12), transparent), #0e1525;
+      color:#eaf0ff
+    }
+    footer .columns{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:24px}
+    footer a{color:#eaf0ff;opacity:.9}
+    footer a:hover{opacity:1}
+
+    .icon{width:20px;height:20px;display:inline-block;flex-shrink:0}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header id="site-header">
+    <div class="container nav">
+      <a class="brand" href="#">
+        <img src="logo.png" alt="Brand" style="height:25px;width:auto;border-radius:6px">
+        <span>Alumni360</span>
+      </a>
+      <button class="nav-toggle" id="openSidebar" aria-label="Open menu"><span></span></button>
+      <div class="nav-right" style="flex:1;justify-content:flex-end;gap:12px">
+        <div class="top-search" role="search">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.2-4.2M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="#0e1525" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input id="globalSearch" placeholder="Search users, alumni, events, campaigns..." />
+        </div>
+        <div class="dropdown" id="notifDd">
+          <button class="icon-btn" aria-label="Notifications">
+            <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M12 22a2.5 2.5 0 0 0 2.33-1.6M5 9a7 7 0 1 1 14 0c0 4 1.5 5 1.5 5H3.5S5 13 5 9Z" stroke="#0e1525" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
+          <div class="dropdown-menu" style="left:auto;right:0;min-width:280px">
+            <a href="#">Weekly report is ready</a>
+            <a href="#">New event registrations today: 42</a>
+            <a href="#">3 new campaigns crossed 50%</a>
+          </div>
+        </div>
+        <div class="dropdown" id="profileDd">
+          <button class="icon-btn" aria-label="Profile">
+            <img class="avatar" src="sershah.jpeg" alt="Profile" />
+          </button>
+          <div class="dropdown-menu">
+            <a href="#" data-section="reports">Reports/Analytics</a>
+            <a href="#" onclick="alert('Logged out!')">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- App -->
+  <div class="grid-app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="side-title">Admin Navigation</div>
+      <nav class="side-nav" id="sideNav">
+        <a href="#" class="active" data-section="dashboard">Dashboard</a>
+        <a href="#" data-section="users">User Management</a>
+        <a href="#" data-section="alumni">Alumni Database</a>
+        <a href="#" data-section="comms">Communications</a>
+        <a href="#" data-section="events">Event Management</a>
+        <a href="#" data-section="fundraising">Fundraising Management</a>
+        <a href="#" data-section="reports">Reports/Analytics</a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main" id="main">
+      <!-- Dashboard -->
+      <section class="section" data-view="dashboard">
+        <div class="toolbar">
+          <h2 class="title-lg">Institute Overview</h2>
+          <div class="quick-filters">
+            <span class="chip active" data-range="30d">Last 30 days</span>
+            <span class="chip" data-range="90d">Last 90 days</span>
+            <span class="chip" data-range="ytd">YTD</span>
+          </div>
+        </div>
+
+        <!-- KPIs (expanded) -->
+        <div class="grid-cards">
+          <div class="card kpi"><div><div class="muted">Active Mentors</div><div style="font-size:28px;font-weight:800">312</div></div><span class="pill success">+4.2% MoM</span></div>
+          <div class="card kpi"><div><div class="muted">Jobs Posted</div><div style="font-size:28px;font-weight:800">1,146</div></div><span class="pill success">+2.1% MoM</span></div>
+          <div class="card kpi"><div><div class="muted">Monthly Active Users</div><div style="font-size:28px;font-weight:800">18,440</div></div><span class="pill warn">~ stable</span></div>
+          <div class="card kpi"><div><div class="muted">Funds Raised (YTD)</div><div style="font-size:28px;font-weight:800">₹ 3.42 Cr</div></div><span class="pill success">+12.5% YoY</span></div>
+          <div class="card kpi"><div><div class="muted">Active Students</div><div style="font-size:28px;font-weight:800">9,870</div></div><span class="pill success">+3.0% MoM</span></div>
+          <div class="card kpi"><div><div class="muted">Mentor Sessions (30d)</div><div style="font-size:28px;font-weight:800">1,284</div></div><span class="pill success">+6.1% MoM</span></div>
+          <div class="card kpi"><div><div class="muted">Email Open Rate</div><div style="font-size:28px;font-weight:800">42.7%</div></div><span class="pill success">+1.3 pts</span></div>
+          <div class="card kpi"><div><div class="muted">Churn Risk</div><div style="font-size:28px;font-weight:800">3.8%</div></div><span class="pill danger">watch</span></div>
+        </div>
+
+        <!-- Charts (expanded) -->
+        <div class="grid-cards" style="margin-top:12px">
+          <!-- Area: User Growth -->
+          <div class="chart">
+            <div class="title-md">User Growth Over Time</div>
+            <svg viewBox="0 0 420 180" width="100%" height="180" aria-label="User growth area">
+              <rect x="0" y="0" width="420" height="180" fill="#fff" rx="12" ry="12" />
+              <path d="M40 20 V160 M40 160 H390" stroke="#ccd6e0" stroke-width="1" />
+              <polyline points="40,140 80,130 120,120 160,95 200,100 240,85 280,75 320,60 360,50 390,45"
+                        fill="none" stroke="#0848BD" stroke-width="3" />
+              <polygon points="40,160 40,140 80,130 120,120 160,95 200,100 240,85 280,75 320,60 360,50 390,45 390,160"
+                       fill="rgba(8,72,189,.15)"/>
+              <text x="40" y="175" font-size="10" fill="#6F7482">Jan</text><text x="120" y="175" font-size="10" fill="#6F7482">Mar</text>
+              <text x="200" y="175" font-size="10" fill="#6F7482">May</text><text x="280" y="175" font-size="10" fill="#6F7482">Jul</text>
+              <text x="360" y="175" font-size="10" fill="#6F7482">Sep</text>
+            </svg>
+          </div>
+
+          <!-- Stacked Bars: Engagement by Cohort -->
+          <div class="chart">
+            <div class="title-md">Engagement by Cohort</div>
+            <svg viewBox="0 0 420 180" width="100%" height="180" aria-label="Engagement stacked">
+              <rect x="0" y="0" width="420" height="180" fill="#fff" rx="12" ry="12" />
+              <path d="M40 20 V160 M40 160 H390" stroke="#ccd6e0" stroke-width="1" />
+              <!-- Cohort 2016 -->
+              <rect x="80" y="120" width="28" height="40" fill="#4923E0" rx="3"/><!-- Messages -->
+              <rect x="80" y="80" width="28" height="40" fill="#0848BD" rx="3"/><!-- Sessions -->
+              <rect x="80" y="60" width="28" height="20" fill="#0A4FCA" rx="3"/><!-- Events -->
+              <!-- Cohort 2018 -->
+              <rect x="150" y="110" width="28" height="50" fill="#4923E0" rx="3"/>
+              <rect x="150" y="75" width="28" height="35" fill="#0848BD" rx="3"/>
+              <rect x="150" y="55" width="28" height="20" fill="#0A4FCA" rx="3"/>
+              <!-- Cohort 2020 -->
+              <rect x="220" y="100" width="28" height="60" fill="#4923E0" rx="3"/>
+              <rect x="220" y="70" width="28" height="30" fill="#0848BD" rx="3"/>
+              <rect x="220" y="50" width="28" height="20" fill="#0A4FCA" rx="3"/>
+              <!-- Cohort 2022 -->
+              <rect x="290" y="90" width="28" height="70" fill="#4923E0" rx="3"/>
+              <rect x="290" y="65" width="28" height="25" fill="#0848BD" rx="3"/>
+              <rect x="290" y="45" width="28" height="20" fill="#0A4FCA" rx="3"/>
+              <text x="80" y="175" font-size="10" fill="#6F7482">2016</text><text x="150" y="175" font-size="10" fill="#6F7482">2018</text>
+              <text x="220" y="175" font-size="10" fill="#6F7482">2020</text><text x="290" y="175" font-size="10" fill="#6F7482">2022</text>
+            </svg>
+            <div class="legend">
+              <span><span class="dot" style="background:#4923E0"></span> Messages</span>
+              <span><span class="dot" style="background:#0848BD"></span> Sessions</span>
+              <span><span class="dot" style="background:#0A4FCA"></span> Events</span>
+            </div>
+          </div>
+
+          <!-- Donut: Donations by Campaign -->
+          <div class="chart">
+            <div class="title-md">Donations by Campaign</div>
+            <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+              <div style="width:160px;height:160px;border-radius:50%;background:
+                conic-gradient(#0848BD 0 38%, #4923E0 38% 70%, #26A69A 70% 100%);
+                border:1px solid rgba(0,0,0,.08); position:relative">
+                <div style="position:absolute;inset:30px;border-radius:50%;background:#fff;border:1px solid rgba(0,0,0,.06)"></div>
+              </div>
+              <div class="legend">
+                <span><span class="dot" style="background:#0848BD"></span> Scholarship (38%)</span>
+                <span><span class="dot" style="background:#4923E0"></span> Library (32%)</span>
+                <span><span class="dot" style="background:#26A69A"></span> Innovation (30%)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- User Management -->
+      <section class="section" data-view="users" hidden>
+        <div class="toolbar">
+          <h2 class="title-lg">User Management</h2>
+          <div class="quick-filters">
+            <input class="input" id="userSearch" placeholder="Search (name, email, role)" style="max-width:360px">
+            <span class="chip active" data-role="all">All</span>
+            <span class="chip" data-role="Admin">Admin</span>
+            <span class="chip" data-role="Alumnus">Alumnus</span>
+            <span class="chip" data-role="Student">Student</span>
+            <button class="btn ghost small panel-toggle" data-panel="importUsers">Import Users</button>
+            <button class="btn small" onclick="alert('Create user flow')">Create User</button>
+          </div>
+        </div>
+        <div class="card">
+          <table class="table" id="userTable">
+            <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr data-role="Admin"><td>Rina Mehta</td><td>rina@univ.edu</td><td>Admin</td><td><span class="pill success">Active</span></td><td class="table-actions"><button class="btn outline small">Edit</button><button class="btn ghost small">Disable</button></td></tr>
+              <tr data-role="Alumnus"><td>Vikram Singh</td><td>vikram@alumni.org</td><td>Alumnus</td><td><span class="pill success">Active</span></td><td class="table-actions"><button class="btn outline small">Edit</button><button class="btn ghost small">Disable</button></td></tr>
+              <tr data-role="Student"><td>Anjali Sharma</td><td>anjali@student.edu</td><td>Student</td><td><span class="pill warn">Pending</span></td><td class="table-actions"><button class="btn outline small">Approve</button><button class="btn ghost small">Delete</button></td></tr>
+              <tr data-role="Student"><td>Rahul Verma</td><td>rahul@student.edu</td><td>Student</td><td><span class="pill success">Active</span></td><td class="table-actions"><button class="btn outline small">Edit</button><button class="btn ghost small">Disable</button></td></tr>
+              <tr data-role="Alumnus"><td>Priya Iyer</td><td>priya@alumni.org</td><td>Alumnus</td><td><span class="pill success">Active</span></td><td class="table-actions"><button class="btn outline small">Edit</button><button class="btn ghost small">Disable</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Alumni Database -->
+      <section class="section" data-view="alumni" hidden>
+        <div class="toolbar">
+          <h2 class="title-lg">Alumni Database</h2>
+          <div class="quick-filters">
+            <input class="input" id="alumniSearch" placeholder="Search (name, company, location)" style="max-width:420px">
+            <select id="alumniYear"><option value="">Year</option><option>2012</option><option>2015</option><option>2018</option><option>2020</option></select>
+            <select id="alumniMajor"><option value="">Major</option><option>CSE</option><option>IT</option><option>ECE</option></select>
+            <button class="btn small" id="alumniApply">Apply</button>
+            <button class="btn outline small" id="alumniClear">Clear</button>
+          </div>
+        </div>
+        <div class="card">
+          <table class="table" id="alumniTable">
+            <thead><tr><th>Name</th><th>Year</th><th>Major</th><th>Company</th><th>Location</th><th>Actions</th></tr></thead>
+            <tbody>
+              <tr data-name="Rahul Mehta" data-year="2015" data-major="CSE" data-company="Google" data-location="Bengaluru"><td>Rahul Mehta</td><td>2015</td><td>CSE</td><td>Google</td><td>Bengaluru</td><td class="table-actions"><button class="btn outline small">View</button><button class="btn ghost small">Edit</button></td></tr>
+              <tr data-name="Ananya Sharma" data-year="2018" data-major="IT" data-company="TCS" data-location="Mumbai"><td>Ananya Sharma</td><td>2018</td><td>IT</td><td>TCS</td><td>Mumbai</td><td class="table-actions"><button class="btn outline small">View</button><button class="btn ghost small">Edit</button></td></tr>
+              <tr data-name="Vikram Singh" data-year="2012" data-major="CSE" data-company="Amazon" data-location="Hyderabad"><td>Vikram Singh</td><td>2012</td><td>CSE</td><td>Amazon</td><td>Hyderabad</td><td class="table-actions"><button class="btn outline small">View</button><button class="btn ghost small">Edit</button></td></tr>
+              <tr data-name="Ria Kapoor" data-year="2020" data-major="ECE" data-company="EdSpark" data-location="Bengaluru"><td>Ria Kapoor</td><td>2020</td><td>ECE</td><td>EdSpark</td><td>Bengaluru</td><td class="table-actions"><button class="btn outline small">View</button><button class="btn ghost small">Edit</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Communications -->
+      <section class="section" data-view="comms" hidden>
+        <div class="toolbar">
+          <h2 class="title-lg">Communications</h2>
+          <div class="quick-filters">
+            <span class="chip active">Email</span><span class="chip">Announcements</span><span class="chip">SMS</span>
+            <button class="btn ghost small panel-toggle" data-panel="composer">Open Composer</button>
+            <button class="btn outline small" onclick="alert('Templates')">Templates</button>
+          </div>
+        </div>
+        <div class="grid-cards">
+          <div class="card">
+            <div class="title-md">Recent Campaigns</div>
+            <table class="table" style="margin-top:8px">
+              <thead><tr><th>Title</th><th>Audience</th><th>Sent</th><th>Open Rate</th><th>CTR</th></tr></thead>
+              <tbody>
+                <tr><td>Mentor Drive — Fall</td><td>Alumni</td><td>2025-09-01</td><td>44%</td><td>7%</td></tr>
+                <tr><td>Resume Clinic Invite</td><td>Students</td><td>2025-09-05</td><td>39%</td><td>5%</td></tr>
+                <tr><td>Library Fund Appeal</td><td>All</td><td>2025-09-10</td><td>41%</td><td>6%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <div class="title-md">Pinned Announcements</div>
+            <ul style="margin:.2rem 0 0;padding-left:18px">
+              <li>Career Fair on 12 Nov — registration open</li>
+              <li>Mentorship slots added for Cloud & Data</li>
+              <li>Innovation Hub crosses 45% of goal</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Event Management -->
+      <section class="section" data-view="events" hidden>
+        <div class="toolbar">
+          <h2 class="title-lg">Event Management</h2>
+          <div class="quick-filters">
+            <input class="input" id="evtSearch" placeholder="Search events (name, audience)" style="max-width:320px">
+            <span class="chip active" data-evt="all">All</span><span class="chip" data-evt="upcoming">Upcoming</span><span class="chip" data-evt="past">Past</span>
+            <button class="btn small panel-toggle" data-panel="createEvent">Create New Event</button>
+          </div>
+        </div>
+        <div class="card">
+          <table class="table" id="eventTable">
+            <thead><tr><th>Name</th><th>Date</th><th>Location</th><th>Audience</th><th>Registrants</th><th>Actions</th></tr></thead>
+            <tbody id="eventRows">
+              <tr data-date="2025-11-12" data-aud="Students"><td>Career Fair 2025</td><td>2025-11-12</td><td>Auditorium</td><td>All Students</td><td>860</td>
+                <td class="table-actions"><button class="btn outline small">Edit</button><button class="btn outline small">Registrants</button><button class="btn ghost small">Duplicate</button><button class="btn ghost small" onclick="deleteRow(this)">Delete</button></td>
+              </tr>
+              <tr data-date="2025-10-28" data-aud="Alumni"><td>Alumni Networking Night</td><td>2025-10-28</td><td>City Hall</td><td>All Alumni</td><td>320</td>
+                <td class="table-actions"><button class="btn outline small">Edit</button><button class="btn outline small">Registrants</button><button class="btn ghost small">Duplicate</button><button class="btn ghost small" onclick="deleteRow(this)">Delete</button></td>
+              </tr>
+              <tr data-date="2025-10-05" data-aud="Students"><td>Resume Workshop</td><td>2025-10-05</td><td>Online</td><td>Engineering Students</td><td>540</td>
+                <td class="table-actions"><button class="btn outline small">Edit</button><button class="btn outline small">Registrants</button><button class="btn ghost small">Duplicate</button><button class="btn ghost small" onclick="deleteRow(this)">Delete</button></td>
+              </tr>
+              <tr data-date="2025-09-10" data-aud="All"><td>AI Webinar Series</td><td>2025-09-10</td><td>Online</td><td>All</td><td>1,120</td>
+                <td class="table-actions"><button class="btn outline small">Edit</button><button class="btn outline small">Registrants</button><button class="btn ghost small">Duplicate</button><button class="btn ghost small" onclick="deleteRow(this)">Delete</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Fundraising Management -->
+      <section class="section" data-view="fundraising" hidden>
+        <div class="toolbar">
+          <h2 class="title-lg">Fundraising Management</h2>
+          <div class="quick-filters">
+            <span class="chip active" data-camp="active">Active</span><span class="chip" data-camp="archive">Archive</span>
+            <button class="btn small panel-toggle" data-panel="createCampaign">Create Campaign</button>
+          </div>
+        </div>
+
+        <!-- Campaigns dashboard (expanded) -->
+        <div class="grid-cards">
+          <div class="card">
+            <div class="title-md">Digital Library Initiative</div>
+            <p class="muted">Goal: ₹ 10,00,000</p>
+            <div class="progress" style="background:#e0e0e0;border-radius:10px;height:10px;overflow:hidden"><div style="width:65%;height:100%;background:var(--blue-600)"></div></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:.95rem"><strong>₹ 6,50,000</strong><span class="muted">65% funded</span></div>
+            <p class="muted" style="margin:.4rem 0 0">Last 7d: ₹ 45,000 • Donors: 320</p>
+            <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn outline small">View</button><button class="btn ghost small">Edit</button></div>
+          </div>
+          <div class="card">
+            <div class="title-md">Scholarship Fund</div>
+            <p class="muted">Goal: ₹ 15,00,000</p>
+            <div class="progress" style="background:#e0e0e0;border-radius:10px;height:10px;overflow:hidden"><div style="width:61%;height:100%;background:var(--blue-600)"></div></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:.95rem"><strong>₹ 9,20,000</strong><span class="muted">61% funded</span></div>
+            <p class="muted" style="margin:.4rem 0 0">Last 7d: ₹ 38,000 • Donors: 410</p>
+            <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn outline small">View</button><button class="btn ghost small">Edit</button></div>
+          </div>
+          <div class="card">
+            <div class="title-md">Innovation Hub</div>
+            <p class="muted">Goal: ₹ 12,00,000</p>
+            <div class="progress" style="background:#e0e0e0;border-radius:10px;height:10px;overflow:hidden"><div style="width:48%;height:100%;background:var(--blue-600)"></div></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:.95rem"><strong>₹ 5,80,000</strong><span class="muted">48% funded</span></div>
+            <p class="muted" style="margin:.4rem 0 0">Last 7d: ₹ 22,000 • Donors: 190</p>
+            <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn outline small">View</button><button class="btn ghost small">Edit</button></div>
+          </div>
+          <div class="card">
+            <div class="title-md">Girls in STEM Program</div>
+            <p class="muted">Goal: ₹ 8,00,000</p>
+            <div class="progress" style="background:#e0e0e0;border-radius:10px;height:10px;overflow:hidden"><div style="width:54%;height:100%;background:var(--blue-600)"></div></div>
+            <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:.95rem"><strong>₹ 4,32,000</strong><span class="muted">54% funded</span></div>
+            <p class="muted" style="margin:.4rem 0 0">Last 7d: ₹ 19,000 • Donors: 155</p>
+            <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn outline small">View</button><button class="btn ghost small">Edit</button></div>
+          </div>
+        </div>
+
+        <!-- Donations tab (expanded) -->
+        <div class="card" style="margin-top:12px">
+          <div class="toolbar" style="margin:0 0 8px">
+            <div class="title-md" style="margin:0">Donations</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input class="input" id="donSearch" placeholder="Search (name, campaign, amount)" style="max-width:320px">
+              <button class="btn outline small" id="donExport">Export CSV</button>
+            </div>
+          </div>
+          <table class="table" id="donTable">
+            <thead><tr><th>Transaction ID</th><th>Donor</th><th>Amount</th><th>Campaign</th><th>Timestamp</th></tr></thead>
+            <tbody>
+              <tr><td>#TXN-1001</td><td>A. Sharma</td><td>₹ 2,500</td><td>Scholarship Fund</td><td>2025-06-20 14:15</td></tr>
+              <tr><td>#TXN-1002</td><td>R. Mehta</td><td>₹ 1,000</td><td>Digital Library Initiative</td><td>2025-03-14 09:30</td></tr>
+              <tr><td>#TXN-1003</td><td>V. Singh</td><td>₹ 5,000</td><td>Innovation Hub</td><td>2025-07-18 11:05</td></tr>
+              <tr><td>#TXN-1004</td><td>P. Iyer</td><td>₹ 3,500</td><td>Scholarship Fund</td><td>2025-08-02 16:40</td></tr>
+              <tr><td>#TXN-1005</td><td>N. Reddy</td><td>₹ 1,800</td><td>Girls in STEM Program</td><td>2025-08-21 10:22</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Reports -->
+      <section class="section" data-view="reports" hidden>
+        <div class="toolbar">
+          <h2 class="title-lg">Reports & Analytics</h2>
+          <div class="quick-filters">
+            <span class="chip active">Overview</span><span class="chip">Mentorship</span><span class="chip">Engagement</span><span class="chip">Fundraising</span>
+            <button class="btn outline small" onclick="alert('Scheduling weekly email')">Schedule Email</button>
+          </div>
+        </div>
+        <div class="grid-cards">
+          <div class="card">
+            <div class="title-md">Engagement Summary</div>
+            <p class="muted">Download engagement metrics by cohort and activity type.</p>
+            <button class="btn small" onclick="alert('Preparing report...')">Download CSV</button>
+          </div>
+          <div class="card">
+            <div class="title-md">Fundraising Summary</div>
+            <p class="muted">Campaign totals, donor counts, and growth rates.</p>
+            <button class="btn small" onclick="alert('Preparing report...')">Download CSV</button>
+          </div>
+          <div class="card">
+            <div class="title-md">Mentorship Summary</div>
+            <p class="muted">Active mentors, sessions completed, and satisfaction.</p>
+            <button class="btn small" onclick="alert('Preparing report...')">Download CSV</button>
+          </div>
+          <div class="card">
+            <div class="title-md">Jobs & Placements</div>
+            <p class="muted">Roles posted, applications, and conversion funnels.</p>
+            <button class="btn small" onclick="alert('Preparing report...')">Download CSV</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Right Info/Action Panel -->
+    <aside class="right-panel" id="rightPanel">
+      <div class="panel-header">
+        <div class="title-md">Action Panel</div>
+        <button class="btn outline small panel-toggle" data-panel="none">Clear</button>
+      </div>
+
+      <!-- Quick Tips -->
+      <div class="panel-section" id="tipsPanel">
+        <div class="title-md" style="margin:0 0 6px">Quick Tips</div>
+        <ul style="margin:0;padding-left:18px">
+          <li>Use quick filters above tables to narrow lists rapidly.</li>
+          <li>Edit KPIs and charts by changing HTML numbers and SVG values.</li>
+          <li>Export any donations table to CSV for audits.</li>
+        </ul>
+      </div>
+
+      <!-- Create Event (multi-step) -->
+      <div class="panel-section" id="createEvent" hidden>
+        <div class="title-md" style="margin-bottom:6px">Create New Event</div>
+        <div id="evtStep1">
+          <div class="field"><label>Event Name</label><input class="input" id="evtName" placeholder="e.g., Alumni Mixer"></div>
+          <div class="field"><label>Date</label><input class="input" id="evtDate" type="date"></div>
+          <div class="field"><label>Location</label><input class="input" id="evtLoc" placeholder="e.g., Auditorium"></div>
+          <div style="display:flex;gap:8px"><button class="btn small" id="toEvt2">Next</button></div>
+        </div>
+        <div id="evtStep2" hidden>
+          <div class="field"><label>Audience</label>
+            <select id="evtAudience"><option>All Alumni</option><option>All Students</option><option>Engineering Students</option></select>
+          </div>
+          <div class="field"><label>Description</label><textarea id="evtDesc" rows="3" placeholder="Short description"></textarea></div>
+          <div class="field"><label>Ticketing</label>
+            <select id="evtTicket"><option>Free</option><option>Paid</option></select>
+          </div>
+          <div style="display:flex;gap:8px"><button class="btn outline small" id="backEvt1">Back</button><button class="btn small" id="toEvt3">Next</button></div>
+        </div>
+        <div id="evtStep3" hidden>
+          <div class="muted">Review & Create</div>
+          <ul id="evtReview" style="margin:.4rem 0 0;padding-left:18px"></ul>
+          <div style="display:flex;gap:8px;margin-top:8px"><button class="btn outline small" id="backEvt2">Back</button><button class="btn small" id="createEvtBtn">Create Event</button></div>
+        </div>
+      </div>
+
+      <!-- Create Campaign -->
+      <div class="panel-section" id="createCampaign" hidden>
+        <div class="title-md" style="margin-bottom:6px">Create Campaign</div>
+        <div class="field"><label>Title</label><input class="input" id="campTitle" placeholder="e.g., Scholarship Fund 2026"></div>
+        <div class="field"><label>Goal Amount (₹)</label><input class="input" id="campGoal" type="number" placeholder="e.g., 1000000"></div>
+        <div class="field"><label>Summary</label><textarea id="campSummary" rows="3" placeholder="Short summary"></textarea></div>
+        <div style="display:flex;gap:8px"><button class="btn small" id="createCampBtn">Create Campaign</button></div>
+      </div>
+
+      <!-- Import Users -->
+      <div class="panel-section" id="importUsers" hidden>
+        <div class="title-md" style="margin-bottom:6px">Import Users</div>
+        <div class="field"><label>CSV File</label><input class="input" type="file" accept=".csv"></div>
+        <p class="muted" style="margin:.2rem 0 0">Columns: name, email, role</p>
+        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn small" onclick="alert('Parsing CSV...')">Upload</button></div>
+      </div>
+
+      <!-- Composer -->
+      <div class="panel-section" id="composer" hidden>
+        <div class="title-md" style="margin-bottom:6px">Announcement Composer</div>
+        <div class="field"><label>Audience</label>
+          <select><option>All</option><option>Alumni</option><option>Students</option></select>
+        </div>
+        <div class="field"><label>Title</label><input class="input" placeholder="Announcement title"></div>
+        <div class="field"><label>Message</label><textarea rows="4" class="input" placeholder="Write your message..."></textarea></div>
+        <div style="display:flex;gap:8px"><button class="btn small" onclick="alert('Announcement pinned')">Pin</button><button class="btn outline small" onclick="alert('Test sent')">Send Test</button></div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Footer -->
+  <footer class="section" style="padding-top:40px; padding-bottom: 24px;">
+    <div class="container">
+      <div class="columns" style="margin-bottom:24px">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;font-weight:800;margin-bottom:20px">
+            <img src="logo2.png" alt="Brand logo" loading="lazy" style="height:28px;width:auto;border-radius:6px">
+          </div>
+          <p style="margin:0 0 14px;opacity:.9">Hundreds of advancement teams use Alumni360 to engage constituents meaningfully and grow their donor pipeline.</p>
+          <div>
+            <form onsubmit="event.preventDefault(); this.querySelector('input').value = ''; alert('Thank you for subscribing!');">
+              <label for="email" style="display:block;margin-bottom:6px;opacity:.9">Subscribe for updates</label>
+              <div style="display:flex;gap:8px">
+                <input id="email" type="email" required placeholder="name@institution.edu" style="flex:1;padding:.8rem;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff" />
+                <button class="btn" type="submit" style="background:#fff;color:#0e1525">Subscribe</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:800;margin-bottom:8px">Admin Links</div>
+          <div style="display:grid;gap:8px">
+            <a href="#" data-section="dashboard">Dashboard</a>
+            <a href="#" data-section="events">Event Management</a>
+            <a href="#" data-section="fundraising">Fundraising</a>
+            <a href="#" data-section="reports">Reports</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:800;margin-bottom:8px">Resources</div>
+          <div style="display:grid;gap:8px">
+            <a href="#">Success Stories</a>
+            <a href="#">Blog</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#" data-section="comms">Contact Us</a>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,.15);padding-top:12px;display:flex;justify-content:space-between;gap:10px;opacity:.8">
+        <span>&copy; <span id="year"></span> Tech Titans</span>
+        <span>All rights reserved</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Helpers
+    const $ = (s,sc=document)=>sc.querySelector(s);
+    const $$ = (s,sc=document)=>Array.from(sc.querySelectorAll(s));
+
+    // Dropdowns
+    function wireDropdown(dd){
+      const btn = dd.querySelector('button');
+      function close(){dd.classList.remove('open');document.removeEventListener('click',onDoc);}
+      function onDoc(e){if(!dd.contains(e.target)) close();}
+      btn.addEventListener('click', (e)=>{e.stopPropagation();dd.classList.toggle('open'); if(dd.classList.contains('open')) document.addEventListener('click',onDoc);});
+    }
+    wireDropdown($('#notifDd')); wireDropdown($('#profileDd'));
+
+    // Sidebar toggle for mobile
+    const sidebar = $('#sidebar');
+    $('#openSidebar').addEventListener('click', ()=> sidebar.classList.toggle('open'));
+
+    // Router
+    function showSection(key){
+      $$('[data-view]').forEach(sec=> sec.hidden = sec.getAttribute('data-view')!==key);
+      $$('#sideNav a').forEach(a=> a.classList.toggle('active', a.dataset.section===key));
+      if(window.innerWidth<=980) sidebar.classList.remove('open');
+    }
+    $$('[data-section]').forEach(el=> el.addEventListener('click', (e)=>{e.preventDefault(); showSection(el.dataset.section)}));
+
+    // Global search to route to modules quickly
+    $('#globalSearch').addEventListener('keydown', (e)=>{
+      if(e.key==='Enter'){
+        const q = e.target.value.trim().toLowerCase();
+        if(q.includes('event')) showSection('events');
+        else if(q.includes('campaign')||q.includes('donation')) showSection('fundraising');
+        else if(q.includes('user')) showSection('users');
+        else if(q.includes('alumni')) showSection('alumni');
+        else showSection('reports');
+      }
+    });
+
+    // Quick filter chips (range demo only visual toggle)
+    $$('.chip[data-range]').forEach(ch=> ch.addEventListener('click', ()=>{
+      $$('.chip[data-range]').forEach(c=> c.classList.remove('active'));
+      ch.classList.add('active');
+    }));
+
+    // Users: search + role chips
+    $('#userSearch')?.addEventListener('input', filterUsers);
+    $$('.chip[data-role]').forEach(ch=> ch.addEventListener('click', ()=>{
+      $$('.chip[data-role]').forEach(c=> c.classList.remove('active'));
+      ch.classList.add('active'); filterUsers();
+    }));
+    function filterUsers(){
+      const q = ($('#userSearch')?.value||'').toLowerCase().trim();
+      const role = ($$('.chip[data-role].active')?.dataset.role)||'all';
+      $$('#userTable tbody tr').forEach(r=>{
+        const matchQ = !q || r.textContent.toLowerCase().includes(q);
+        const matchR = role==='all' || r.dataset.role===role;
+        r.style.display = (matchQ && matchR)?'':'none';
+      });
+    }
+
+    // Alumni filters
+    $('#alumniApply')?.addEventListener('click', ()=>{
+      const q = ($('#alumniSearch').value||'').toLowerCase().trim();
+      const yr = $('#alumniYear').value, mj = $('#alumniMajor').value;
+      $$('#alumniTable tbody tr').forEach(r=>{
+        const okQ = !q || r.dataset.name.toLowerCase().includes(q) || r.dataset.company.toLowerCase().includes(q) || r.dataset.location.toLowerCase().includes(q);
+        const okY = !yr || r.dataset.year===yr;
+        const okM = !mj || r.dataset.major===mj;
+        r.style.display = (okQ && okY && okM) ? '' : 'none';
+      });
+    });
+    $('#alumniClear')?.addEventListener('click', ()=>{
+      $('#alumniSearch').value=''; $('#alumniYear').value=''; $('#alumniMajor').value='';
+      $$('#alumniTable tbody tr').forEach(r=> r.style.display='');
+    });
+
+    // Events chips + search
+    $$('.chip[data-evt]').forEach(ch=> ch.addEventListener('click', ()=>{
+      $$('.chip[data-evt]').forEach(c=> c.classList.remove('active'));
+      ch.classList.add('active'); filterEvents();
+    }));
+    $('#evtSearch')?.addEventListener('input', filterEvents);
+    function filterEvents(){
+      const q = ($('#evtSearch').value||'').toLowerCase().trim();
+      const mode = ($$('.chip[data-evt].active')?.dataset.evt)||'all';
+      const now = new Date();
+      $$('#eventRows tr').forEach(r=>{
+        const date = new Date(r.dataset.date+'T00:00:00');
+        const showMode = mode==='all' || (mode==='upcoming' && date>=now) || (mode==='past' && date<now);
+        const showQ = !q || r.textContent.toLowerCase().includes(q);
+        r.style.display = (showMode && showQ)?'':'none';
+      });
+    }
+
+    // Create Event steps
+    function evtStep(n){ $('#evtStep1').hidden=n!==1; $('#evtStep2').hidden=n!==2; $('#evtStep3').hidden=n!==3; }
+    $('#toEvt2')?.addEventListener('click', ()=> evtStep(2));
+    $('#backEvt1')?.addEventListener('click', ()=> evtStep(1));
+    $('#toEvt3')?.addEventListener('click', ()=>{
+      const name=$('#evtName').value, date=$('#evtDate').value, loc=$('#evtLoc').value, aud=$('#evtAudience').value, desc=$('#evtDesc').value, tkt=$('#evtTicket').value;
+      const list = $('#evtReview'); list.innerHTML='';
+      list.insertAdjacentHTML('beforeend', `<li><strong>Name:</strong> ${name}</li>`);
+      list.insertAdjacentHTML('beforeend', `<li><strong>Date:</strong> ${date}</li>`);
+      list.insertAdjacentHTML('beforeend', `<li><strong>Location:</strong> ${loc}</li>`);
+      list.insertAdjacentHTML('beforeend', `<li><strong>Audience:</strong> ${aud}</li>`);
+      list.insertAdjacentHTML('beforeend', `<li><strong>Ticketing:</strong> ${tkt}</li>`);
+      list.insertAdjacentHTML('beforeend', `<li><strong>Description:</strong> ${desc}</li>`);
+      evtStep(3);
+    });
+    $('#backEvt2')?.addEventListener('click', ()=> evtStep(2));
+    $('#createEvtBtn')?.addEventListener('click', ()=>{
+      const name=$('#evtName').value, date=$('#evtDate').value, loc=$('#evtLoc').value, aud=$('#evtAudience').value;
+      if(!name||!date||!loc){ alert('Please fill required fields'); return; }
+      const tr = document.createElement('tr');
+      tr.setAttribute('data-date', date);
+      tr.innerHTML = `<td>${name}</td><td>${date}</td><td>${loc}</td><td>${aud}</td><td>0</td>
+        <td class="table-actions">
+          <button class="btn outline small">Edit</button>
+          <button class="btn outline small">Registrants</button>
+          <button class="btn ghost small">Duplicate</button>
+          <button class="btn ghost small" onclick="deleteRow(this)">Delete</button>
+        </td>`;
+      $('#eventRows').prepend(tr);
+      alert('Event created');
+      $('#evtName').value=''; $('#evtDate').value=''; $('#evtLoc').value=''; $('#evtDesc').value='';
+      evtStep(1); openPanel('none'); showSection('events'); filterEvents();
+    });
+
+    // Fundraising Create Campaign
+    $('#createCampBtn')?.addEventListener('click', ()=>{
+      const t=$('#campTitle').value, g=+($('#campGoal').value||0), s=$('#campSummary').value;
+      if(!t||!g){ alert('Enter title and goal'); return; }
+      alert('Campaign created');
+      $('#campTitle').value=''; $('#campGoal').value=''; $('#campSummary').value='';
+      openPanel('none');
+    });
+
+    // Donations Search + Export
+    $('#donSearch')?.addEventListener('input', ()=>{
+      const q=$('#donSearch').value.toLowerCase().trim();
+      $$('#donTable tbody tr').forEach(r=> r.style.display = r.textContent.toLowerCase().includes(q)?'':'none');
+    });
+    $('#donExport')?.addEventListener('click', ()=>{
+      const rows = [['transactionID','donorName','amount','campaign','timestamp']];
+      $$('#donTable tbody tr').forEach(r=>{
+        const cells = Array.from(r.children).map(td=> td.textContent.replace(/\s+/g,' ').trim());
+        rows.push(cells);
+      });
+      const csv = rows.map(a=> a.map(v=> `"${v.replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='donations.csv'; a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // Right panel toggles
+    function openPanel(id){
+      $$('#rightPanel .panel-section').forEach(p=> p.hidden = (p.id!==id && p.id!=='tipsPanel'));
+      if(id==='none'){ $$('#rightPanel .panel-section').forEach(p=> p.hidden = (p.id!=='tipsPanel')); }
+    }
+    $$('.panel-toggle').forEach(b=> b.addEventListener('click', ()=>{
+      const id = b.dataset.panel;
+      if(!id || id==='none') openPanel('none'); else openPanel(id);
+    }));
+
+    // Delete helper
+    window.deleteRow = (btn)=>{ const tr = btn.closest('tr'); tr?.parentNode?.removeChild(tr); };
+
+    // Init view
+    showSection('dashboard');
+  </script>
+</body>
+</html>

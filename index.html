@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-t" />
     <title>Home - Alumni 360</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Foster meaningful connections while keeping information updated" />
@@ -23,13 +24,17 @@
             --shadow: 0 6px 24px rgba(0, 0, 0, .08);
             --transition: .25s cubic-bezier(.4, 0, .2, 1);
         }
+
+        /* Reset */
         * {
             box-sizing: border-box
         }
+
         html,
         body {
             height: 100%
         }
+
         body {
             margin: 0;
             font-family: 'Ubuntu', system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif;
@@ -37,18 +42,22 @@
             background: #ffffff;
             overflow-x: hidden;
         }
+
         a {
             color: inherit;
             text-decoration: none
         }
+
         img {
             max-width: 100%;
             display: block
         }
+
         .container {
             width: min(1120px, 90vw);
             margin-inline: auto
         }
+
         .btn {
             display: inline-flex;
             align-items: center;
@@ -64,15 +73,18 @@
             transition: transform var(--transition), opacity var(--transition), box-shadow var(--transition);
             box-shadow: 0 6px 16px rgba(8, 72, 189, .25);
         }
+
         .btn:hover {
             transform: translateY(-1px)
         }
+
         .btn.outline {
             background: #fff;
             color: var(--blue-700);
             border: 1px solid var(--blue-700);
             box-shadow: none
         }
+
         .badge {
             display: inline-block;
             padding: .25rem .6rem;
@@ -83,57 +95,92 @@
             font-weight: 700;
             letter-spacing: .02em
         }
+
         .section {
             position: relative;
-            margin-top: 30px;
+            padding-top: 30px;
+            padding-bottom: 30px;
         }
+
         .section-tight {
-            padding: 48px 0
+            padding-top: 24px;
+            padding-bottom: 24px;
         }
+
         .title-xl {
             font-size: clamp(32px, 4.5vw, 48px);
             line-height: 1.1;
             margin: 0
         }
+
         .title-lg {
             font-size: clamp(22px, 3.5vw, 32px);
             line-height: 1.2;
             margin: 0 0 .5rem
         }
+
         .title-md {
             font-size: 20px;
             margin: 0 0 .25rem
         }
+
         .lead {
             font-size: 1.05rem;
             color: #17212b;
             opacity: .9
         }
+
         .muted {
             color: var(--gray-700);
-            font-size: 25px
+            font-size: 1rem;
         }
+
         .grid-2 {
             display: grid;
             grid-template-columns: 1.1fr .9fr;
             gap: 40px;
             align-items: center;
         }
+
         .grid-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px
         }
+
+        .grid-2-rows {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
         .card {
             background: linear-gradient(180deg, #fef7ff, #f2fffe);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             padding: 24px;
             position: relative;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             border: 1px solid #26354177;
             overflow: hidden
         }
+
+        .card-job {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: all var(--transition);
+        }
+
+        .card-job:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+        }
+
         .pill {
             display: inline-block;
             padding: .35rem .8rem;
@@ -144,12 +191,14 @@
             font-weight: 700;
             font-size: 1.7rem
         }
+
         .kicker {
             font-weight: 800;
             color: var(--blue-700);
             letter-spacing: .04em;
             font-size: .8rem
         }
+
         .bg-svg {
             position: fixed;
             inset: -10vw -10vw auto -10vw;
@@ -160,6 +209,7 @@
             opacity: .6;
             filter: blur(0px)
         }
+
         header {
             position: sticky;
             top: 0;
@@ -168,6 +218,7 @@
             border-bottom: 1px solid rgba(0, 0, 0, .06);
             z-index: 50
         }
+
         .nav {
             display: flex;
             align-items: center;
@@ -175,31 +226,30 @@
             gap: 16px;
             padding: 12px 0
         }
+
         .brand {
             display: flex;
             align-items: center;
             gap: 8px;
             font-weight: 800
         }
-        .brand-dot {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, var(--blue-700), var(--purple-600))
-        }
+
         .menu {
             display: flex;
             align-items: center;
             gap: 16px
         }
+
         .menu a {
             padding: 10px 12px;
             border-radius: 8px;
             font-weight: 600
         }
+
         .dropdown {
             position: relative
         }
+
         .dropdown>button {
             background: transparent;
             border: 0;
@@ -209,9 +259,11 @@
             cursor: pointer;
             font-family: 'Ubuntu', sans-serif;
         }
+
         .dropdown>button:hover {
             background: rgba(10, 79, 202, .08)
         }
+
         .dropdown-menu {
             position: absolute;
             top: calc(100% + 1px);
@@ -227,23 +279,28 @@
             transform: translateY(6px);
             transition: all var(--transition)
         }
+
         .dropdown:hover .dropdown-menu {
             opacity: 1;
             pointer-events: auto;
             transform: translateY(0)
         }
+
         .dropdown-menu a {
             display: block;
             padding: 10px 12px;
             border-radius: 8px;
             color: #1b2430
         }
+
         .dropdown-menu a:hover {
             background: rgba(73, 35, 224, .08)
         }
+
         .nav-cta {
             margin-left: 8px
         }
+
         .nav-toggle {
             display: none;
             background: transparent;
@@ -252,6 +309,7 @@
             height: 42px;
             border-radius: 10px
         }
+
         .nav-toggle span,
         .nav-toggle::before,
         .nav-toggle::after {
@@ -263,30 +321,26 @@
             margin: 8px 0;
             transition: transform var(--transition), opacity var(--transition)
         }
+
         .hero .title-xl span {
             background: linear-gradient(90deg, var(--blue-700), var(--purple-600));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent
         }
-        .hero-visual {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(10, 79, 202, .08), rgba(73, 35, 224, .08));
-            border: 1px solid rgba(0, 0, 0, .06);
-            border-radius: 16px;
-            padding: 10px
-        }
+
         .marquee {
             overflow: hidden;
             mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
             -webkit-mask-image: linear-gradient(90deg, transparent, black 6%, black 94%, transparent);
         }
+
         .marquee-track {
             display: flex;
             gap: 36px;
             will-change: transform;
         }
+
         .logo-chip {
             flex: 0 0 auto;
             display: flex;
@@ -300,126 +354,40 @@
             font-weight: 700;
             color: #1b2430
         }
+
         .logo-dot {
             width: 18px;
             height: 18px;
             border-radius: 6px;
             background: linear-gradient(135deg, var(--purple-600), var(--blue-700))
         }
-        .slider {
-            position: relative
-        }
-        .slides {
-            display: flex;
-            transition: transform .6s cubic-bezier(.22, .7, 0, 1);
-            will-change: transform
-        }
-        .slide {
-            flex: 0 0 100%;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 28px;
-            align-items: center;
-            padding: 10px 0
-        }
-        .slide-card {
-            background: #fff;
-            border: 1px solid rgba(0, 0, 0, .06);
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            padding: 24px
-        }
-        .slide-bg {
-            border-radius: 16px;
-            overflow: hidden;
-            border: 1px dashed rgba(10, 79, 202, .25);
-            padding: 10px
-        }
-        .dots {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 16px
-        }
-        .dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 999px;
-            background: rgba(10, 79, 202, .4);
-            cursor: pointer;
-            transition: opacity var(--transition), transform var(--transition)
-        }
-        .dot.active {
-            background: var(--blue-700);
-            transform: scale(1.1)
-        }
+
         .feature-image {
             border-radius: 16px;
             border: 1px dashed rgba(73, 35, 224, .25);
             background: linear-gradient(135deg, rgba(73, 35, 224, .06), rgba(10, 79, 202, .06))
         }
-        .grid-2.reverse-order-mobile> :last-child {
-            order: -1;
-        }
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px
-        }
-        .mini-card {
-            background: linear-gradient(180deg, #f4fffe, #fef6ff);
-            border: 1px solid rgba(57, 98, 99, 0.358);
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: var(--shadow)
-        }
-        .measure-card .icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--blue-700), var(--purple-600));
-            box-shadow: 0 8px 22px rgba(10, 79, 202, .25)
-        }
-        .cta-card {
-            display: grid;
-            grid-template-columns: 1.1fr .9fr;
-            gap: 24px;
-            align-items: center;
-            background: linear-gradient(135deg, rgba(10, 79, 202, .06), rgba(73, 35, 224, .06));
-            border: 1px solid rgba(0, 0, 0, .06);
-            border-radius: 16px;
-            padding: 28px
-        }
+
         footer {
             background: radial-gradient(1200px 600px at 50% 0, rgba(73, 35, 224, .12), transparent), #0e1525;
             color: #eaf0ff
         }
+
         footer .columns {
             display: grid;
             grid-template-columns: 1.2fr 1fr 1fr;
             gap: 24px
         }
+
         footer a {
             color: #eaf0ff;
             opacity: .9
         }
+
         footer a:hover {
             opacity: 1
         }
-        .tag-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px
-        }
-        .chip {
-            background: rgba(255, 255, 255, .08);
-            border: 1px solid rgba(255, 255, 255, .15);
-            border-radius: 999px;
-            padding: .4rem .8rem;
-            font-weight: 700
-        }
+
         .modal {
             position: fixed;
             inset: 0;
@@ -428,9 +396,11 @@
             background: rgba(0, 0, 0, .4);
             z-index: 100
         }
+
         .modal.open {
             display: grid
         }
+
         .modal .panel {
             width: min(720px, 92vw);
             background: #fff;
@@ -438,14 +408,7 @@
             box-shadow: 0 20px 64px rgba(0, 0, 0, .25);
             padding: 20px
         }
-        .modal .panel header {
-            position: relative;
-            top: auto;
-            background: transparent;
-            border: 0;
-            padding: 0;
-            margin: 0
-        }
+
         .modal .close {
             background: #fff;
             border: 1px solid rgba(0, 0, 0, .1);
@@ -454,9 +417,35 @@
             padding: .5rem .7rem;
             cursor: pointer
         }
+
         body.noscroll {
             overflow: hidden
         }
+
+        .story-carousel {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: thin;
+        }
+
+        .story-carousel::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .story-carousel::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 10px;
+        }
+
+        .story-carousel .card {
+            flex: 0 0 min(350px, 90vw);
+            scroll-snap-align: start;
+            margin-bottom: 0;
+        }
+
         input,
         select,
         textarea,
@@ -464,54 +453,44 @@
             font-size: 16px;
             font-family: 'Ubuntu', sans-serif;
         }
-        html {
-            -webkit-text-size-adjust: 100%;
-            text-size-adjust: 100%;
-        }
+
         @media (max-width:980px) {
+
             .grid-2,
             .grid-3,
-            .cta-card,
-            footer .columns,
-            .slide {
+            .grid-2-rows,
+            footer .columns {
                 grid-template-columns: 1fr
             }
+
             .title-xl {
                 font-size: 25px;
             }
+
             .title-lg {
                 font-size: 25px;
             }
+
             .lead {
                 font-size: 1rem;
             }
-            .btn{
+
+            .btn {
                 font-size: 11px;
             }
-            .hero-visual {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, rgba(10, 79, 202, .08), rgba(73, 35, 224, .08));
-            border: 1px solid rgba(0, 0, 0, .06);
-            border-radius: 16px;
-            padding: 10px
-        }
+
             .card {
-                border-radius: var(--radius);
-                box-shadow: var(--shadow);
-                padding: 24px;
-                position: relative;
-                margin-bottom: 1px;
-                border: 1px solid #26354177;
-                overflow: hidden
+                margin-bottom: 1rem;
             }
+
             .nav-toggle {
                 display: block
             }
+
             .muted {
-                color: var(--gray-700);
                 font-size: 15px
             }
+
             .menu {
                 position: fixed;
                 inset: 60px 0 auto 0;
@@ -523,20 +502,13 @@
                 transform: translateY(-140%);
                 transition: transform var(--transition)
             }
-            .pill {
-                display: inline-block;
-                padding: .35rem .8rem;
-                border-radius: 999px;
-                background: var(--bg-100);
-                color: var(--blue-700);
-                font-weight: 700;
-                font-size: .85rem
-            }
+
             .dropdown:hover .dropdown-menu {
                 opacity: 0;
                 pointer-events: none;
                 transform: translateY(6px)
             }
+
             .dropdown.open .dropdown-menu {
                 position: relative;
                 top: auto;
@@ -546,44 +518,44 @@
                 pointer-events: auto;
                 margin: 6px 0
             }
+
             header.open .menu {
                 transform: translateY(0)
             }
+
             header.open .nav-toggle::before {
                 transform: translateY(10px) rotate(45deg)
             }
+
             header.open .nav-toggle::after {
                 transform: translateY(-10px) rotate(-45deg)
             }
+
             header.open .nav-toggle span {
                 opacity: 0
             }
-            .grid-2.reverse-order-mobile> :last-child {
-                order: 0;
-            }
-            input,
-            select,
-            textarea,
-            button {
-                font-size: 16px;
-            }
         }
+
         @media (min-width: 1200px) {
             .container {
                 width: min(1400px, 90vw);
             }
+
             .title-xl {
                 font-size: 56px;
             }
+
             .title-lg {
                 font-size: 40px;
             }
+
             .lead {
                 font-size: 1.25rem;
             }
         }
     </style>
 </head>
+
 <body>
     <svg class="bg-svg" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
@@ -593,68 +565,43 @@
         </defs>
         <rect width="100%" height="100%" fill="url(#placeholder-grid)" />
     </svg>
+
     <header id="site-header">
         <div class="container nav">
             <a class="brand" href="#">
-                <img src="assets/logo.png" alt="Brand logo" loading="lazy" style="height:25px;width:auto;border-radius:6px">
+                <img src="logo.png" alt="Brand logo" loading="lazy" style="height:25px;width:auto;border-radius:6px">
                 <span>Alumni360</span>
             </a>
             <button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span></button>
             <nav class="menu" id="mainMenu" aria-label="Primary">
                 <div class="dropdown">
-                    <button type="button" data-toggle="dd">Products</button>
+                    <button type="button" data-toggle="dd">Features</button>
                     <div class="dropdown-menu">
-                        <a href="#">Digital Engagement Platform</a>
+                        <a href="#">Alumni Directory</a>
+                        <a href="#">Mentorship Program</a>
+                        <a href="#">Job Board</a>
                         <a href="#">Event Management</a>
-                        <a href="#">Online Giving</a>
-                        <div style="height:1px;background:#eee;margin:6px 0"></div>
-                        <a href="#" style="font-weight:800">Alumni Directory</a>
-                        <a href="#">Job board</a>
-                        <a href="#">Mentorship</a>
-                        <a href="#">Business Directory</a>
-                        <a href="#">Affinity group</a>
-                        <a href="#">News &amp; updates</a>
+                        <a href="#">Fundraising & Donations</a>
                     </div>
                 </div>
                 <div class="dropdown">
-                    <button type="button" data-toggle="dd">Solution</button>
+                    <button type="button" data-toggle="dd">Solutions</button>
                     <div class="dropdown-menu">
-                        <a href="#">Alumni Relations</a>
-                        <a href="#">Annual Fund</a>
-                        <a href="#">Advancement Services</a>
-                        <a href="#">Advancement Leadership</a>
+                        <a href="#">For Students</a>
+                        <a href="#">For Alumni</a>
+                        <a href="#">For Institutions</a>
+                        <a href="#">For Recruiters</a>
                     </div>
                 </div>
-                <div class="dropdown">
-                    <button type="button" data-toggle="dd">Advancement Pulse</button>
-                    <div class="dropdown-menu">
-                        <a href="#">eBooks</a>
-                        <a href="#">Blog</a>
-                        <a href="#">Guides</a>
-                        <a href="#">Webinars</a>
-                        <a href="#">Newsletter</a>
-                        <a href="#">Spotlights</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button type="button" data-toggle="dd">Customer Spotlight</button>
-                    <div class="dropdown-menu">
-                        <a href="#">Success stories</a>
-                        <a href="#">Customers</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <button type="button" data-toggle="dd">Integration</button>
-                    <div class="dropdown-menu">
-                        <a href="#">TrueSync</a>
-                        <a href="#">Blackbaud CRM</a>
-                    </div>
-                </div>
-                <a class="btn nav-cta" href="#" data-open="#demoModal">Contact Us</a>
+                <a href="#">Success Stories</a>
+                <a href="#">About Us</a>
+                <a class="btn nav-cta" href="#" data-open="#login">Login/SignUp</a>
             </nav>
         </div>
     </header>
+
     <main>
+        <!-- Hero -->
         <section class="section hero">
             <div class="container grid-2">
                 <div>
@@ -664,110 +611,195 @@
                         Recruiters.
                     </h1>
                     <p class="lead" style="margin:14px 0 18px">
-                        Keep constituent data always updated through self‑serve engagement and automations. Set up a
-                        directory for affinities with custom filters to facilitate peer‑to‑peer networking.
+                        A centralized platform to manage alumni data, drive engagement, facilitate mentorship, and
+                        enhance fundraising—all in one place.
                     </p>
-                    <div>
-                        <a class="btn" href="#" data-open="#login">Login/Signup</a>
-                    </div>
+
                 </div>
-                <div class="hero-visual">
-                    <div class="feature-image"
-                        style="height:100%;display:grid;place-items:center;
-                         background-image:url('https://media.licdn.com/dms/image/v2/C4D12AQEPyLwBZlKVvg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1652679909773?e=2147483647&v=beta&t=vDO1qbXnUGCyx6nji3pS-wH0Atz3C0uSaH6pYP6c2dE');background-size:cover;background-position:center">
-                        <div class="pill">Connect &bull; Engage &bull; Grow</div>
-                    </div>
+                <div class="feature-image"
+                    style="padding: 10px; background-clip: content-box; height:100%;min-height:300px;display:grid;place-items:center; background-image:url('https://media.licdn.com/dms/image/v2/C4D12AQEPyLwBZlKVvg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1652679909773?e=2147483647&v=beta&t=vDO1qbXnUGCyx6nji3pS-wH0Atz3C0uSaH6pYP6c2dE');background-size:cover;background-position:center">
+                    <div class="pill">Connect • Engage • Grow</div>
                 </div>
             </div>
             <div class="container" style="margin-top:30px">
-                <p class="muted" style="text-align:center;font-weight:800;">Chosen by leading institutions across the
-                    world</p>
+                <p class="muted" style="text-align:center;font-weight:700; font-size: 1.1rem;">Chosen by leading
+                    institutions across the world</p>
                 <div class="marquee" style="margin-top:20px">
                     <div class="marquee-track">
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
-                        <div class="logo-chip">
-                            <img src="assets/sershah.jpeg" alt="Institution logo" loading="lazy"
-                                style="width:20px;height:20px;object-fit:cover">
-                            Shershah Engineering College, Sasaram
-                        </div>
+                        <div class="logo-chip"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="currentColor" style="color: var(--blue-700); flex-shrink: 0;">
+                                <path
+                                    d="M12 3L1 9l4 2.18v6.32L1 21l11-6 11 6-4-3.5V11.18L23 9l-11-6zm-8 7.32l8-4.44 8 4.44-8 4.44-8-4.44zM12 20.39l-4-2.22v-4l4 2.22v4z">
+                                </path>
+                            </svg>Shershah Engineering College</div>
+                        <div class="logo-chip"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="currentColor" style="color: var(--blue-700); flex-shrink: 0;">
+                                <path
+                                    d="M12 3L1 9l4 2.18v6.32L1 21l11-6 11 6-4-3.5V11.18L23 9l-11-6zm-8 7.32l8-4.44 8 4.44-8 4.44-8-4.44zM12 20.39l-4-2.22v-4l4 2.22v4z">
+                                </path>
+                            </svg>National Institute of Technology, Patna</div>
+                        <div class="logo-chip"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="currentColor" style="color: var(--blue-700); flex-shrink: 0;">
+                                <path
+                                    d="M12 3L1 9l4 2.18v6.32L1 21l11-6 11 6-4-3.5V11.18L23 9l-11-6zm-8 7.32l8-4.44 8 4.44-8 4.44-8-4.44zM12 20.39l-4-2.22v-4l4 2.22v4z">
+                                </path>
+                            </svg>Indian Institute of Technology, Delhi</div>
+                        <div class="logo-chip"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="currentColor" style="color: var(--blue-700); flex-shrink: 0;">
+                                <path
+                                    d="M12 3L1 9l4 2.18v6.32L1 21l11-6 11 6-4-3.5V11.18L23 9l-11-6zm-8 7.32l8-4.44 8 4.44-8 4.44-8-4.44zM12 20.39l-4-2.22v-4l4 2.22v4z">
+                                </path>
+                            </svg>Stanford University</div>
+                        <div class="logo-chip"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="currentColor" style="color: var(--blue-700); flex-shrink: 0;">
+                                <path
+                                    d="M12 3L1 9l4 2.18v6.32L1 21l11-6 11 6-4-3.5V11.18L23 9l-11-6zm-8 7.32l8-4.44 8 4.44-8 4.44-8-4.44zM12 20.39l-4-2.22v-4l4 2.22v4z">
+                                </path>
+                            </svg>Harvard University</div>
+                        <div class="logo-chip"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="currentColor" style="color: var(--blue-700); flex-shrink: 0;">
+                                <path
+                                    d="M12 3L1 9l4 2.18v6.32L1 21l11-6 11 6-4-3.5V11.18L23 9l-11-6zm-8 7.32l8-4.44 8 4.44-8 4.44-8-4.44zM12 20.39l-4-2.22v-4l4 2.22v4z">
+                                </path>
+                            </svg>University of Cambridge</div>
+                        <div class="logo-chip"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                viewBox="0 0 24 24" fill="currentColor" style="color: var(--blue-700); flex-shrink: 0;">
+                                <path
+                                    d="M12 3L1 9l4 2.18v6.32L1 21l11-6 11 6-4-3.5V11.18L23 9l-11-6zm-8 7.32l8-4.44 8 4.44-8 4.44-8-4.44zM12 20.39l-4-2.22v-4l4 2.22v4z">
+                                </path>
+                            </svg>Massachusetts Institute of Technology</div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- Social Proof (Stats Bar) -->
+        <section class="section section-tight">
+            <div class="container">
+                <div class="grid-3" style="gap: 40px; text-align: center;">
+                    <div>
+                        <h3 class="title-lg" style="color: var(--blue-700);">100+</h3>
+                        <p class="muted" style="margin-top: 5px;">Partner Institutions</p>
+                    </div>
+                    <div>
+                        <h3 class="title-lg" style="color: var(--blue-700);">60K+</h3>
+                        <p class="muted" style="margin-top: 5px;">Engaged Alumni</p>
+                    </div>
+                    <div>
+                        <h3 class="title-lg" style="color: var(--blue-700);">50Cr+</h3>
+                        <p class="muted" style="margin-top: 5px;">Funds Raised</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- User Role Gateways -->
+        <section class="section">
+            <div class="container" style="text-align:center;margin-bottom:28px;">
+                <h2 class="title-lg">Find Your Place in Our Community</h2>
+                <p class="lead" style="font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Select your role to
+                    discover tailored resources and opportunities.</p>
+            </div>
+            <div class="container grid-2-rows">
+                <div class="card" style="text-align: center; margin-bottom: 0;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">👨‍💻</div>
+                    <h3 class="title-md">Are you a Student?</h3>
+                    <p class="muted">Find mentors, explore career paths, and connect with experienced professionals.</p>
+                    <a href="#" data-open="#login1" class="btn" style="margin-top: 16px; width: 100%;">Student
+                        Portal</a>
+                </div>
+                <div class="card" style="text-align: center; margin-bottom: 0;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">🧑‍🎓</div>
+                    <h3 class="title-md">Are you an Alumnus?</h3>
+                    <p class="muted">Reconnect with peers, mentor the next generation, and rediscover your roots.</p>
+                    <a href="#" data-open="#login2" class="btn" style="margin-top: 16px; width: 100%;">Alumni
+                        Portal</a>
+                </div>
+                <div class="card" style="text-align: center; margin-bottom: 0;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">🏢</div>
+                    <h3 class="title-md">Are you an Institution Admin?</h3>
+                    <p class="muted">Increase institutional credibility encourage community building.</p>
+                    <a href="#" data-open="#login3" class="btn" style="margin-top: 16px; width: 100%;">Institute
+                        Portal</a>
+                </div>
+                <div class="card" style="text-align: center; margin-bottom: 0;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">🏢</div>
+                    <h3 class="title-md">Are you a Recruiter?</h3>
+                    <p class="muted">Discover top talent, post job opportunities, and engage with our bright minds.</p>
+                    <a href="#" data-open="#login4" class="btn" style="margin-top: 16px; width: 100%;">Recruiter
+                        Portal</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Success Stories -->
+        <section class="section">
+            <div class="container" style="text-align:center;margin-bottom:28px;">
+                <h2 class="title-lg">Success Stories from Our Community</h2>
+                <p class="lead" style="font-size: 1.1rem; max-width: 600px; margin: 0 auto;">See how Alumni360 is making
+                    a difference.</p>
+            </div>
+            <div class="container">
+                <div class="story-carousel">
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=256&auto=format&fit=crop"
+                            alt="User photo"
+                            style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 16px; object-fit: cover;">
+                        <p class="muted" style="font-style: italic;">"Through the mentorship program, I connected with a
+                            seasoned professional. Their guidance was invaluable in launching my startup."</p>
+                        <h4 class="title-md" style="margin-top: 16px; margin-bottom: 4px;">Prakash Kumar</h4>
+                        <p style="color: var(--blue-700); font-weight: 700;">Alumnus, Class of '12</p>
+                    </div>
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=256&auto=format&fit=crop"
+                            alt="User photo"
+                            style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 16px; object-fit: cover;">
+                        <p class="muted" style="font-style: italic;">"As a student, the alumni directory helped me land
+                            an internship at my dream company. The connections you can make here are amazing."</p>
+                        <h4 class="title-md" style="margin-top: 16px; margin-bottom: 4px;">Anjali Sharma</h4>
+                        <p style="color: var(--blue-700); font-weight: 700;">Current Student</p>
+                    </div>
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?q=80&w=256&auto=format&fit=crop"
+                            alt="User photo"
+                            style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 16px; object-fit: cover;">
+                        <p class="muted" style="font-style: italic;">"We've hired several outstanding graduates through
+                            this platform. It's our go-to source for finding well-prepared, motivated talent."</p>
+                        <h4 class="title-md" style="margin-top: 16px; margin-bottom: 4px;">Vikram Singh</h4>
+                        <p style="color: var(--blue-700); font-weight: 700;">Recruiter, Tech Corp</p>
+                    </div>
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=256&auto=format&fit=crop"
+                            alt="User photo"
+                            style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 16px; object-fit: cover;">
+                        <p class="muted" style="font-style: italic;">"The fundraising tools are intuitive and effective.
+                            We successfully funded our new library wing ahead of schedule thanks to our alumni."</p>
+                        <h4 class="title-md" style="margin-top: 16px; margin-bottom: 4px;">Dr. Rina Mehta</h4>
+                        <p style="color: var(--blue-700); font-weight: 700;">Institution Admin</p>
+                    </div>
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=256&auto=format&fit=crop"
+                            alt="User photo"
+                            style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 16px; object-fit: cover;">
+                        <p class="muted" style="font-style: italic;">"The fundraising tools are intuitive and effective.
+                            We successfully funded our new library wing ahead of schedule thanks to our alumni."</p>
+                        <h4 class="title-md" style="margin-top: 16px; margin-bottom: 4px;">Dr. Rina Mehta</h4>
+                        <p style="color: var(--blue-700); font-weight: 700;">Institution Admin</p>
+                    </div>
+                    <div class="card">
+                        <img src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=256&auto=format&fit=crop"
+                            alt="User photo"
+                            style="width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 16px; object-fit: cover;">
+                        <p class="muted" style="font-style: italic;">"The fundraising tools are intuitive and effective.
+                            We successfully funded our new library wing ahead of schedule thanks to our alumni."</p>
+                        <h4 class="title-md" style="margin-top: 16px; margin-bottom: 4px;">Dr. Rina Mehta</h4>
+                        <p style="color: var(--blue-700); font-weight: 700;">Institution Admin</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Digital Engagement -->
         <section class="section">
             <div class="container" style="text-align:center;margin-bottom:28px;">
                 <h2 class="title-lg">Why Digital Engagement on Alumni360?</h2>
@@ -775,86 +807,246 @@
             <div class="container grid-3">
                 <div class="card">
                     <div class="feature-image"
-                        style="height:120px;margin-bottom:20px;
-                         background-image:url('https://t3.ftcdn.net/jpg/07/11/26/60/360_F_711266053_vk4mgNhKyUXqFgxEuQ8xOQkKQ03fg7Vj.jpg');background-size:cover;background-position:center">
+                        style="height:120px;margin-bottom:20px; background-image:url('https://images.unsplash.com/photo-1556740738-b6a63e27c4df?q=80&w=800&auto=format&fit=crop');background-size:cover;background-position:center">
                     </div>
-                    <h3 class="title-md"; style="text-align: center;">Measure of impact</h3>
+                    <h3 class="title-md" ; style="text-align: center;">Measure of Impact</h3>
                     <p class="muted">Measure engagement activities of various segments, and understand the return on
                         your programs.</p>
                 </div>
                 <div class="card">
                     <div class="feature-image"
-                        style="height:120px;margin-bottom:20px;
-                         background-image:url('https://www.mhcautomation.com/wp-content/uploads/2019/09/business-automation-banner-1024x332.jpg');background-size:cover;background-position:center">
+                        style="height:120px;margin-bottom:20px; background-image:url('https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=800&auto=format&fit=crop');background-size:cover;background-position:center">
                     </div>
-                    <h3 class="title-md" style="text-align: center;">Switch to auto‑pilot</h3>
+                    <h3 class="title-md" style="text-align: center;">Automate & Simplify</h3>
                     <p class="muted">Stop spending days on clunky tools and scattered data. Automate the process
                         end‑to‑end.</p>
                 </div>
                 <div class="card">
                     <div class="feature-image"
-                        style="height:120px;margin-bottom:20px;
-                         background-image:url('https://www.lrsoutputmanagement.com/Resources/a31f5597-23fa-4ff5-89ed-628cacaab9c8/LRS-Output-Management-Document-Process-Automation-Banner.jpg');background-size:cover;background-position:center">
+                        style="height:120px;margin-bottom:20px; background-image:url('https://images.unsplash.com/photo-1632073133311-87245ea885a6?q=80&w=800&auto=format&fit=crop');background-size:cover;background-position:center">
                     </div>
-                    <h3 class="title-md" style="text-align: center;">Easy set‑up</h3>
-                    <p class="muted">Setting up and getting value is only a matter of a few simple steps.</p>
+                    <h3 class="title-md" style="text-align: center;">Increase Fundraising</h3>
+                    <p class="muted">Enhance fundraising potential through better alumni outreach and easy-to-use
+                        donation tools.</p>
                 </div>
             </div>
         </section>
+
+        <!-- Upcoming Events Showcase -->
         <section class="section">
-            <div class="container" style="text-align:center;margin-bottom:20px">
-                <h2 class="title-lg">Keep it in Sync</h2>
+            <div class="container" style="text-align:center;margin-bottom:28px;">
+                <h2 class="title-lg">Upcoming Events</h2>
+                <p class="lead" style="font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Join our vibrant community
+                    at these upcoming gatherings.</p>
             </div>
             <div class="container grid-3">
-                <div class="mini-card">
-                    <h3 class="title-md">Import your database</h3>
-                    <p class="muted">Instant access to members on your database.</p>
+                <div class="card" style="margin-bottom: 0;">
+                    <div class="feature-image"
+                        style="height:160px;margin-bottom:20px; background-image:url('https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=800&auto=format&fit=crop');background-size:cover;background-position:center">
+                    </div>
+                    <span class="kicker" style="color: var(--purple-600);">WEBINAR</span>
+                    <h3 class="title-md" style="margin-top: 8px;">Career Paths in AI</h3>
+                    <p class="muted" style="font-size: 0.9rem;"><strong>Date:</strong> Oct 15, 2025</p>
+                    <p class="muted">Explore the future of Artificial Intelligence with industry experts.</p>
                 </div>
-                <div class="mini-card">
-                    <h3 class="title-md">Two‑way sync</h3>
-                    <p class="muted">Keep information updated across tools.</p>
+                <div class="card" style="margin-bottom: 0;">
+                    <div class="feature-image"
+                        style="height:160px;margin-bottom:20px; background-image:url('https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=800&auto=format&fit=crop');background-size:cover;background-position:center">
+                    </div>
+                    <span class="kicker" style="color: var(--purple-600);">NETWORKING</span>
+                    <h3 class="title-md" style="margin-top: 8px;">Annual Alumni Mixer</h3>
+                    <p class="muted" style="font-size: 0.9rem;"><strong>Date:</strong> Nov 05, 2025</p>
+                    <p class="muted">Reconnect with old friends and make new connections over food and drinks.</p>
                 </div>
-                <div class="mini-card">
-                    <h3 class="title-md">Enrich profile information</h3>
-                    <p class="muted">Use engagement to progressively improve information.</p>
+                <div class="card" style="margin-bottom: 0;">
+                    <div class="feature-image"
+                        style="height:160px;margin-bottom:20px; background-image:url('https://images.unsplash.com/photo-1607863680198-23d4b2565df0?q=80&w=800&auto=format&fit=crop');background-size:cover;background-position:center">
+                    </div>
+                    <span class="kicker" style="color: var(--purple-600);">WORKSHOP</span>
+                    <h3 class="title-md" style="margin-top: 8px;">Startup Funding 101</h3>
+                    <p class="muted" style="font-size: 0.9rem;"><strong>Date:</strong> Nov 22, 2025</p>
+                    <p class="muted">Learn the essentials of securing funding for your new venture.</p>
                 </div>
             </div>
             <div class="container" style="text-align:center;margin-top:22px">
-                <a class="btn outline" href="#" data-open="#demoModal">Learn more about integrations</a>
+                <a class="btn outline" href="#">View All Events</a>
             </div>
         </section>
+
+        <!-- START: New Sections -->
+
+        <!-- Latest News & Updates -->
         <section class="section">
-            <div class="container" style="text-align:center;margin-bottom:20px">
-                <h2 class="title-lg">Measure and grow engagement</h2>
+            <div class="container" style="text-align:center;margin-bottom:28px;">
+                <h2 class="title-lg">Latest News & Updates</h2>
+                <p class="lead" style="font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Stay connected with the
+                    latest happenings and achievements.</p>
             </div>
             <div class="container grid-3">
-                <div class="card measure-card">
-                    <h3 class="title-md" style="margin-top:1px">Measure growth</h3>
-                    <p class="muted">Get monthly reports on community engagement delivered to your inbox.</p>
+                <div class="card" style="margin-bottom: 0;">
+                    <div class="feature-image"
+                        style="height:160px;margin-bottom:20px; background-image:url('https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800&auto=format&fit=crop');background-size:cover;background-position:center">
+                    </div>
+                    <span class="kicker">CAMPUS NEWS</span>
+                    <h3 class="title-md" style="margin-top: 8px;">Innovation Hub Launch</h3>
+                    <p class="muted">Our new state-of-the-art tech incubator is now open to students and alumni.</p>
+                    <a href="#"
+                        style="font-weight: 700; color: var(--blue-700); margin-top: 12px; display:inline-block;">Read
+                        More &rarr;</a>
                 </div>
-                <div class="card measure-card">
-                    <h3 class="title-md" style="margin-top:1px">Set‑up automation</h3>
-                    <p class="muted">Continuously improve constituent data and sync updates to your CRM.</p>
+                <div class="card" style="margin-bottom: 0;">
+                    <div class="feature-image"
+                        style="height:160px;margin-bottom:20px; background-image:url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=800&auto=format&fit=crop');background-size:cover;background-position:center">
+                    </div>
+                    <span class="kicker">ALUMNI SPOTLIGHT</span>
+                    <h3 class="title-md" style="margin-top: 8px;">Ria Sharma ('08) on Forbes 30 Under 30</h3>
+                    <p class="muted">Celebrating Ria's incredible journey in sustainable fashion technology.</p>
+                    <a href="#"
+                        style="font-weight: 700; color: var(--blue-700); margin-top: 12px; display:inline-block;">Read
+                        More &rarr;</a>
                 </div>
-                <div class="card measure-card">
-                    <h3 class="title-md" style="margin-top:1px">Approve profiles</h3>
-                    <p class="muted">Moderate the directory by approving sign‑ups.</p>
+                <div class="card" style="margin-bottom: 0;">
+                    <div class="feature-image"
+                        style="height:160px;margin-bottom:20px; background-image:url('https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?q=80&w=800&auto=format&fit=crop');background-size:cover;background-position:center">
+                    </div>
+                    <span class="kicker">RESEARCH</span>
+                    <h3 class="title-md" style="margin-top: 8px;">Breakthrough in Renewable Energy</h3>
+                    <p class="muted">Prof. Anand's team publishes groundbreaking research on solar cell efficiency.</p>
+                    <a href="#"
+                        style="font-weight: 700; color: var(--blue-700); margin-top: 12px; display:inline-block;">Read
+                        More &rarr;</a>
                 </div>
             </div>
         </section>
+
+        <!-- Career Center Spotlight -->
+        <section class="section">
+            <div class="container" style="text-align:center;margin-bottom:28px;">
+                <h2 class="title-lg">Career Center Spotlight</h2>
+                <p class="lead" style="font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Explore exclusive job
+                    opportunities from our trusted network of partners.</p>
+            </div>
+            <div class="container" style="display: grid; gap: 16px;">
+                <div class="card-job">
+                    <div style="display:flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+                        <div>
+                            <h3 class="title-md" style="margin-bottom: 4px;">Senior Software Engineer</h3>
+                            <p class="muted" style="font-weight: 500;">Tech Solutions Inc. &bull; Remote</p>
+                        </div>
+                        <a href="#" class="btn outline" style="flex-shrink: 0;">Apply Now</a>
+                    </div>
+                </div>
+                <div class="card-job">
+                    <div style="display:flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+                        <div>
+                            <h3 class="title-md" style="margin-bottom: 4px;">Marketing Director</h3>
+                            <p class="muted" style="font-weight: 500;">Creative Minds Agency &bull; Mumbai, IN</p>
+                        </div>
+                        <a href="#" class="btn outline" style="flex-shrink: 0;">Apply Now</a>
+                    </div>
+                </div>
+                <div class="card-job">
+                    <div style="display:flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
+                        <div>
+                            <h3 class="title-md" style="margin-bottom: 4px;">Data Analyst</h3>
+                            <p class="muted" style="font-weight: 500;">Innovate Analytics &bull; Bengaluru, IN</p>
+                        </div>
+                        <a href="#" class="btn outline" style="flex-shrink: 0;">Apply Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="text-align:center;margin-top:22px">
+                <a class="btn" href="#">Visit the Job Board</a>
+            </div>
+        </section>
+
+        <!-- Unlock Potential with Mentorship -->
+        <section class="section">
+            <div class="container grid-2">
+                <div class="feature-image"
+                    style="height:100%; min-height: 350px; background-image:url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop');background-size:cover;background-position:center">
+                </div>
+                <div>
+                    <h2 class="title-lg">Unlock Potential with Our Mentorship Program</h2>
+                    <p class="lead" style="margin:14px 0 18px">
+                        Whether you're a student seeking guidance or an alumnus ready to share your expertise, our
+                        mentorship program is the perfect platform to build impactful relationships that shape futures.
+                    </p>
+                    <div style="display: flex; gap: 12px;">
+                        <a class="btn" href="#">Become a Mentor</a>
+                        <a class="btn outline" href="#">Find a Mentor</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Give Back to Your Alma Mater -->
+        <section class="section">
+            <div class="container" style="text-align:center;margin-bottom:28px;">
+                <h2 class="title-lg">Give Back to Your Alma Mater</h2>
+                <p class="lead" style="font-size: 1.1rem; max-width: 600px; margin: 0 auto;">Your contribution empowers
+                    the next generation of leaders and innovators. Support the causes you care about.</p>
+            </div>
+            <div class="container grid-2">
+                <div>
+                    <h3 class="title-md">Campaign: Digital Library Initiative</h3>
+                    <p class="muted" style="margin-bottom: 16px;">Help us build a world-class digital resource center
+                        for all students. Our goal is to provide access to over 1 million e-books and research papers.
+                    </p>
+                    <div>
+                        <div
+                            style="background: #e0e0e0; border-radius: 10px; height: 10px; overflow: hidden; margin-bottom: 8px;">
+                            <div style="width: 65%; height: 100%; background: var(--blue-600); border-radius: 10px;">
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                            <span style="font-weight: 700;">$65,000 Raised</span>
+                            <span class="muted">Goal: $100,000</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <a class="btn" href="#">Donate Now</a>
+                    </div>
+                </div>
+                <div class="feature-image"
+                    style="height:100%; min-height: 250px; background-image:url('https://images.unsplash.com/photo-1618498082410-b4aa22193b38?q=80&w=800&auto=format&fit=crop');background-size:cover;background-position:center;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="section">
+            <div class="container">
+                <div class="card"
+                    style="text-align: center; background: linear-gradient(135deg, var(--blue-700), var(--purple-600)); color: #fff; padding: 40px 24px;">
+                    <h2 class="title-lg" style="color: #fff;">Join Our Thriving Community Today!</h2>
+                    <p class="lead" style="color: #fff; opacity: 0.9; max-width: 600px; margin: 12px auto 20px;">Sign up
+                        to unlock your network, access exclusive resources, and stay connected with your alma mater.</p>
+                    <a href="#" class="btn"
+                        style="background: #fff; color: var(--blue-700); padding: 0.8rem 1.5rem; font-size: 1.1rem;">Create
+                        Your Account</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- END: New Sections -->
+
     </main>
+
+    <!-- Footer -->
     <footer class="section" style="padding-top:40px; padding-bottom: 24px;">
         <div class="container">
             <div class="columns" style="margin-bottom:24px">
                 <div>
                     <div style="display:flex;align-items:center;gap:10px;font-weight:800;margin-bottom:20px">
-                        <img src="assets/logo2.png" alt="Brand logo" loading="lazy"
+                        <img src="logo2.png" alt="Brand logo" loading="lazy"
                             style="height:28px;width:auto;border-radius:6px">
                     </div>
                     <p style="margin:0 0 14px;opacity:.9">Hundreds of advancement teams use Alumni360 to engage
                         constituents meaningfully and grow their donor pipeline.</p>
                     <div>
-                        <form onsubmit="event.preventDefault(); alert('Subscribed!');">
+                        <form
+                            onsubmit="event.preventDefault(); this.querySelector('input').value = ''; alert('Thank you for subscribing!');">
                             <label for="email" style="display:block;margin-bottom:6px;opacity:.9">Subscribe for
                                 updates</label>
                             <div style="display:flex;gap:8px">
@@ -867,25 +1059,22 @@
                     </div>
                 </div>
                 <div>
-                    <div style="font-weight:800;margin-bottom:8px">Compare With</div>
+                    <div style="font-weight:800;margin-bottom:8px">Features</div>
                     <div style="display:grid;gap:8px">
-                        <a href="#">Graduway</a>
-                        <a href="#">GiveCampus</a>
-                        <a href="#">Hivebrite</a>
-                        <a href="#">360Alumni</a>
-                        <a href="#">iModules (Anthology)</a>
-                        <a href="#">NetCommunity</a>
+                        <a href="#">Alumni Directory</a>
+                        <a href="#">Mentorship</a>
+                        <a href="#">Job Board</a>
+                        <a href="#">Events</a>
+                        <a href="#">Fundraising</a>
                     </div>
                 </div>
                 <div>
                     <div style="font-weight:800;margin-bottom:8px">Resources</div>
                     <div style="display:grid;gap:8px">
-                        <a href="#">Case Studies</a>
+                        <a href="#">Success Stories</a>
                         <a href="#">Blog</a>
                         <a href="#">Privacy Policy</a>
-                        <a href="#">Careers</a>
-                        <a href="#">Giving Day toolkit</a>
-                        <a href="#">Cultivating the Next Wave of Donors</a>
+                        <a href="#">Contact Us</a>
                     </div>
                 </div>
             </div>
@@ -896,13 +1085,15 @@
             </div>
         </div>
     </footer>
+
+    <!-- All Modals are kept as they were -->
     <div class="modal" id="demoModal" aria-hidden="true" role="dialog" aria-modal="true">
         <div class="panel">
             <button class="close" data-close>&times;</button>
             <h3 class="title-md">Contact Us</h3>
             <p class="muted">Share a few details and the team will get in touch.</p>
             <form
-                onsubmit="event.preventDefault(); this.closest('.modal').classList.remove('open'); alert('Demo request submitted!');">
+                onsubmit="event.preventDefault(); this.closest('.modal').classList.remove('open'); alert('Request submitted!');">
                 <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px">
                     <div><label>Name<br><input required
                                 style="width:100%;padding:.7rem;border-radius:10px;border:1px solid #ddd" /></label>
@@ -925,36 +1116,36 @@
         <div class="panel">
             <button class="close" data-close>&times;</button>
             <h3 class="title-md" style="text-align: center;">Login/Signup</h3>
-            <p class="muted" style="font-size: 1rem; text-align: center; margin-top: 4px; margin-bottom: 20px;">as a
-            </p>
+            <p class="muted" style="font-size: 1rem; text-align: center; margin-top: 4px; margin-bottom: 20px;">as a</p>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                <a href="#" class="btn" data-open="#loginModal">Student</a>
-                <a href="#" class="btn" data-open="#loginModal">Alumni</a>
-                <a href="#" class="btn" data-open="#loginModal">Institution</a>
-                <a href="#" class="btn" data-open="#loginModal">Recruiter</a>
+                <a href="#" class="btn"
+                    onclick="event.preventDefault(); closeModal(this.closest('.modal')); openModal('#loginModal')">Student</a>
+                <a href="#" class="btn"
+                    onclick="event.preventDefault(); closeModal(this.closest('.modal')); openModal('#loginModal')">Alumni</a>
+                <a href="#" class="btn"
+                    onclick="event.preventDefault(); closeModal(this.closest('.modal')); openModal('#loginModal')">Institution</a>
+                <a href="#" class="btn"
+                    onclick="event.preventDefault(); closeModal(this.closest('.modal')); openModal('#loginModal')">Recruiter</a>
             </div>
         </div>
     </div>
-    <div class="modal" id="loginModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal" id="login1" aria-hidden="true" role="dialog" aria-modal="true">
         <div class="panel">
             <button class="close" data-close>&times;</button>
             <h3 class="title-md" style="text-align: center;">Login to Your Account</h3>
-            <p class="muted" style="font-size: 1rem; text-align: center; margin-top: 4px; margin-bottom: 20px;">
-                Welcome back! Please enter your details.
-            </p>
-            <form onsubmit="event.preventDefault(); alert('Login submitted!');">
+            <p class="muted" style="font-size: 1rem; text-align: center; margin-top: 4px; margin-bottom: 20px;">Welcome
+                back! Please enter your details.</p>
+            <form
+                onsubmit="event.preventDefault(); alert('Logged in successfully!'); this.closest('.modal').classList.remove('open');">
                 <div style="display: grid; gap: 14px;">
-                    <div>
-                        <label for="login-email"
-                            style="display: block; margin-bottom: 6px; font-weight: 500;">Email</label>
-                        <input id="login-email" type="email" required placeholder="name@domain.com"
-                            style="width:100%; padding:.7rem; border-radius:10px; border:1px solid #ddd" />
-                    </div>
+                    <div><label for="login-email"
+                            style="display: block; margin-bottom: 6px; font-weight: 500;">Email</label><input
+                            id="login-email" type="email" required placeholder="name@domain.com"
+                            style="width:100%; padding:.7rem; border-radius:10px; border:1px solid #ddd" /></div>
                     <div>
                         <div
                             style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
-                            <label for="login-password" style="font-weight: 500;">Password</label>
-                            <a href="#"
+                            <label for="login-password" style="font-weight: 500;">Password</label><a href="#"
                                 style="font-size: 0.85rem; color: var(--blue-700); text-decoration: none;">Forgot
                                 Password?</a>
                         </div>
@@ -962,57 +1153,112 @@
                             style="width:100%; padding:.7rem; border-radius:10px; border:1px solid #ddd" />
                     </div>
                 </div>
-                <div style="margin-top:20px">
-                    <button class="btn" type="submit" style="width: 100%;">Sign In</button>
+                <div style="margin-top:20px"><button class="btn" type="submit" style="width: 100%;">Sign In / Sign
+                        Up</button>
                 </div>
             </form>
-            <div style="display: flex; align-items: center; text-align: center; color: #aaa; margin: 20px 0;">
-                <div style="flex-grow: 1; height: 1px; background-color: #ddd;"></div>
-                <span style="padding: 0 10px; font-size: 0.9rem;">OR</span>
-                <div style="flex-grow: 1; height: 1px; background-color: #ddd;"></div>
-            </div>
-            <div style="display: grid; grid-template-columns: 1fr; gap: 12px;">
-                <a href="#" class="btn outline" style="width: 100%;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48"
-                        fill="currentColor">
-                        <path fill="#FFC107"
-                            d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z">
-                        </path>
-                        <path fill="#FF3D00"
-                            d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z">
-                        </path>
-                        <path fill="#4CAF50"
-                            d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.222,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z">
-                        </path>
-                        <path fill="#1976D2"
-                            d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.089,5.571l6.19,5.238C44.438,36.334,48,30.637,48,24C48,22.659,47.862,21.35,47.611,20.083z">
-                        </path>
-                    </svg>
-                    Continue with Google
-                </a>
-                <a href="#" class="btn outline" style="width: 100%;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                        fill="currentColor">
-                        <path
-                            d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                    </svg>
-                    Continue with LinkedIn
-                </a>
-            </div>
-            <div style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--gray-700);">
-                Don't have an account?
-                <a href="#" style="font-weight: 700; color: var(--blue-700); text-decoration: none;">Sign Up</a>
-            </div>
+            <div style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--gray-700);">Check
+                Prototype of <a href="student.html"
+                    style="font-weight: 700; color: var(--blue-700); text-decoration: none;">Student Portal</a></div>
         </div>
     </div>
-    <div class="modal" id="storyModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal" id="login2" aria-hidden="true" role="dialog" aria-modal="true">
         <div class="panel">
             <button class="close" data-close>&times;</button>
-            <h3 class="title-md" id="storyTitle">Customer success story</h3>
-            <p class="muted" id="storyBody">Full story content placeholder.</p>
-            <div style="margin-top:14px"><button class="btn outline" data-close>Close</button></div>
+            <h3 class="title-md" style="text-align: center;">Login to Your Account</h3>
+            <p class="muted" style="font-size: 1rem; text-align: center; margin-top: 4px; margin-bottom: 20px;">Welcome
+                back! Please enter your details.</p>
+            <form
+                onsubmit="event.preventDefault(); alert('Logged in successfully!'); this.closest('.modal').classList.remove('open');">
+                <div style="display: grid; gap: 14px;">
+                    <div><label for="login-email"
+                            style="display: block; margin-bottom: 6px; font-weight: 500;">Email</label><input
+                            id="login-email" type="email" required placeholder="name@domain.com"
+                            style="width:100%; padding:.7rem; border-radius:10px; border:1px solid #ddd" /></div>
+                    <div>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                            <label for="login-password" style="font-weight: 500;">Password</label><a href="#"
+                                style="font-size: 0.85rem; color: var(--blue-700); text-decoration: none;">Forgot
+                                Password?</a>
+                        </div>
+                        <input id="login-password" type="password" required placeholder="••••••••"
+                            style="width:100%; padding:.7rem; border-radius:10px; border:1px solid #ddd" />
+                    </div>
+                </div>
+                <div style="margin-top:20px"><button class="btn" type="submit" style="width: 100%;">Sign In</button>
+                </div>
+            </form>
+            <div style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--gray-700);">Check
+                Prototype of <a href="alumni.html"
+                    style="font-weight: 700; color: var(--blue-700); text-decoration: none;">Alumni Portal</a></div>
         </div>
     </div>
+    <div class="modal" id="login3" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="panel">
+            <button class="close" data-close>&times;</button>
+            <h3 class="title-md" style="text-align: center;">Login to Your Account</h3>
+            <p class="muted" style="font-size: 1rem; text-align: center; margin-top: 4px; margin-bottom: 20px;">Welcome
+                back! Please enter your details.</p>
+            <form
+                onsubmit="event.preventDefault(); alert('Logged in successfully!'); this.closest('.modal').classList.remove('open');">
+                <div style="display: grid; gap: 14px;">
+                    <div><label for="login-email"
+                            style="display: block; margin-bottom: 6px; font-weight: 500;">Email</label><input
+                            id="login-email" type="email" required placeholder="name@domain.com"
+                            style="width:100%; padding:.7rem; border-radius:10px; border:1px solid #ddd" /></div>
+                    <div>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                            <label for="login-password" style="font-weight: 500;">Password</label><a href="#"
+                                style="font-size: 0.85rem; color: var(--blue-700); text-decoration: none;">Forgot
+                                Password?</a>
+                        </div>
+                        <input id="login-password" type="password" required placeholder="••••••••"
+                            style="width:100%; padding:.7rem; border-radius:10px; border:1px solid #ddd" />
+                    </div>
+                </div>
+                <div style="margin-top:20px"><button class="btn" type="submit" style="width: 100%;">Sign In</button>
+                </div>
+            </form>
+            <div style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--gray-700);">Check
+                Prototype of <a href="institute.html"
+                    style="font-weight: 700; color: var(--blue-700); text-decoration: none;">Institute Portal</a></div>
+        </div>
+    </div>
+    <div class="modal" id="login4" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="panel">
+            <button class="close" data-close>&times;</button>
+            <h3 class="title-md" style="text-align: center;">Login to Your Account</h3>
+            <p class="muted" style="font-size: 1rem; text-align: center; margin-top: 4px; margin-bottom: 20px;">Welcome
+                back! Please enter your details.</p>
+            <form
+                onsubmit="event.preventDefault(); alert('Logged in successfully!'); this.closest('.modal').classList.remove('open');">
+                <div style="display: grid; gap: 14px;">
+                    <div><label for="login-email"
+                            style="display: block; margin-bottom: 6px; font-weight: 500;">Email</label><input
+                            id="login-email" type="email" required placeholder="name@domain.com"
+                            style="width:100%; padding:.7rem; border-radius:10px; border:1px solid #ddd" /></div>
+                    <div>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                            <label for="login-password" style="font-weight: 500;">Password</label><a href="#"
+                                style="font-size: 0.85rem; color: var(--blue-700); text-decoration: none;">Forgot
+                                Password?</a>
+                        </div>
+                        <input id="login-password" type="password" required placeholder="••••••••"
+                            style="width:100%; padding:.7rem; border-radius:10px; border:1px solid #ddd" />
+                    </div>
+                </div>
+                <div style="margin-top:20px"><button class="btn" type="submit" style="width: 100%;">Sign In</button>
+                </div>
+            </form>
+            <div style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--gray-700);">Check
+                Prototype of <a href="recruiter.html"
+                    style="font-weight: 700; color: var(--blue-700); text-decoration: none;">Recruiters Portal</a></div>
+        </div>
+    </div>
+
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
         const header = document.getElementById('site-header');
@@ -1034,12 +1280,13 @@
                 });
             });
         }
+        let onEsc;
         function openModal(sel) {
             const m = document.querySelector(sel);
             if (!m) return;
-            const onEsc = (ev) => { if (ev.key === 'Escape') { closeModal(m); } };
-            document.addEventListener('keydown', onEsc, { once: true });
-            m.addEventListener('click', (e) => { if (e.target === m) { closeModal(m); } });
+            onEsc = (ev) => { if (ev.key === 'Escape') closeModal(m); };
+            document.addEventListener('keydown', onEsc);
+            m.addEventListener('click', (e) => { if (e.target === m) closeModal(m); });
             m.classList.add('open');
             document.body.classList.add('noscroll');
         }
@@ -1047,7 +1294,7 @@
             if (!modalEl) return;
             modalEl.classList.remove('open');
             document.body.classList.remove('noscroll');
-            document.removeEventListener('keydown', onEsc);
+            if (onEsc) document.removeEventListener('keydown', onEsc);
         }
         document.querySelectorAll('[data-open]').forEach(el => {
             el.addEventListener('click', (e) => {
@@ -1061,64 +1308,30 @@
                 if (modal) closeModal(modal);
             });
         });
-        document.querySelectorAll('button[data-open="#storyModal"][data-title][data-body]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const storyTitle = document.getElementById('storyTitle');
-                const storyBody = document.getElementById('storyBody');
-                if (storyTitle) storyTitle.textContent = btn.dataset.title || 'Customer success story';
-                if (storyBody) storyBody.textContent = btn.dataset.body || '';
-            });
-        });
-        (function () {
-            const root = document.getElementById('spotlightSlider');
-            if (!root) return; 
-            const track = root.querySelector('.slides');
-            const slides = Array.from(root.querySelectorAll('.slide'));
-            const dots = Array.from(root.querySelectorAll('.dot'));
-            if (!track || slides.length === 0 || dots.length === 0) return;
-            let idx = 0;
-            let timer = null;
-            function go(i) {
-                idx = (i + slides.length) % slides.length;
-                track.style.transform = `translateX(-${idx * 100}%)`;
-                dots.forEach((d, j) => d.classList.toggle('active', j === idx));
-            }
-            function autoplay() {
-                clearInterval(timer);
-                timer = setInterval(() => go(idx + 1), 15000);
-            }
-            dots.forEach((d, i) => d.addEventListener('click', () => { go(i); autoplay(); }));
-            go(0);
-            autoplay();
-            root.addEventListener('mouseenter', () => clearInterval(timer));
-            root.addEventListener('mouseleave', autoplay);
-        })();
+
         function initializeMarquee(selector, speed) {
             const marquee = document.querySelector(selector);
             if (!marquee) return;
             const track = marquee.querySelector('.marquee-track');
+            if (!track || track.dataset.initialized) return;
+            track.dataset.initialized = 'true';
             const content = Array.from(track.children);
             content.forEach(item => {
                 const clone = item.cloneNode(true);
-                clone.setAttribute('aria-hidden', true);
+                clone.setAttribute('aria-hidden', 'true');
                 track.appendChild(clone);
             });
-            let position = 0;
             let animationFrameId = null;
             function animate() {
-                position += speed;
-                const originalContentWidth = track.scrollWidth / 2;
-                if (position >= originalContentWidth) {
-                    position = 0;
-                }
-                track.style.transform = `translateX(-${position}px)`;
+                track.style.transform = `translateX(-${performance.now() / 10 * speed % (track.scrollWidth / 2)}px)`;
                 animationFrameId = requestAnimationFrame(animate);
             }
             marquee.addEventListener('mouseenter', () => cancelAnimationFrame(animationFrameId));
             marquee.addEventListener('mouseleave', () => requestAnimationFrame(animate));
-            requestAnimationFrame(animate);
+            animate();
         }
-        initializeMarquee('.marquee', 1);
+        initializeMarquee('.marquee', 0.5);
     </script>
 </body>
+
 </html>

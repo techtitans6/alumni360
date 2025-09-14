@@ -1075,6 +1075,37 @@
             </div>
         </div>
     </div>
+    <div class="modal" id="loginModal" aria-hidden="true" role="dialog" aria-modal="true">
+        <div class="panel">
+            <button class="close" data-close>&times;</button>
+            <h3 class="title-md" style="text-align: center;">Login to Your Account</h3>
+            <p class="muted" style="font-size: 1rem; text-align: center; margin-top: 4px; margin-bottom: 20px;">Welcome
+                back! Please enter your details.</p>
+            <form
+                onsubmit="event.preventDefault(); alert('Logged in successfully!'); this.closest('.modal').classList.remove('open');">
+                <div style="display: grid; gap: 14px;">
+                    <div><label for="login-email"
+                            style="display: block; margin-bottom: 6px; font-weight: 500;">Email</label><input
+                            id="login-email" type="email" required placeholder="name@domain.com"
+                            style="width:100%; padding:.7rem; border-radius:10px; border:1px solid #ddd" /></div>
+                    <div>
+                        <div
+                            style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                            <label for="login-password" style="font-weight: 500;">Password</label><a href="#"
+                                style="font-size: 0.85rem; color: var(--blue-700); text-decoration: none;">Forgot
+                                Password?</a>
+                        </div>
+                        <input id="login-password" type="password" required placeholder="••••••••"
+                            style="width:100%; padding:.7rem; border-radius:10px; border:1px solid #ddd" />
+                    </div>
+                </div>
+                <div style="margin-top:20px"><button class="btn" type="submit" style="width: 100%;">Sign In</button>
+                </div>
+            </form>
+            <div style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--gray-700);">Don't have an account? <a href="student.html"
+                    style="font-weight: 700; color: var(--blue-700); text-decoration: none;">Sign Up</a></div>
+        </div>
+    </div>
     <div class="modal" id="login1" aria-hidden="true" role="dialog" aria-modal="true">
         <div class="panel">
             <button class="close" data-close>&times;</button>

@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Alumni360 — Recruiter Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Recruiter dashboard for sourcing alumni/student talent, managing jobs, applications, and interviews" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      color-scheme: light;
+      --blue-50:#F3F7FF;
+      --blue-600:#0A4FCA;
+      --blue-700:#0848BD;
+      --purple-600:#4923E0;
+      --teal-600:#00796B;
+      --rose-600:#C62828;
+      --amber-600:#8D6E00;
+      --gray-600:#7A8090;
+      --gray-700:#5E6678;
+      --ink:#0e1525;
+      --bg-50:#F8FAFC;
+      --bg-100:#F0EDFF;
+      --radius:12px;
+      --shadow:0 6px 24px rgba(0,0,0,.08);
+      --transition:.25s cubic-bezier(.4,0,.2,1);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:'Ubuntu',system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;color:var(--ink);background:#fff;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:min(1440px,94vw);margin-inline:auto}
+
+    /* Buttons */
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+      padding:.7rem 1rem;border-radius:10px;border:0;cursor:pointer;
+      background:var(--blue-700);color:#fff;font-weight:700;
+      transition:transform var(--transition),opacity var(--transition),box-shadow var(--transition),background var(--transition);
+      box-shadow:0 6px 16px rgba(8,72,189,.20);
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn:focus-visible{outline:3px solid rgba(10,79,202,.25);outline-offset:2px}
+    .btn.small{padding:.48rem .7rem}
+    .btn.outline{background:#fff;color:var(--blue-700);border:1px solid var(--blue-700);box-shadow:none}
+    .btn.ghost{background:transparent;color:var(--blue-700);border:1px dashed var(--blue-700);box-shadow:none}
+    .icon-btn{
+      width:40px;height:40px;border-radius:10px;border:1px solid rgba(0,0,0,.08);background:#fff;display:grid;place-items:center;cursor:pointer;
+      transition:transform var(--transition),box-shadow var(--transition)
+    }
+    .icon-btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.08)}
+
+    /* Text */
+    .section{position:relative;padding:24px 0}
+    .title-lg{font-size:clamp(22px,3.2vw,32px);line-height:1.2;margin:0 0 .5rem}
+    .title-md{font-size:18px;margin:0 0 .25rem}
+    .muted{color:var(--gray-700);font-size:1rem}
+    .pill{display:inline-block;padding:.35rem .8rem;border-radius:999px;background:var(--bg-100);color:var(--blue-700);font-weight:700;font-size:.95rem}
+    .pill.success{background:#E8F5E9;color:#1B5E20}
+    .pill.warn{background:#FFF8E1;color:var(--amber-600)}
+    .pill.danger{background:#FFEBEE;color:var(--rose-600)}
+    .pill.neutral{background:#ECEFF1;color:#607D8B}
+
+    /* Header */
+    header{
+      position:sticky;top:0;background:rgba(255,255,255,.8);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(0,0,0,.06);z-index:50
+    }
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:8px;font-weight:800}
+    .nav-right{display:flex;align-items:center;gap:10px}
+    .top-search{display:flex;align-items:center;gap:8px;border:1px solid rgba(0,0,0,.08);border-radius:999px;padding:8px 12px;background:#fff;min-width:min(46vw,640px)}
+    .top-search input{border:0;outline:0;flex:1;font-size:15px}
+    .avatar{width:36px;height:36px;border-radius:50%;object-fit:cover;border:1px solid rgba(0,0,0,.08)}
+    .dropdown{position:relative}
+    .dropdown-menu{position:absolute;right:0;top:calc(100% + 8px);min-width:220px;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:12px;box-shadow:0 16px 48px rgba(0,0,0,.12);padding:8px;opacity:0;pointer-events:none;transform:translateY(6px);transition:all var(--transition)}
+    .dropdown.open .dropdown-menu{opacity:1;pointer-events:auto;transform:translateY(0)}
+    .dropdown-menu a{display:block;padding:10px 12px;border-radius:8px;font-weight:600}
+    .dropdown-menu a:hover{background:rgba(73,35,224,.08)}
+
+    /* Layout (2.5 columns) */
+    .grid-app{display:grid;grid-template-columns:260px 1fr 360px;gap:20px;width:min(1440px,94vw);margin:18px auto}
+    .sidebar{position:sticky;top:78px;align-self:start;border:1px solid rgba(0,0,0,.08);border-radius:14px;background:#fff;box-shadow:var(--shadow);padding:12px}
+    .side-title{font-weight:800;margin:6px 10px 10px;color:#1b2430}
+    .side-nav{display:grid;gap:4px}
+    .side-nav a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;font-weight:700;color:#1b2430;position:relative}
+    .side-nav a.active,.side-nav a:hover{background:rgba(10,79,202,.08);color:var(--blue-700)}
+    .side-nav a.active::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:4px;border-radius:3px;background:linear-gradient(180deg,var(--blue-700),var(--purple-600))}
+    .main{min-height:60vh}
+    .right-panel{position:sticky;top:78px;align-self:start;border:1px solid rgba(0,0,0,.08);border-radius:14px;background:#fff;box-shadow:var(--shadow);padding:12px;display:grid;gap:12px;height:fit-content}
+    .panel-header{display:flex;align-items:center;justify-content:space-between}
+    .panel-section{border:1px dashed rgba(73,35,224,.25);border-radius:12px;padding:12px;background:linear-gradient(135deg,rgba(73,35,224,.06),rgba(10,79,202,.06))}
+
+    /* Cards, grids, tables */
+    .grid-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+    .card{background:linear-gradient(180deg,#fef7ff,#f2fffe);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;border:1px solid #26354122;overflow:hidden;transition:transform var(--transition),box-shadow var(--transition),border-color var(--transition)}
+    .card:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.10);border-color:#26354133}
+    .kpi{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+    .table{width:100%;border-collapse:collapse;border:1px solid rgba(0,0,0,.08);border-radius:12px;overflow:hidden;background:#fff}
+    .table th,.table td{padding:10px;border-bottom:1px solid rgba(0,0,0,.06);text-align:left;vertical-align:top}
+    .table th{background:#f7f8fd}
+    .table-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .dir-bar{display:grid;grid-template-columns:1fr auto;gap:10px;margin:12px 0}
+    .dir-input{display:flex;align-items:center;gap:8px;border:1px solid rgba(0,0,0,.08);border-radius:10px;background:#fff;padding:10px 12px}
+    .dir-input input{border:0;outline:0;flex:1;font-size:15px}
+    .filters{display:none;margin:10px 0;padding:12px;border-radius:12px;border:1px dashed rgba(73,35,224,.25);background:linear-gradient(135deg,rgba(73,35,224,.06),rgba(10,79,202,.06))}
+    .filters.open{display:block}
+    .filters .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+
+    /* Placeholder avatars/banners */
+    .ph-avatar{width:48px;height:48px;border-radius:50%;border:1px dashed rgba(73,35,224,.25);background:linear-gradient(135deg,rgba(73,35,224,.12),rgba(10,79,202,.12));display:grid;place-items:center}
+    .ph-icon{width:24px;height:24px;color:#4923E0}
+
+    /* Mobile */
+    .nav-toggle{display:none;background:transparent;border:0;width:42px;height:42px;border-radius:10px}
+    .nav-toggle span,.nav-toggle::before,.nav-toggle::after{content:'';display:block;height:2px;background:#1b2430;border-radius:2px;margin:8px 0;transition:transform var(--transition),opacity var(--transition)}
+    @media (max-width:1280px){
+      .grid-app{grid-template-columns:220px 1fr}
+      .right-panel{grid-column:1/-1}
+    }
+    @media (max-width:980px){
+      .container{width:min(96vw,1000px)}
+      .top-search{min-width:0;flex:1}
+      .grid-app{grid-template-columns:1fr}
+      .sidebar{position:fixed;inset:72px 0 auto 0;transform:translateY(-120%);transition:transform var(--transition);z-index:40}
+      .sidebar.open{transform:translateY(0)}
+    }
+
+    footer{background:radial-gradient(1200px 600px at 50% 0, rgba(73,35,224,.12), transparent), #0e1525;color:#eaf0ff}
+    footer .columns{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:24px}
+    footer a{color:#eaf0ff;opacity:.9}
+    footer a:hover{opacity:1}
+    .icon{width:20px;height:20px;display:inline-block;flex-shrink:0}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header id="site-header">
+    <div class="container nav">
+      <a class="brand" href="#">
+        <img src="logo.png" alt="Brand" style="height:25px;width:auto;border-radius:6px">
+        <span>Alumni360</span>
+      </a>
+      <button class="nav-toggle" id="openSidebar" aria-label="Open menu"><span></span></button>
+      <div class="nav-right" style="flex:1;justify-content:flex-end;gap:12px">
+        <div class="top-search" role="search">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.2-4.2M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="#0e1525" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input id="globalSearch" placeholder="Search candidates, jobs, or applications..." />
+        </div>
+        <div class="dropdown" id="notifDd">
+          <button class="icon-btn" aria-label="Notifications">
+            <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M12 22a2.5 2.5 0 0 0 2.33-1.6M5 9a7 7 0 1 1 14 0c0 4 1.5 5 1.5 5H3.5S5 13 5 9Z" stroke="#0e1525" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
+          <div class="dropdown-menu" style="left:auto;right:0;min-width:280px">
+            <a href="#">12 new applicants today</a>
+            <a href="#">3 interviews scheduled this week</a>
+          </div>
+        </div>
+        <div class="dropdown" id="profileDd">
+          <button class="icon-btn" aria-label="Profile">
+            <img class="avatar" src="https://static.vecteezy.com/system/resources/previews/020/975/561/non_2x/tata-logo-tata-icon-transparent-free-png.png" alt="Profile" />
+          </button>
+          <div class="dropdown-menu">
+            <a href="#" data-section="company">Company Profile</a>
+            <a href="#" onclick="alert('Logged out!')">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- App -->
+  <div class="grid-app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="side-title">Recruiter Navigation</div>
+      <nav class="side-nav" id="sideNav">
+        <a href="#" class="active" data-section="dashboard">Dashboard</a>
+        <a href="#" data-section="talent">Talent Search</a>
+        <a href="#" data-section="jobs">Job Postings</a>
+        <a href="#" data-section="applications">Applications</a>
+        <a href="#" data-section="interviews">Interviews</a>
+        <a href="#" data-section="company">Company Profile</a>
+        <a href="#" data-section="reports">Reports</a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main" id="main">
+      <!-- Dashboard -->
+      <section class="section" data-view="dashboard">
+        <div class="toolbar" style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px">
+          <h2 class="title-lg">Recruiter Overview</h2>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span class="pill">Team</span>
+            <span class="pill">This Week</span>
+          </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="grid-cards">
+          <div class="card kpi"><div><div class="muted">Open Roles</div><div style="font-size:28px;font-weight:800">12</div></div><span class="pill success">+2 this week</span></div>
+          <div class="card kpi"><div><div class="muted">New Applicants</div><div style="font-size:28px;font-weight:800">48</div></div><span class="pill success">+15%</span></div>
+          <div class="card kpi"><div><div class="muted">Interviews Scheduled</div><div style="font-size:28px;font-weight:800">9</div></div><span class="pill warn">Mon–Fri</span></div>
+          <div class="card kpi"><div><div class="muted">Offers Extended</div><div style="font-size:28px;font-weight:800">3</div></div><span class="pill success">+1</span></div>
+        </div>
+
+        <!-- Snapshot widgets -->
+        <div class="grid-cards" style="margin-top:12px">
+          <div class="card">
+            <div class="title-md">Pipeline Health</div>
+            <table class="table" style="margin-top:8px">
+              <thead><tr><th>Stage</th><th>Count</th><th>Last 7d</th></tr></thead>
+              <tbody>
+                <tr><td>Applied</td><td>124</td><td><span class="pill success">+18</span></td></tr>
+                <tr><td>Screening</td><td>56</td><td><span class="pill success">+6</span></td></tr>
+                <tr><td>Interview</td><td>22</td><td><span class="pill warn">–1</span></td></tr>
+                <tr><td>Offer</td><td>5</td><td><span class="pill success">+2</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <div class="title-md">Recent Activity</div>
+            <ul style="margin:.4rem 0 0;padding-left:18px">
+              <li>Frontend Intern — 6 new applicants</li>
+              <li>Data Analyst — 2 offers extended</li>
+              <li>Backend Engineer — 3 interviews booked</li>
+            </ul>
+          </div>
+          
+          
+        </div>
+      </section>
+
+      <!-- Talent Search -->
+      <section class="section" data-view="talent" hidden>
+        <div class="toolbar">
+          <h2 class="title-lg">Talent Search</h2>
+          <div class="pill">Candidates</div>
+        </div>
+        <div class="dir-bar">
+          <div class="dir-input">
+            <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.2-4.2M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="#0e1525" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <input id="candQuery" placeholder="Search by name, skill, role, location">
+          </div>
+          <button class="btn ghost" id="toggleCandFilters" aria-expanded="false">Advanced Filters</button>
+        </div>
+        <div class="filters" id="candFilters" aria-hidden="true">
+          <div class="grid">
+            <div><label>Role</label><select id="fRole"><option value="">Any</option><option>Frontend</option><option>Backend</option><option>Data</option><option>Product</option></select></div>
+            <div><label>Experience</label><select id="fExp"><option value="">Any</option><option>0-1</option><option>1-3</option><option>3-5</option><option>5+</option></select></div>
+            <div><label>Location</label><input id="fLoc" placeholder="e.g., Bengaluru"></div>
+            <div><label>Availability</label><select id="fAvail"><option value="">Any</option><option>Immediate</option><option>30 days</option><option>60 days</option></select></div>
+            <div><label>Education</label><select id="fEdu"><option value="">Any</option><option>B.Tech</option><option>M.Tech</option><option>Other</option></select></div>
+            <div style="display:flex;align-items:flex-end;gap:8px"><button class="btn" id="applyCandFilters">Apply</button><button class="btn outline" id="clearCandFilters">Clear</button></div>
+          </div>
+        </div>
+
+        <!-- Candidate cards (editable content + data-attributes for filters) -->
+        <div class="grid-cards" id="candResults" style="margin-top:12px">
+          <div class="card" data-name="Alex Verma" data-role="Frontend" data-exp="1-3" data-loc="Bengaluru" data-avail="30 days" data-edu="B.Tech">
+            <div style="display:flex;gap:12px;align-items:flex-start">
+              <div class="ph-avatar"><svg class="ph-icon" viewBox="0 0 24 24" fill="none"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0" stroke-width="1.6"/></svg></div>
+              <div style="flex:1">
+                <div class="title-md">Alex Verma — Frontend</div>
+                <div class="muted">Skills: React, JS, CSS • Location: Bengaluru • Availability: 30 days</div>
+                <div class="pill success" style="margin-top:6px;display:inline-block">Alumni Referral</div>
+                <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn small" onclick="alert('Saved to shortlist')">Save</button><button class="btn outline small" onclick="alert('Requested resume')">Request Resume</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" data-name="Sneha Rao" data-role="Product" data-exp="3-5" data-loc="Mumbai" data-avail="60 days" data-edu="B.Tech">
+            <div style="display:flex;gap:12px;align-items:flex-start">
+              <div class="ph-avatar"><svg class="ph-icon" viewBox="0 0 24 24" fill="none"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0" stroke-width="1.6"/></svg></div>
+              <div style="flex:1">
+                <div class="title-md">Sneha Rao — Product</div>
+                <div class="muted">Skills: PM, Roadmaps, Analytics • Location: Mumbai • Availability: 60 days</div>
+                <div class="pill neutral" style="margin-top:6px;display:inline-block">Portfolio Available</div>
+                <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn small" onclick="alert('Saved to shortlist')">Save</button><button class="btn outline small" onclick="alert('Requested resume')">Request Resume</button></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" data-name="Adit Jain" data-role="Backend" data-exp="3-5" data-loc="Hyderabad" data-avail="Immediate" data-edu="B.Tech">
+            <div style="display:flex;gap:12px;align-items:flex-start">
+              <div class="ph-avatar"><svg class="ph-icon" viewBox="0 0 24 24" fill="none"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0" stroke-width="1.6"/></svg></div>
+              <div style="flex:1">
+                <div class="title-md">Adit Jain — Backend</div>
+                <div class="muted">Skills: Node, Distributed Systems, AWS • Location: Hyderabad • Availability: Immediate</div>
+                <div class="pill success" style="margin-top:6px;display:inline-block">Hackathon Winner</div>
+                <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap"><button class="btn small" onclick="alert('Saved to shortlist')">Save</button><button class="btn outline small" onclick="alert('Requested resume')">Request Resume</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Job Postings -->
+      <section class="section" data-view="jobs" hidden>
+        <div class="toolbar">
+          <h2 class="title-lg">Job Postings</h2>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <input class="input" id="jobSearch" placeholder="Search jobs (role, location)" style="max-width:320px">
+            <button class="btn small panel-toggle" data-panel="createJob">Create Job</button>
+          </div>
+        </div>
+        <div class="card">
+          <table class="table" id="jobTable">
+            <thead><tr><th>Role</th><th>Type</th><th>Location</th><th>Applicants</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody id="jobRows">
+              <tr><td>Frontend Intern</td><td>Internship</td><td>Remote</td><td>42</td><td><span class="pill success">Open</span></td><td class="table-actions"><button class="btn outline small">Edit</button><button class="btn ghost small" onclick="deleteRow(this)">Close</button></td></tr>
+              <tr><td>Data Analyst</td><td>Full-time</td><td>Bengaluru</td><td>68</td><td><span class="pill success">Open</span></td><td class="table-actions"><button class="btn outline small">Edit</button><button class="btn ghost small" onclick="deleteRow(this)">Close</button></td></tr>
+              <tr><td>Backend Engineer</td><td>Full-time</td><td>Hyderabad</td><td>51</td><td><span class="pill warn">Paused</span></td><td class="table-actions"><button class="btn outline small">Edit</button><button class="btn ghost small" onclick="deleteRow(this)">Close</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Applications -->
+      <section class="section" data-view="applications" hidden>
+        <div class="toolbar">
+          <h2 class="title-lg">Applications</h2>
+          <div class="pill">Pipeline</div>
+        </div>
+        <div class="grid-cards">
+          <div class="card">
+            <div class="title-md">Applied</div>
+            <ul style="margin:.4rem 0 0;padding-left:18px">
+              <li>Alex Verma — Frontend Intern</li>
+              <li>Ria Kapoor — Data Analyst</li>
+              <li>Sahil Khan — Backend Engineer</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="title-md">Screening</div>
+            <ul style="margin:.4rem 0 0;padding-left:18px">
+              <li>Neha Reddy — Data Analyst</li>
+              <li>Arjun Nair — Frontend Intern</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="title-md">Interview</div>
+            <ul style="margin:.4rem 0 0;padding-left:18px">
+              <li>Vikram Singh — Backend Engineer</li>
+              <li>Priya Iyer — Data Analyst</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="title-md">Offer</div>
+            <ul style="margin:.4rem 0 0;padding-left:18px">
+              <li>Ananya Sharma — Product Intern</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <div class="title-md">All Applications</div>
+          <div style="display:flex;gap:8px;align-items:center;margin:8px 0">
+            <input class="input" id="appSearch" placeholder="Search (name, role, status)" style="max-width:360px">
+            <button class="btn outline small" id="appExport">Export CSV</button>
+          </div>
+          <table class="table" id="appTable">
+            <thead><tr><th>Candidate</th><th>Role</th><th>Status</th><th>Applied On</th></tr></thead>
+            <tbody>
+              <tr><td>Alex Verma</td><td>Frontend Intern</td><td>Applied</td><td>2025-09-12</td></tr>
+              <tr><td>Ria Kapoor</td><td>Data Analyst</td><td>Applied</td><td>2025-09-11</td></tr>
+              <tr><td>Vikram Singh</td><td>Backend Engineer</td><td>Interview</td><td>2025-09-09</td></tr>
+              <tr><td>Priya Iyer</td><td>Data Analyst</td><td>Interview</td><td>2025-09-08</td></tr>
+              <tr><td>Ananya Sharma</td><td>Product Intern</td><td>Offer</td><td>2025-09-06</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Interviews -->
+      <section class="section" data-view="interviews" hidden>
+        <div class="toolbar">
+          <h2 class="title-lg">Interviews</h2>
+          <div class="pill">Schedule</div>
+        </div>
+        <div class="card">
+          <table class="table" id="intTable">
+            <thead><tr><th>Candidate</th><th>Role</th><th>Date</th><th>Time</th><th>Interviewer</th><th>Actions</th></tr></thead>
+            <tbody id="intRows">
+              <tr><td>Vikram Singh</td><td>Backend Engineer</td><td>2025-09-15</td><td>11:00</td><td>Adit Jain</td><td class="table-actions"><button class="btn outline small panel-toggle" data-panel="scheduleInterview">Reschedule</button><button class="btn ghost small" onclick="deleteRow(this)">Cancel</button></td></tr>
+              <tr><td>Priya Iyer</td><td>Data Analyst</td><td>2025-09-16</td><td>14:30</td><td>Neha Reddy</td><td class="table-actions"><button class="btn outline small panel-toggle" data-panel="scheduleInterview">Reschedule</button><button class="btn ghost small" onclick="deleteRow(this)">Cancel</button></td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:10px"><button class="btn small panel-toggle" data-panel="scheduleInterview">Schedule Interview</button></div>
+        </div>
+      </section>
+
+      <!-- Company Profile -->
+      <section class="section" data-view="company" hidden>
+        <div class="toolbar">
+          <h2 class="title-lg">Company Profile</h2>
+          <div class="pill">Brand</div>
+        </div>
+        <div class="grid-cards">
+          <div class="card">
+            <div class="title-md">About</div>
+            <p class="muted">DevWorks builds developer tools focused on reliability and velocity; hiring interns and new grads for SDE and data roles.</p>
+            <div class="pill neutral" style="display:inline-block;margin-top:6px">Careers Page: devworks.example/careers</div>
+          </div>
+          <div class="card">
+            <div class="title-md">Preferred Majors & Locations</div>
+            <ul style="margin:.4rem 0 0;padding-left:18px">
+              <li>Majors: CSE, IT, ECE</li>
+              <li>Locations: Bengaluru, Hyderabad, Remote</li>
+            </ul>
+          </div>
+          <div class="card">
+            <div class="title-md">Contacts</div>
+            <ul style="margin:.4rem 0 0;padding-left:18px">
+              <li>Recruitment Lead: rina@devworks.example</li>
+              <li>Campus Partner: karan@devworks.example</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reports -->
+      <section class="section" data-view="reports" hidden>
+        <div class="toolbar">
+          <h2 class="title-lg">Reports</h2>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <span class="pill">Weekly</span>
+            <span class="pill">Monthly</span>
+            <button class="btn outline small" onclick="alert('Scheduling weekly email')">Schedule Email</button>
+          </div>
+        </div>
+        <div class="grid-cards">
+          <div class="card">
+            <div class="title-md">Sourcing Summary</div>
+            <p class="muted">Channels by applicants and conversion rates.</p>
+            <button class="btn small" onclick="alert('Preparing CSV...')">Download CSV</button>
+          </div>
+          <div class="card">
+            <div class="title-md">Interview Throughput</div>
+            <p class="muted">Lead-times from apply to offer by role.</p>
+            <button class="btn small" onclick="alert('Preparing CSV...')">Download CSV</button>
+          </div>
+          <div class="card">
+            <div class="title-md">Offer Acceptance</div>
+            <p class="muted">Offer rate and acceptance by cohort.</p>
+            <button class="btn small" onclick="alert('Preparing CSV...')">Download CSV</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Right Panel -->
+    <aside class="right-panel" id="rightPanel">
+      <div class="panel-header">
+        <div class="title-md">Action Panel</div>
+        <button class="btn outline small panel-toggle" data-panel="none">Clear</button>
+      </div>
+
+      <!-- Tips -->
+      <div class="panel-section" id="tipsPanel">
+        <div class="title-md" style="margin:0 0 6px">Quick Tips</div>
+        <ul style="margin:0;padding-left:18px">
+          <li>Edit visible texts, numbers, and tags in HTML; filters and CSV export adapt automatically.</li>
+          <li>Use Advanced Filters in Talent Search to narrow by role, experience, and availability.</li>
+          <li>Keep footer last; no sections below it to avoid stray content.</li>
+        </ul>
+      </div>
+
+      <!-- Create Job -->
+      <div class="panel-section" id="createJob" hidden>
+        <div class="title-md" style="margin-bottom:6px">Create Job</div>
+        <div class="field"><label>Role</label><input class="input" id="cjRole" placeholder="e.g., Frontend Intern"></div>
+        <div class="field"><label>Type</label><select id="cjType"><option>Internship</option><option>Full-time</option></select></div>
+        <div class="field"><label>Location</label><input class="input" id="cjLoc" placeholder="e.g., Remote"></div>
+        <div class="field"><label>Description</label><textarea id="cjDesc" rows="3" placeholder="Short JD"></textarea></div>
+        <div style="display:flex;gap:8px"><button class="btn small" id="cjCreate">Create</button></div>
+      </div>
+
+      <!-- Schedule Interview -->
+      <div class="panel-section" id="scheduleInterview" hidden>
+        <div class="title-md" style="margin-bottom:6px">Schedule Interview</div>
+        <div class="field"><label>Candidate</label><input class="input" id="siName" placeholder="e.g., Alex Verma"></div>
+        <div class="field"><label>Role</label><input class="input" id="siRole" placeholder="e.g., Frontend Intern"></div>
+        <div class="field"><label>Date</label><input class="input" id="siDate" type="date"></div>
+        <div class="field"><label>Time</label><input class="input" id="siTime" type="time"></div>
+        <div class="field"><label>Interviewer</label><input class="input" id="siInt" placeholder="e.g., Karan Gupta"></div>
+        <div style="display:flex;gap:8px"><button class="btn small" id="siSave">Save</button></div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Footer (last visible block) -->
+  <footer class="section" style="padding-top:40px; padding-bottom: 24px;">
+    <div class="container">
+      <div class="columns" style="margin-bottom:24px">
+        <div>
+          <div style="display:flex;align-items:center;gap:10px;font-weight:800;margin-bottom:20px">
+            <img src="logo2.png" alt="Brand logo" loading="lazy" style="height:28px;width:auto;border-radius:6px">
+          </div>
+          <p style="margin:0 0 14px;opacity:.9">Hundreds of advancement teams use Alumni360 to engage constituents meaningfully and grow their donor pipeline.</p>
+          <div>
+            <form onsubmit="event.preventDefault(); this.querySelector('input').value = ''; alert('Thank you for subscribing!');">
+              <label for="email" style="display:block;margin-bottom:6px;opacity:.9">Subscribe for updates</label>
+              <div style="display:flex;gap:8px">
+                <input id="email" type="email" required placeholder="name@institution.edu" style="flex:1;padding:.8rem;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff" />
+                <button class="btn" type="submit" style="background:#fff;color:#0e1525">Subscribe</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:800;margin-bottom:8px">Recruiter Links</div>
+          <div style="display:grid;gap:8px">
+            <a href="#" data-section="talent">Talent Search</a>
+            <a href="#" data-section="jobs">Job Postings</a>
+            <a href="#" data-section="applications">Applications</a>
+            <a href="#" data-section="interviews">Interviews</a>
+            <a href="#" data-section="reports">Reports</a>
+          </div>
+        </div>
+        <div>
+          <div style="font-weight:800;margin-bottom:8px">Resources</div>
+          <div style="display:grid;gap:8px">
+            <a href="#">Success Stories</a>
+            <a href="#">Blog</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#" data-section="company">Contact Us</a>
+          </div>
+        </div>
+      </div>
+      <div style="border-top:1px solid rgba(255,255,255,.15);padding-top:12px;display:flex;justify-content:space-between;gap:10px;opacity:.8">
+        <span>&copy; <span id="year"></span> Tech Titans</span>
+        <span>All rights reserved</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Helpers
+    const $ = (s,sc=document)=>sc.querySelector(s);
+    const $$ = (s,sc=document)=>Array.from(sc.querySelectorAll(s));
+
+    // Dropdowns
+    function wireDropdown(dd){
+      const btn = dd.querySelector('button');
+      function close(){dd.classList.remove('open');document.removeEventListener('click',onDoc);}
+      function onDoc(e){if(!dd.contains(e.target)) close();}
+      btn.addEventListener('click', (e)=>{e.stopPropagation();dd.classList.toggle('open'); if(dd.classList.contains('open')) document.addEventListener('click',onDoc);});
+    }
+    wireDropdown($('#notifDd')); wireDropdown($('#profileDd'));
+
+    // Sidebar toggle for mobile
+    const sidebar = $('#sidebar');
+    $('#openSidebar').addEventListener('click', ()=> sidebar.classList.toggle('open'));
+
+    // Router
+    function showSection(key){
+      $$('[data-view]').forEach(sec=> sec.hidden = sec.getAttribute('data-view')!==key);
+      $$('#sideNav a').forEach(a=> a.classList.toggle('active', a.dataset.section===key));
+      if(window.innerWidth<=980) sidebar.classList.remove('open');
+    }
+    $$('[data-section]').forEach(el=> el.addEventListener('click', (e)=>{e.preventDefault(); showSection(el.dataset.section)}));
+
+    // Global search routes to likely module
+    $('#globalSearch').addEventListener('keydown', (e)=>{
+      if(e.key==='Enter'){
+        const q = e.target.value.trim().toLowerCase();
+        if(q.includes('job')) showSection('jobs');
+        else if(q.includes('interview')) showSection('interviews');
+        else if(q.includes('candidate')||q.includes('talent')) showSection('talent');
+        else if(q.includes('application')) showSection('applications');
+        else showSection('reports');
+      }
+    });
+
+    // Talent filters
+    $('#toggleCandFilters')?.addEventListener('click', ()=>{
+      const p = $('#candFilters'); const open = !p.classList.contains('open');
+      p.classList.toggle('open', open);
+      $('#toggleCandFilters').setAttribute('aria-expanded', String(open));
+      p.setAttribute('aria-hidden', String(!open));
+    });
+    function allCand(){ return $$('#candResults .card'); }
+    function applyCand(){
+      const q = ($('#candQuery').value||'').toLowerCase().trim();
+      const role=$('#fRole').value, exp=$('#fExp').value, loc=($('#fLoc').value||'').toLowerCase().trim(), av=$('#fAvail').value, edu=$('#fEdu').value;
+      allCand().forEach(c=>{
+        const nm=(c.dataset.name||'').toLowerCase(), r=c.dataset.role, e=c.dataset.exp, lc=(c.dataset.loc||'').toLowerCase(), avl=c.dataset.avail, ed=c.dataset.edu;
+        const okQ = !q || [nm,r,(c.textContent||'').toLowerCase(),lc].some(x=>x.includes(q));
+        const okR = !role || r===role;
+        const okE = !exp || e===exp;
+        const okL = !loc || lc.includes(loc);
+        const okA = !av || avl===av;
+        const okD = !edu || ed===edu;
+        c.style.display = (okQ && okR && okE && okL && okA && okD) ? '' : 'none';
+      });
+    }
+    $('#candQuery')?.addEventListener('input', applyCand);
+    $('#applyCandFilters')?.addEventListener('click', applyCand);
+    $('#clearCandFilters')?.addEventListener('click', ()=>{ $('#fRole').value=''; $('#fExp').value=''; $('#fLoc').value=''; $('#fAvail').value=''; $('#fEdu').value=''; $('#candQuery').value=''; applyCand(); });
+    applyCand();
+
+    // Jobs search
+    $('#jobSearch')?.addEventListener('input', ()=>{
+      const q = ($('#jobSearch').value||'').toLowerCase().trim();
+      $$('#jobTable tbody tr').forEach(r=> r.style.display = r.textContent.toLowerCase().includes(q)?'':'none');
+    });
+
+    // Applications search + export
+    $('#appSearch')?.addEventListener('input', ()=>{
+      const q = ($('#appSearch').value||'').toLowerCase().trim();
+      $$('#appTable tbody tr').forEach(r=> r.style.display = r.textContent.toLowerCase().includes(q)?'':'none');
+    });
+    $('#appExport')?.addEventListener('click', ()=>{
+      const rows = [['candidate','role','status','appliedOn']];
+      $$('#appTable tbody tr').forEach(r=>{
+        const cells = Array.from(r.children).map(td=> td.textContent.replace(/\s+/g,' ').trim());
+        rows.push(cells);
+      });
+      const csv = rows.map(a=> a.map(v=> `"${v.replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='applications.csv'; a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    // Create Job flow
+    function openPanel(id){
+      $$('#rightPanel .panel-section').forEach(p=> p.hidden = (p.id!==id && p.id!=='tipsPanel'));
+      if(id==='none'){ $$('#rightPanel .panel-section').forEach(p=> p.hidden = (p.id!=='tipsPanel')); }
+    }
+    $$('.panel-toggle').forEach(b=> b.addEventListener('click', ()=>{ const id=b.dataset.panel; if(!id||id==='none') openPanel('none'); else openPanel(id); }));
+
+    $('#cjCreate')?.addEventListener('click', ()=>{
+      const role=$('#cjRole').value, type=$('#cjType').value, loc=$('#cjLoc').value;
+      if(!role||!type||!loc){ alert('Enter role, type, and location'); return; }
+      const tr=document.createElement('tr');
+      tr.innerHTML = `<td>${role}</td><td>${type}</td><td>${loc}</td><td>0</td><td><span class="pill success">Open</span></td>
+        <td class="table-actions"><button class="btn outline small">Edit</button><button class="btn ghost small" onclick="deleteRow(this)">Close</button></td>`;
+      $('#jobRows').prepend(tr);
+      alert('Job created'); $('#cjRole').value=''; $('#cjLoc').value=''; $('#cjDesc').value=''; openPanel('none'); showSection('jobs');
+    });
+
+    // Schedule Interview
+    $('#siSave')?.addEventListener('click', ()=>{
+      const name=$('#siName').value, role=$('#siRole').value, date=$('#siDate').value, time=$('#siTime').value, intr=$('#siInt').value;
+      if(!name||!role||!date||!time||!intr){ alert('Fill all fields'); return; }
+      const tr=document.createElement('tr');
+      tr.innerHTML = `<td>${name}</td><td>${role}</td><td>${date}</td><td>${time}</td><td>${intr}</td>
+        <td class="table-actions"><button class="btn outline small panel-toggle" data-panel="scheduleInterview">Reschedule</button><button class="btn ghost small" onclick="deleteRow(this)">Cancel</button></td>`;
+      $('#intRows').prepend(tr);
+      alert('Interview scheduled'); $('#siName').value=''; $('#siRole').value=''; $('#siDate').value=''; $('#siTime').value=''; $('#siInt').value='';
+      openPanel('none'); showSection('interviews');
+    });
+
+    // Delete helper
+    window.deleteRow = (btn)=>{ const tr = btn.closest('tr'); tr?.parentNode?.removeChild(tr); };
+    // Init
+    showSection('dashboard');
+  </script>
+</body>
+</html>

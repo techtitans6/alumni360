@@ -1,0 +1,1931 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Alumni360 — Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Alumni dashboard for networking, mentorship, events, and giving back" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: light;
+            --blue-600: #0A4FCA;
+            --blue-700: #0848BD;
+            --purple-600: #4923E0;
+            --gray-700: #6F7482;
+            --ink: #0e1525;
+            --bg-50: #F8FAFC;
+            --bg-100: #F0EDFF;
+            --brand: #0A4FCA;
+            --radius: 12px;
+            --shadow: 0 6px 24px rgba(0, 0, 0, .08);
+            --transition: .25s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Ubuntu', system-ui, -apple-system, Segoe UI, Roboto, Inter, Helvetica, Arial, sans-serif;
+            color: var(--ink);
+            background: #fff;
+            overflow-x: hidden
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        img {
+            max-width: 100%;
+            display: block
+        }
+
+        .container {
+            width: min(1120px, 90vw);
+            margin-inline: auto
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+            padding: .7rem 1rem;
+            border-radius: 10px;
+            border: 0;
+            cursor: pointer;
+            background: var(--blue-700);
+            color: #fff;
+            font-weight: 700;
+            transition: transform var(--transition), opacity var(--transition), box-shadow var(--transition);
+            box-shadow: 0 6px 16px rgba(8, 72, 189, .25);
+        }
+
+        .btn:hover {
+            transform: translateY(-1px)
+        }
+
+        .btn.block {
+            width: 100%
+        }
+
+        .btn.small {
+            padding: .5rem .8rem
+        }
+
+        .btn.outline {
+            background: #fff;
+            color: var(--blue-700);
+            border: 1px solid var(--blue-700);
+            box-shadow: none
+        }
+
+        .badge {
+            display: inline-block;
+            padding: .25rem .6rem;
+            border-radius: 999px;
+            background: linear-gradient(90deg, var(--purple-600), var(--blue-700));
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: .02em
+        }
+
+        .section {
+            position: relative;
+            padding: 24px 0
+        }
+
+        .title-xl {
+            font-size: clamp(28px, 4vw, 40px);
+            line-height: 1.15;
+            margin: 0
+        }
+
+        .title-lg {
+            font-size: clamp(22px, 3.2vw, 32px);
+            line-height: 1.2;
+            margin: 0 0 .5rem
+        }
+
+        .title-md {
+            font-size: 18px;
+            margin: 0 0 .25rem
+        }
+
+        .lead {
+            font-size: 1.05rem;
+            color: #17212b;
+            opacity: .9
+        }
+
+        .muted {
+            color: var(--gray-700);
+            font-size: 1rem
+        }
+
+        .card {
+            background: linear-gradient(180deg, #fef7ff, #f2fffe);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            border: 1px solid #26354122;
+            overflow: hidden;
+        }
+
+        .kicker {
+            font-weight: 800;
+            color: var(--blue-700);
+            letter-spacing: .04em;
+            font-size: .8rem
+        }
+
+        .pill {
+            display: inline-block;
+            padding: .35rem .8rem;
+            border-radius: 999px;
+            background: var(--bg-100);
+            color: var(--blue-700);
+            font-weight: 700;
+            font-size: 1rem
+        }
+
+        .chips {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap
+        }
+
+        .feature-image {
+            border-radius: 16px;
+            border: 1px dashed rgba(73, 35, 224, .25);
+            background: linear-gradient(135deg, rgba(73, 35, 224, .06), rgba(10, 79, 202, .06));
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, .8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, .06);
+            z-index: 50
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 12px 0
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .top-search {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(0, 0, 0, .08);
+            border-radius: 999px;
+            padding: 8px 12px;
+            background: #fff;
+            min-width: min(46vw, 640px)
+        }
+
+        .top-search input {
+            border: 0;
+            outline: 0;
+            flex: 1;
+            font-size: 15px
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, .08);
+            background: #fff;
+            display: grid;
+            place-items: center;
+            cursor: pointer
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(0, 0, 0, .08)
+        }
+
+        .dropdown {
+            position: relative
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 8px);
+            min-width: 220px;
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, .08);
+            border-radius: 12px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, .12);
+            padding: 8px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(6px);
+            transition: all var(--transition)
+        }
+
+        .dropdown.open .dropdown-menu {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0)
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-weight: 600
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(73, 35, 224, .08)
+        }
+
+        .app {
+            display: grid;
+            grid-template-columns: 260px 1fr;
+            gap: 20px;
+            width: min(1400px, 92vw);
+            margin: 18px auto
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 78px;
+            align-self: start;
+            border: 1px solid rgba(0, 0, 0, .08);
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: var(--shadow);
+            padding: 12px
+        }
+
+        .side-title {
+            font-weight: 800;
+            margin: 6px 10px 10px;
+            color: #1b2430
+        }
+
+        .side-nav {
+            display: grid;
+            gap: 4px
+        }
+
+        .side-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            color: #1b2430
+        }
+
+        .side-nav a.active,
+        .side-nav a:hover {
+            background: rgba(10, 79, 202, .08);
+            color: var(--blue-700)
+        }
+
+        .main {
+            min-height: 60vh
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 12px
+        }
+
+        /* Placeholders */
+        .ph-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(73, 35, 224, .12), rgba(10, 79, 202, .12));
+            border: 1px dashed rgba(73, 35, 224, .25);
+            display: grid;
+            place-items: center;
+            flex: 0 0 auto;
+        }
+
+        .ph-avatar.small {
+            width: 40px;
+            height: 40px
+        }
+
+        .ph-banner {
+            height: 140px;
+            border-radius: 12px;
+            border: 1px dashed rgba(73, 35, 224, .25);
+            background: linear-gradient(135deg, rgba(73, 35, 224, .06), rgba(10, 79, 202, .06));
+            display: grid;
+            place-items: center;
+            margin-bottom: 10px
+        }
+
+        .ph-icon {
+            width: 28px;
+            height: 28px;
+            color: #4923E0
+        }
+
+        /* Grids and lists */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px
+        }
+
+        .profile-card {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            background: #fff;
+            border: 1px solid rgba(0, 0, 0, .08);
+            border-radius: 12px;
+            padding: 14px
+        }
+
+        .profile-meta {
+            font-size: .92rem;
+            color: var(--gray-700)
+        }
+
+        /* Directory controls */
+        .dir-bar {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            margin: 12px 0
+        }
+
+        .dir-input {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(0, 0, 0, .08);
+            border-radius: 10px;
+            background: #fff;
+            padding: 10px 12px
+        }
+
+        .dir-input input {
+            border: 0;
+            outline: 0;
+            flex: 1;
+            font-size: 15px
+        }
+
+        .filters {
+            display: none;
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px dashed rgba(73, 35, 224, .25);
+            background: linear-gradient(135deg, rgba(73, 35, 224, .06), rgba(10, 79, 202, .06))
+        }
+
+        .filters.open {
+            display: block
+        }
+
+        .filters .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px
+        }
+
+        .filters label {
+            font-size: .9rem;
+            font-weight: 700;
+            color: #1b2430
+        }
+
+        .filters select,
+        .filters input {
+            width: 100%;
+            padding: .6rem;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            background: #fff
+        }
+
+        .dir-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 8px 0
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid rgba(0, 0, 0, .08);
+            margin: 8px 0 14px
+        }
+
+        .tab {
+            padding: 10px 12px;
+            border-radius: 10px 10px 0 0;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .tab.active {
+            background: rgba(10, 79, 202, .08);
+            color: var(--blue-700)
+        }
+
+        /* Progress */
+        .progress {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 10px;
+            overflow: hidden
+        }
+
+        .progress .bar {
+            height: 100%;
+            background: var(--blue-600)
+        }
+
+        /* Tables */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid rgba(0, 0, 0, .08);
+            border-radius: 12px;
+            overflow: hidden
+        }
+
+        .table th,
+        .table td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(0, 0, 0, .06);
+            text-align: left
+        }
+
+        .table th {
+            background: #f7f8fd
+        }
+
+        /* Footer (from homepage) */
+        footer {
+            background: radial-gradient(1200px 600px at 50% 0, rgba(73, 35, 224, .12), transparent), #0e1525;
+            color: #eaf0ff
+        }
+
+        footer .columns {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            gap: 24px
+        }
+
+        footer a {
+            color: #eaf0ff;
+            opacity: .9
+        }
+
+        footer a:hover {
+            opacity: 1
+        }
+
+        /* Mobile */
+        .nav-toggle {
+            display: none;
+            background: transparent;
+            border: 0;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px
+        }
+
+        .nav-toggle span,
+        .nav-toggle::before,
+        .nav-toggle::after {
+            content: '';
+            display: block;
+            height: 2px;
+            background: #1b2430;
+            border-radius: 2px;
+            margin: 8px 0;
+            transition: transform var(--transition), opacity var(--transition)
+        }
+
+        @media (max-width:980px) {
+            .container {
+                width: min(96vw, 1000px)
+            }
+
+            .top-search {
+                min-width: 0;
+                flex: 1
+            }
+
+            .app {
+                grid-template-columns: 1fr
+            }
+
+            .sidebar {
+                position: fixed;
+                inset: 72px 0 auto 0;
+                transform: translateY(-120%);
+                transition: transform var(--transition);
+                z-index: 40
+            }
+
+            .sidebar.open {
+                transform: translateY(0)
+            }
+
+            .filters .grid {
+                grid-template-columns: 1fr 1fr
+            }
+
+            .nav-toggle {
+                display: block
+            }
+
+            .dir-head {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px
+            }
+        }
+
+        @media (min-width:1200px) {
+            .container {
+                width: min(1400px, 90vw)
+            }
+
+            .lead {
+                font-size: 1.15rem
+            }
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            flex-shrink: 0
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header id="site-header">
+        <div class="container nav">
+            <a class="brand" href="#">
+                <img src="logo.png" alt="Brand" style="height:25px;width:auto;border-radius:6px">
+                <span>Alumni360</span>
+            </a>
+            <button class="nav-toggle" id="openSidebar" aria-label="Open menu"><span></span></button>
+            <div class="nav-right" style="flex:1;justify-content:flex-end;gap:12px">
+                <div class="top-search" role="search">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M21 21l-4.2-4.2M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="#0e1525"
+                            stroke-width="1.8" stroke-linecap="round" />
+                    </svg>
+                    <input id="globalSearch" placeholder="Search people, jobs, events..." />
+                </div>
+                <div class="dropdown" id="notifDd">
+                    <button class="icon-btn" aria-label="Notifications">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M12 22a2.5 2.5 0 0 0 2.33-1.6M5 9a7 7 0 1 1 14 0c0 4 1.5 5 1.5 5H3.5S5 13 5 9Z"
+                                stroke="#0e1525" stroke-width="1.6" stroke-linecap="round" />
+                        </svg>
+                    </button>
+                    <div class="dropdown-menu" style="left:auto;right:0;min-width:280px">
+                        <a href="#">New connection request from Ananya</a>
+                        <a href="#">Event reminder: AI Webinar</a>
+                        <a href="#">Thank you for donating to Scholarships</a>
+                    </div>
+                </div>
+                <div class="dropdown" id="profileDd">
+                    <button class="icon-btn" aria-label="Profile">
+                        <img class="avatar" src="logo3.png" alt="Profile" />
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="#" data-section="profile">My Profile</a>
+                        <a href="#" data-section="settings">Settings</a>
+                        <a href="#" onclick="alert('Logged out!')">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- App Layout -->
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="side-title">Navigation</div>
+            <nav class="side-nav" id="sideNav">
+                <a href="#" class="active" data-section="home">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-10.5Z" stroke="#0848BD"
+                            stroke-width="1.6" stroke-linejoin="round" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="#" data-section="profile">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm7 10a7 7 0 0 0-14 0" stroke="#1b2430"
+                            stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                    My Profile
+                </a>
+                <a href="#" data-section="directory">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M8 7a4 4 0 1 1 8 0v2h1a3 3 0 0 1 3 3v5H4v-5a3 3 0 0 1 3-3h1V7Z" stroke="#1b2430"
+                            stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                    Alumni Directory
+                </a>
+                <a href="#" data-section="mentorship">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M7 10a4 4 0 1 1 6.9 2.8L19 18l-2 2-5.1-5.2A4 4 0 0 1 7 10Z" stroke="#1b2430"
+                            stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                    Mentorship Hub
+                </a>
+                <a href="#" data-section="events">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M7 3v3M17 3v3M3 8h18M4 21h16a1 1 0 0 0 1-1V8H3v12a1 1 0 0 0 1 1Z" stroke="#1b2430"
+                            stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                    Events
+                </a>
+                <a href="#" data-section="jobs">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 10h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-8Z"
+                            stroke="#1b2430" stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                    Job Board
+                </a>
+                <a href="#" data-section="donations">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 21s-7-4.35-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.65-7 10-7 10Z" stroke="#1b2430"
+                            stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                    Give Back / Donations
+                </a>
+                <a href="#" data-section="settings">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none">
+                        <path
+                            d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM3 13l2 0M19 11l2 0M6.1 6.1l1.4 1.4M16.5 16.5l1.4 1.4M6.1 17.9l1.4-1.4M16.5 7.5l1.4-1.4"
+                            stroke="#1b2430" stroke-width="1.6" stroke-linecap="round" />
+                    </svg>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main" id="main">
+            <!-- Home -->
+            <section class="section" data-view="home">
+                <div class="toolbar">
+                    <h2 class="title-lg">Welcome back 👋</h2>
+                    <div class="chips">
+                        <span class="pill">Connect</span>
+                        <span class="pill">Engage</span>
+                        <span class="pill">Grow</span>
+                    </div>
+                </div>
+                <div class="grid-cards">
+                    <div class="card">
+                        <div class="title-md">Your Network</div>
+                        <p class="muted">People you may know based on year, major, and company.</p>
+                        <div style="display:flex;gap:8px;margin-top:10px">
+                            <a class="btn" data-section="directory">Find Alumni</a>
+                            <a class="btn outline" data-section="mentorship">Find Mentor</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="title-md">Upcoming Events</div>
+                        <p class="muted">Discover events and manage registrations in one place.</p>
+                        <div style="display:flex;gap:8px;margin-top:10px">
+                            <a class="btn" data-section="events">Browse Events</a>
+                            <a class="btn outline" data-section="events">My Events</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="title-md">Give Back</div>
+                        <p class="muted">Support campaigns with transparent progress tracking.</p>
+                        <div style="display:flex;gap:8px;margin-top:10px">
+                            <a class="btn" data-section="donations">Donate Now</a>
+                            <a class="btn outline" data-section="donations">View Campaigns</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="title-md">Job Recommendations</div>
+                        <p class="muted">New roles that match skills and location preferences.</p>
+                        <div style="display:flex;gap:8px;margin-top:10px">
+                            <a class="btn" data-section="jobs">See Jobs</a>
+                            <a class="btn outline" data-section="profile">Update Skills</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="title-md">Mentor Sessions</div>
+                        <p class="muted">Track upcoming sessions, requests, and feedback.</p>
+                        <div style="display:flex;gap:8px;margin-top:10px">
+                            <a class="btn" data-section="mentorship">Manage</a>
+                            <a class="btn outline" data-section="mentorship">New Request</a>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="title-md">Recent Donations</div>
+                        <p class="muted">Thank you for supporting active campaigns this year.</p>
+                        <div style="display:flex;gap:8px;margin-top:10px">
+                            <a class="btn" data-section="donations">View History</a>
+                            <a class="btn outline" data-section="donations">Explore Campaigns</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Alumni Directory -->
+            <section class="section" data-view="directory" hidden>
+                <div class="toolbar">
+                    <h2 class="title-lg">Alumni Directory</h2>
+                    <div class="chips"><span class="pill">Networking</span></div>
+                </div>
+
+                <div class="dir-bar">
+                    <div class="dir-input">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M21 21l-4.2-4.2M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="#0e1525"
+                                stroke-width="1.8" stroke-linecap="round" />
+                        </svg>
+                        <input id="dirQuery" placeholder="Search by name, company, title, or location">
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center">
+                        <label class="muted" for="dirSort" style="font-size:.9rem">Sort</label>
+                        <select id="dirSort"
+                            style="padding:.6rem;border-radius:10px;border:1px solid #ddd;background:#fff">
+                            <option value="name">Name (A–Z)</option>
+                            <option value="year">Graduation Year (newest)</option>
+                        </select>
+                        <button class="btn outline" id="toggleFilters" aria-expanded="false">Advanced Filters</button>
+                    </div>
+                </div>
+
+                <div class="filters" id="filterPanel" aria-hidden="true">
+                    <div class="grid">
+                        <div>
+                            <label>Graduation Year</label>
+                            <select id="fYear">
+                                <option value="">Any</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Major</label>
+                            <select id="fMajor">
+                                <option value="">Any</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Company</label>
+                            <input id="fCompany" placeholder="e.g., Google">
+                        </div>
+                        <div>
+                            <label>Industry</label>
+                            <select id="fIndustry">
+                                <option value="">Any</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Location</label>
+                            <input id="fLocation" placeholder="e.g., Bengaluru">
+                        </div>
+                        <div style="display:flex;align-items:flex-end;gap:8px">
+                            <button class="btn" id="applyFilters">Apply</button>
+                            <button class="btn outline" id="clearFilters">Clear</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dir-head">
+                    <div class="muted" id="dirCount">Results</div>
+                    <div class="muted" style="font-size:.92rem">Tip: Use filters to narrow by year, major, or industry.
+                    </div>
+                </div>
+
+                <!-- Directory Cards (editable in HTML) -->
+                <div id="dirResults" class="grid-cards" aria-live="polite">
+                    <div class="profile-card" data-name="Rahul Mehta" data-title="Senior SWE" data-company="Google"
+                        data-location="Bengaluru" data-year="2015" data-major="CSE" data-industry="Technology">
+                        <div class="ph-avatar" aria-label="Profile image">
+                            <svg class="ph-icon" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0"
+                                    stroke-width="1.6" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <div style="flex:1;min-width:180px">
+                            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+                                <div>
+                                    <div class="title-md">Rahul Mehta</div>
+                                    <div class="profile-meta">Senior SWE • Google</div>
+                                    <div class="profile-meta">Bengaluru • Class of 2015</div>
+                                </div>
+                                <div style="display:flex;gap:8px;flex-shrink:0">
+                                    <button class="btn outline small">View</button>
+                                    <button class="btn small">Connect</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card" data-name="Ananya Sharma" data-title="Business Analyst" data-company="TCS"
+                        data-location="Mumbai" data-year="2018" data-major="IT" data-industry="Consulting">
+                        <div class="ph-avatar" aria-label="Profile image">
+                            <svg class="ph-icon" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0"
+                                    stroke-width="1.6" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <div style="flex:1;min-width:180px">
+                            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+                                <div>
+                                    <div class="title-md">Ananya Sharma</div>
+                                    <div class="profile-meta">Business Analyst • TCS</div>
+                                    <div class="profile-meta">Mumbai • Class of 2018</div>
+                                </div>
+                                <div style="display:flex;gap:8px;flex-shrink:0">
+                                    <button class="btn outline small">View</button>
+                                    <button class="btn small">Connect</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card" data-name="Vikram Singh" data-title="Solutions Architect"
+                        data-company="Amazon" data-location="Hyderabad" data-year="2012" data-major="CSE"
+                        data-industry="Cloud">
+                        <div class="ph-avatar" aria-label="Profile image">
+                            <svg class="ph-icon" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0"
+                                    stroke-width="1.6" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <div style="flex:1;min-width:180px">
+                            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+                                <div>
+                                    <div class="title-md">Vikram Singh</div>
+                                    <div class="profile-meta">Solutions Architect • Amazon</div>
+                                    <div class="profile-meta">Hyderabad • Class of 2012</div>
+                                </div>
+                                <div style="display:flex;gap:8px;flex-shrink:0">
+                                    <button class="btn outline small">View</button>
+                                    <button class="btn small">Connect</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card" data-name="Ria Kapoor" data-title="Product Manager" data-company="Byju's"
+                        data-location="Bengaluru" data-year="2020" data-major="ECE" data-industry="EdTech">
+                        <div class="ph-avatar" aria-label="Profile image">
+                            <svg class="ph-icon" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0"
+                                    stroke-width="1.6" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <div style="flex:1;min-width:180px">
+                            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+                                <div>
+                                    <div class="title-md">Ria Kapoor</div>
+                                    <div class="profile-meta">Product Manager • Byju's</div>
+                                    <div class="profile-meta">Bengaluru • Class of 2020</div>
+                                </div>
+                                <div style="display:flex;gap:8px;flex-shrink:0">
+                                    <button class="btn outline small">View</button>
+                                    <button class="btn small">Connect</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card" data-name="Arjun Nair" data-title="Data Engineer" data-company="Infosys"
+                        data-location="Pune" data-year="2016" data-major="CSE" data-industry="Technology">
+                        <div class="ph-avatar" aria-label="Profile image"><svg class="ph-icon" viewBox="0 0 24 24"
+                                fill="none">
+                                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0"
+                                    stroke-width="1.6" stroke-linecap="round" />
+                            </svg></div>
+                        <div style="flex:1;min-width:180px">
+                            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+                                <div>
+                                    <div class="title-md">Arjun Nair</div>
+                                    <div class="profile-meta">Data Engineer • Infosys</div>
+                                    <div class="profile-meta">Pune • Class of 2016</div>
+                                </div>
+                                <div style="display:flex;gap:8px;flex-shrink:0">
+                                    <button class="btn outline small">View</button>
+                                    <button class="btn small">Connect</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card" data-name="Priya Iyer" data-title="Program Manager"
+                        data-company="Microsoft" data-location="Noida" data-year="2014" data-major="CSE"
+                        data-industry="Technology">
+                        <div class="ph-avatar" aria-label="Profile image"><svg class="ph-icon" viewBox="0 0 24 24"
+                                fill="none">
+                                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0"
+                                    stroke-width="1.6" stroke-linecap="round" />
+                            </svg></div>
+                        <div style="flex:1;min-width:180px">
+                            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+                                <div>
+                                    <div class="title-md">Priya Iyer</div>
+                                    <div class="profile-meta">Program Manager • Microsoft</div>
+                                    <div class="profile-meta">Noida • Class of 2014</div>
+                                </div>
+                                <div style="display:flex;gap:8px;flex-shrink:0">
+                                    <button class="btn outline small">View</button>
+                                    <button class="btn small">Connect</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card" data-name="Sahil Khan" data-title="SWE II" data-company="Flipkart"
+                        data-location="Bengaluru" data-year="2017" data-major="CSE" data-industry="E-commerce">
+                        <div class="ph-avatar" aria-label="Profile image"><svg class="ph-icon" viewBox="0 0 24 24"
+                                fill="none">
+                                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0"
+                                    stroke-width="1.6" stroke-linecap="round" />
+                            </svg></div>
+                        <div style="flex:1;min-width:180px">
+                            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+                                <div>
+                                    <div class="title-md">Sahil Khan</div>
+                                    <div class="profile-meta">SWE II • Flipkart</div>
+                                    <div class="profile-meta">Bengaluru • Class of 2017</div>
+                                </div>
+                                <div style="display:flex;gap:8px;flex-shrink:0">
+                                    <button class="btn outline small">View</button>
+                                    <button class="btn small">Connect</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-card" data-name="Neha Reddy" data-title="Associate PM" data-company="Salesforce"
+                        data-location="Hyderabad" data-year="2019" data-major="IT" data-industry="SaaS">
+                        <div class="ph-avatar" aria-label="Profile image"><svg class="ph-icon" viewBox="0 0 24 24"
+                                fill="none">
+                                <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0"
+                                    stroke-width="1.6" stroke-linecap="round" />
+                            </svg></div>
+                        <div style="flex:1;min-width:180px">
+                            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+                                <div>
+                                    <div class="title-md">Neha Reddy</div>
+                                    <div class="profile-meta">Associate PM • Salesforce</div>
+                                    <div class="profile-meta">Hyderabad • Class of 2019</div>
+                                </div>
+                                <div style="display:flex;gap:8px;flex-shrink:0">
+                                    <button class="btn outline small">View</button>
+                                    <button class="btn small">Connect</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Events -->
+            <section class="section" data-view="events" hidden>
+                <div class="toolbar">
+                    <h2 class="title-lg">Events</h2>
+                    <div class="chips"><span class="pill">Learn & Network</span></div>
+                </div>
+                <div class="tabs" id="eventTabs" role="tablist">
+                    <button class="tab active" data-tab="upcoming" role="tab" aria-selected="true">Upcoming
+                        Events</button>
+                    <button class="tab" data-tab="registered" role="tab" aria-selected="false">My Registered</button>
+                    <button class="tab" data-tab="past" role="tab" aria-selected="false">Past Events</button>
+                </div>
+
+                <!-- Event Cards (editable in HTML) -->
+                <div id="eventResults" class="grid-cards" aria-live="polite">
+                    <div class="card event-card" data-type="WEBINAR" data-name="Career Paths in AI"
+                        data-date="2025-10-15" data-location="Online"
+                        data-desc="Explore the future of AI with industry experts." data-attendees="320"
+                        data-registered="true">
+                        <div class="ph-banner" aria-label="Event image">
+                            <svg class="ph-icon" viewBox="0 0 24 24" fill="none">
+                                <path d="M7 3v3M17 3v3M3 8h18M4 21h16a1 1 0 0 0 1-1V8H3v12a1 1 0 0 0 1 1Z"
+                                    stroke="#4923E0" stroke-width="1.8" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <span class="kicker">WEBINAR</span>
+                        <div class="title-md" style="margin-top:6px">Career Paths in AI</div>
+                        <div class="muted"><strong>Date:</strong> 2025-10-15 • <strong>Location:</strong> Online</div>
+                        <p style="margin:.4rem 0">Explore the future of AI with industry experts.</p>
+                        <div class="muted">Attendees: 320</div>
+                        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+                            <button class="btn evt-open">Manage RSVP</button>
+                            <button class="btn outline evt-open">View Details</button>
+                        </div>
+                    </div>
+
+                    <div class="card event-card" data-type="NETWORKING" data-name="Annual Alumni Mixer"
+                        data-date="2025-11-05" data-location="Campus Auditorium"
+                        data-desc="Reconnect over food and conversations." data-attendees="540" data-registered="false">
+                        <div class="ph-banner" aria-label="Event image"><svg class="ph-icon" viewBox="0 0 24 24"
+                                fill="none">
+                                <path d="M7 3v3M17 3v3M3 8h18M4 21h16a1 1 0 0 0 1-1V8H3v12a1 1 0 0 0 1 1Z"
+                                    stroke="#4923E0" stroke-width="1.8" stroke-linecap="round" />
+                            </svg></div>
+                        <span class="kicker">NETWORKING</span>
+                        <div class="title-md" style="margin-top:6px">Annual Alumni Mixer</div>
+                        <div class="muted"><strong>Date:</strong> 2025-11-05 • <strong>Location:</strong> Campus
+                            Auditorium</div>
+                        <p style="margin:.4rem 0">Reconnect over food and conversations.</p>
+                        <div class="muted">Attendees: 540</div>
+                        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+                            <button class="btn evt-open">RSVP</button>
+                            <button class="btn outline evt-open">View Details</button>
+                        </div>
+                    </div>
+
+                    <div class="card event-card" data-type="WORKSHOP" data-name="Startup Funding 101"
+                        data-date="2025-11-22" data-location="Incubation Center"
+                        data-desc="Essentials of early-stage funding." data-attendees="200" data-registered="false">
+                        <div class="ph-banner" aria-label="Event image"><svg class="ph-icon" viewBox="0 0 24 24"
+                                fill="none">
+                                <path d="M7 3v3M17 3v3M3 8h18M4 21h16a1 1 0 0 0 1-1V8H3v12a1 1 0 0 0 1 1Z"
+                                    stroke="#4923E0" stroke-width="1.8" stroke-linecap="round" />
+                            </svg></div>
+                        <span class="kicker">WORKSHOP</span>
+                        <div class="title-md" style="margin-top:6px">Startup Funding 101</div>
+                        <div class="muted"><strong>Date:</strong> 2025-11-22 • <strong>Location:</strong> Incubation
+                            Center</div>
+                        <p style="margin:.4rem 0">Essentials of early-stage funding.</p>
+                        <div class="muted">Attendees: 200</div>
+                        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+                            <button class="btn evt-open">RSVP</button>
+                            <button class="btn outline evt-open">View Details</button>
+                        </div>
+                    </div>
+
+                    <div class="card event-card" data-type="TALK" data-name="Tech Talk: Systems Design"
+                        data-date="2025-07-01" data-location="Online" data-desc="Architect scalable systems."
+                        data-attendees="410" data-registered="true">
+                        <div class="ph-banner" aria-label="Event image"><svg class="ph-icon" viewBox="0 0 24 24"
+                                fill="none">
+                                <path d="M7 3v3M17 3v3M3 8h18M4 21h16a1 1 0 0 0 1-1V8H3v12a1 1 0 0 0 1 1Z"
+                                    stroke="#4923E0" stroke-width="1.8" stroke-linecap="round" />
+                            </svg></div>
+                        <span class="kicker">TALK</span>
+                        <div class="title-md" style="margin-top:6px">Tech Talk: Systems Design</div>
+                        <div class="muted"><strong>Date:</strong> 2025-07-01 • <strong>Location:</strong> Online</div>
+                        <p style="margin:.4rem 0">Architect scalable systems.</p>
+                        <div class="muted">Attendees: 410</div>
+                        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+                            <button class="btn evt-open">Manage RSVP</button>
+                            <button class="btn outline evt-open">View Details</button>
+                        </div>
+                    </div>
+
+                    <div class="card event-card" data-type="MEETUP" data-name="City Chapter Meetup"
+                        data-date="2025-12-10" data-location="Bengaluru" data-desc="Local alumni networking evening."
+                        data-attendees="180" data-registered="false">
+                        <div class="ph-banner" aria-label="Event image"><svg class="ph-icon" viewBox="0 0 24 24"
+                                fill="none">
+                                <path d="M7 3v3M17 3v3M3 8h18M4 21h16a1 1 0 0 0 1-1V8H3v12a1 1 0 0 0 1 1Z"
+                                    stroke="#4923E0" stroke-width="1.8" stroke-linecap="round" />
+                            </svg></div>
+                        <span class="kicker">MEETUP</span>
+                        <div class="title-md" style="margin-top:6px">City Chapter Meetup</div>
+                        <div class="muted"><strong>Date:</strong> 2025-12-10 • <strong>Location:</strong> Bengaluru
+                        </div>
+                        <p style="margin:.4rem 0">Local alumni networking evening.</p>
+                        <div class="muted">Attendees: 180</div>
+                        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+                            <button class="btn evt-open">RSVP</button>
+                            <button class="btn outline evt-open">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Donations -->
+            <section class="section" data-view="donations" hidden>
+                <div class="toolbar">
+                    <h2 class="title-lg">Give Back / Donations</h2>
+                    <div class="chips"><span class="pill">Impact</span></div>
+                </div>
+                <div class="tabs" id="donTabs" role="tablist">
+                    <button class="tab active" data-tab="campaigns" role="tab" aria-selected="true">Campaigns</button>
+                    <button class="tab" data-tab="history" role="tab" aria-selected="false">Donation History</button>
+                </div>
+
+                <!-- Campaigns (editable in HTML) -->
+                <div id="donCampaigns">
+                    <div class="grid-cards">
+                        <div class="card campaign" data-title="Digital Library Initiative" data-goal="100000"
+                            data-raised="65000">
+                            <div class="ph-banner" aria-label="Campaign image">
+                                <svg class="ph-icon" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 21s-7-4.35-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.65-7 10-7 10Z"
+                                        stroke="#4923E0" stroke-width="1.8" stroke-linecap="round" />
+                                </svg>
+                            </div>
+                            <div class="title-md">Digital Library Initiative</div>
+                            <p class="muted">Transparent progress and donor list.</p>
+                            <div class="progress" style="margin:10px 0">
+                                <div class="bar" style="width:65%"></div>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;font-size:.92rem">
+                                <strong>₹65,000</strong><span class="muted">Goal: ₹100,000 (65%)</span>
+                            </div>
+                            <div class="muted" style="margin-top:8px">Donors: A. Sharma, R. Mehta</div>
+                            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+                                <button class="btn donate-open">Donate Now</button>
+                                <button class="btn outline">View</button>
+                            </div>
+                        </div>
+
+                        <div class="card campaign" data-title="Student Scholarship Fund" data-goal="150000"
+                            data-raised="92000">
+                            <div class="ph-banner" aria-label="Campaign image"><svg class="ph-icon" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path d="M12 21s-7-4.35-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.65-7 10-7 10Z"
+                                        stroke="#4923E0" stroke-width="1.8" stroke-linecap="round" />
+                                </svg></div>
+                            <div class="title-md">Student Scholarship Fund</div>
+                            <p class="muted">Support need-based and merit scholarships.</p>
+                            <div class="progress" style="margin:10px 0">
+                                <div class="bar" style="width:61%"></div>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;font-size:.92rem">
+                                <strong>₹92,000</strong><span class="muted">Goal: ₹150,000 (61%)</span>
+                            </div>
+                            <div class="muted" style="margin-top:8px">Donors: S. Rao, P. Iyer, V. Singh</div>
+                            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+                                <button class="btn donate-open">Donate Now</button>
+                                <button class="btn outline">View</button>
+                            </div>
+                        </div>
+
+                        <div class="card campaign" data-title="New Science Lab" data-goal="200000" data-raised="125000">
+                            <div class="ph-banner" aria-label="Campaign image"><svg class="ph-icon" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path d="M12 21s-7-4.35-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.65-7 10-7 10Z"
+                                        stroke="#4923E0" stroke-width="1.8" stroke-linecap="round" />
+                                </svg></div>
+                            <div class="title-md">New Science Lab</div>
+                            <p class="muted">Equip a modern lab for core research.</p>
+                            <div class="progress" style="margin:10px 0">
+                                <div class="bar" style="width:63%"></div>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;font-size:.92rem">
+                                <strong>₹125,000</strong><span class="muted">Goal: ₹200,000 (63%)</span>
+                            </div>
+                            <div class="muted" style="margin-top:8px">Donors: R. Kapoor</div>
+                            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+                                <button class="btn donate-open">Donate Now</button>
+                                <button class="btn outline">View</button>
+                            </div>
+                        </div>
+
+                        <div class="card campaign" data-title="Innovation Hub Equipment" data-goal="175000"
+                            data-raised="84000">
+                            <div class="ph-banner" aria-label="Campaign image"><svg class="ph-icon" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path d="M12 21s-7-4.35-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.65-7 10-7 10Z"
+                                        stroke="#4923E0" stroke-width="1.8" stroke-linecap="round" />
+                                </svg></div>
+                            <div class="title-md">Innovation Hub Equipment</div>
+                            <p class="muted">Fund rapid prototyping tools for students.</p>
+                            <div class="progress" style="margin:10px 0">
+                                <div class="bar" style="width:48%"></div>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;font-size:.92rem">
+                                <strong>₹84,000</strong><span class="muted">Goal: ₹175,000 (48%)</span>
+                            </div>
+                            <div class="muted" style="margin-top:8px">Donors: A. Verma, N. Reddy</div>
+                            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+                                <button class="btn donate-open">Donate Now</button>
+                                <button class="btn outline">View</button>
+                            </div>
+                        </div>
+
+                        <div class="card campaign" data-title="Girls in STEM Program" data-goal="120000"
+                            data-raised="56000">
+                            <div class="ph-banner" aria-label="Campaign image"><svg class="ph-icon" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path d="M12 21s-7-4.35-7-10a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 5.65-7 10-7 10Z"
+                                        stroke="#4923E0" stroke-width="1.8" stroke-linecap="round" />
+                                </svg></div>
+                            <div class="title-md">Girls in STEM Program</div>
+                            <p class="muted">Workshops, mentorship, and grants for STEM.</p>
+                            <div class="progress" style="margin:10px 0">
+                                <div class="bar" style="width:47%"></div>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;font-size:.92rem">
+                                <strong>₹56,000</strong><span class="muted">Goal: ₹120,000 (47%)</span>
+                            </div>
+                            <div class="muted" style="margin-top:8px">Donors: Community Partners</div>
+                            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+                                <button class="btn donate-open">Donate Now</button>
+                                <button class="btn outline">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Donation History (editable in HTML) -->
+                <div id="donHistory" hidden>
+                    <div class="card">
+                        <div class="title-md">Donation History</div>
+                        <table class="table" style="margin-top:10px">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Campaign</th>
+                                    <th>Amount</th>
+                                    <th>Receipt</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyRows">
+                                <tr>
+                                    <td>2025-06-20</td>
+                                    <td>Student Scholarship Fund</td>
+                                    <td>₹2,500</td>
+                                    <td>#SSF-20250620</td>
+                                </tr>
+                                <tr>
+                                    <td>2025-03-14</td>
+                                    <td>Digital Library Initiative</td>
+                                    <td>₹1,000</td>
+                                    <td>#DLI-20250314</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Mentorship Hub -->
+            <section class="section" data-view="mentorship" hidden>
+                <div class="toolbar">
+                    <h2 class="title-lg">Mentorship Hub</h2>
+                    <div class="chips"><span class="pill">Guidance</span></div>
+                </div>
+                <div class="grid-cards">
+                    <div class="card">
+                        <div class="title-md">Become a Mentor</div>
+                        <p class="muted">Share experience and help students navigate careers.</p>
+                        <button class="btn">Apply</button>
+                    </div>
+                    <div class="card">
+                        <div class="title-md">Find a Mentor</div>
+                        <p class="muted">Match by major, industry, and goals.</p>
+                        <button class="btn outline">Start Matching</button>
+                    </div>
+                    <div class="card">
+                        <div class="title-md">Mentor Sessions</div>
+                        <p class="muted">Manage requests, schedules, and feedback.</p>
+                        <button class="btn outline">Open</button>
+                    </div>
+                </div>
+
+                <div style="padding-top:16px;padding-bottom:0">
+                    <h3 class="title-md" style="margin-bottom:10px">Featured Mentors</h3>
+                    <!-- Mentor Cards (editable in HTML) -->
+                    <div class="grid-cards" id="mentorResults">
+                        <div class="profile-card">
+                            <div class="ph-avatar small" aria-label="Mentor image"><svg class="ph-icon"
+                                    viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0"
+                                        stroke-width="1.6" stroke-linecap="round" />
+                                </svg></div>
+                            <div style="flex:1">
+                                <div class="title-md">Dr. Meera Joshi</div>
+                                <div class="profile-meta">System Design, Interviews</div>
+                                <div class="profile-meta">Pune • 2 slots/week</div>
+                                <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+                                    <button class="btn small">Request Session</button>
+                                    <button class="btn outline small">Message</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-card">
+                            <div class="ph-avatar small" aria-label="Mentor image"><svg class="ph-icon"
+                                    viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0"
+                                        stroke-width="1.6" stroke-linecap="round" />
+                                </svg></div>
+                            <div style="flex:1">
+                                <div class="title-md">Karan Gupta</div>
+                                <div class="profile-meta">Data Science, ML</div>
+                                <div class="profile-meta">Bengaluru • 3 slots/week</div>
+                                <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+                                    <button class="btn small">Request Session</button>
+                                    <button class="btn outline small">Message</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-card">
+                            <div class="ph-avatar small" aria-label="Mentor image"><svg class="ph-icon"
+                                    viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0"
+                                        stroke-width="1.6" stroke-linecap="round" />
+                                </svg></div>
+                            <div style="flex:1">
+                                <div class="title-md">Sneha Rao</div>
+                                <div class="profile-meta">Product Mgmt, Roadmaps</div>
+                                <div class="profile-meta">Mumbai • 1 slot/week</div>
+                                <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+                                    <button class="btn small">Request Session</button>
+                                    <button class="btn outline small">Message</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-card">
+                            <div class="ph-avatar small" aria-label="Mentor image"><svg class="ph-icon"
+                                    viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0"
+                                        stroke-width="1.6" stroke-linecap="round" />
+                                </svg></div>
+                            <div style="flex:1">
+                                <div class="title-md">Adit Jain</div>
+                                <div class="profile-meta">Backend, Cloud</div>
+                                <div class="profile-meta">Hyderabad • 2 slots/week</div>
+                                <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+                                    <button class="btn small">Request Session</button>
+                                    <button class="btn outline small">Message</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Job Board -->
+            <section class="section" data-view="jobs" hidden>
+                <div class="toolbar">
+                    <h2 class="title-lg">Job Board</h2>
+                    <div class="chips"><span class="pill">Opportunities</span></div>
+                </div>
+                <!-- Job Cards (editable in HTML) -->
+                <div class="grid-cards" id="jobResults">
+                    <div class="card"
+                        style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+                        <div>
+                            <div class="title-md">Senior Software Engineer</div>
+                            <div class="muted">DevWorks • Remote</div>
+                        </div>
+                        <a class="btn outline" href="#">Apply</a>
+                    </div>
+                    <div class="card"
+                        style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+                        <div>
+                            <div class="title-md">Data Analyst</div>
+                            <div class="muted">Insight Labs • Bengaluru</div>
+                        </div>
+                        <a class="btn outline" href="#">Apply</a>
+                    </div>
+                    <div class="card"
+                        style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+                        <div>
+                            <div class="title-md">Marketing Associate</div>
+                            <div class="muted">Bright Co. • Mumbai</div>
+                        </div>
+                        <a class="btn outline" href="#">Apply</a>
+                    </div>
+                    <div class="card"
+                        style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+                        <div>
+                            <div class="title-md">Frontend Engineer</div>
+                            <div class="muted">PixelCraft • Hyderabad</div>
+                        </div>
+                        <a class="btn outline" href="#">Apply</a>
+                    </div>
+                    <div class="card"
+                        style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+                        <div>
+                            <div class="title-md">Product Manager</div>
+                            <div class="muted">EduPlus • Pune</div>
+                        </div>
+                        <a class="btn outline" href="#">Apply</a>
+                    </div>
+                    <div class="card"
+                        style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+                        <div>
+                            <div class="title-md">Cloud Engineer</div>
+                            <div class="muted">Nimbus Tech • Remote</div>
+                        </div>
+                        <a class="btn outline" href="#">Apply</a>
+                    </div>
+                    <div class="card"
+                        style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+                        <div>
+                            <div class="title-md">ML Engineer</div>
+                            <div class="muted">VisionAI • Noida</div>
+                        </div>
+                        <a class="btn outline" href="#">Apply</a>
+                    </div>
+                    <div class="card"
+                        style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+                        <div>
+                            <div class="title-md">SRE</div>
+                            <div class="muted">ScaleOps • Bengaluru</div>
+                        </div>
+                        <a class="btn outline" href="#">Apply</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile -->
+            <section class="section" data-view="profile" hidden>
+                <div class="toolbar">
+                    <h2 class="title-lg">My Profile</h2>
+                    <div class="chips"><span class="pill">Visibility</span></div>
+                </div>
+
+                <div class="card" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+                    <div class="ph-avatar" aria-label="Profile image">
+                        <svg class="ph-icon" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm7 9a7 7 0 0 0-14 0" stroke="#4923E0"
+                                stroke-width="1.6" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <div style="flex:1;min-width:260px">
+                        <div class="title-md">Alex Verma</div>
+                        <div class="muted">B.Tech CSE, Class of 2023 • Software Engineer @ DevWorks • Bengaluru</div>
+                    </div>
+                    <div style="display:flex;gap:8px">
+                        <button class="btn">Edit Profile</button>
+                        <button class="btn outline">Share Profile</button>
+                    </div>
+                </div>
+
+                <div class="grid-cards" style="margin-top:12px">
+                    <div class="card">
+                        <div class="title-md">About</div>
+                        <p class="muted">Full‑stack engineer focused on performant web apps, distributed systems, and
+                            community mentoring.</p>
+                        <p class="muted">Open to pro‑bono mentorship and university talks.</p>
+                    </div>
+                    <div class="card">
+                        <div class="title-md">Experience</div>
+                        <ul style="margin:8px 0 0;padding-left:18px">
+                            <li><strong>Software Engineer</strong>, DevWorks (2023–Present)</li>
+                            <li><strong>Intern</strong>, CloudNet (2022)</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="title-md">Education</div>
+                        <ul style="margin:8px 0 0;padding-left:18px">
+                            <li>B.Tech in Computer Science & Engineering, 2019–2023</li>
+                        </ul>
+                    </div>
+                    <div class="card">
+                        <div class="title-md">Skills</div>
+                        <div class="chips" style="margin-top:6px">
+                            <span class="pill">JavaScript</span><span class="pill">React</span><span
+                                class="pill">Node.js</span><span class="pill">SQL</span><span class="pill">System
+                                Design</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="title-md">Interests</div>
+                        <div class="chips" style="margin-top:6px">
+                            <span class="pill">Mentoring</span><span class="pill">Startups</span><span class="pill">Open
+                                Source</span><span class="pill">EdTech</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="title-md">Contact & Social</div>
+                        <p class="muted" style="margin:.2rem 0">alex.verma@example.com • Bengaluru</p>
+                        <div class="chips">
+                            <span class="pill">LinkedIn</span><span class="pill">GitHub</span><span
+                                class="pill">Twitter</span>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="title-md">Mentorship Preferences</div>
+                        <p class="muted">Weekly ~30 min • Topics: Career guidance, interviews, web dev.</p>
+                        <button class="btn small">Update Preferences</button>
+                    </div>
+                    <div class="card">
+                        <div class="title-md">Visibility</div>
+                        <label style="display:flex;align-items:center;gap:10px;margin-top:10px"><input type="checkbox"
+                                checked> Show email to verified alumni</label>
+                        <label style="display:flex;align-items:center;gap:10px;margin-top:10px"><input type="checkbox"
+                                checked> Allow connection requests</label>
+                        <label style="display:flex;align-items:center;gap:10px;margin-top:10px"><input type="checkbox">
+                            Show social links publicly</label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings -->
+            <section class="section" data-view="settings" hidden>
+                <div class="toolbar">
+                    <h2 class="title-lg">Settings</h2>
+                    <div class="chips"><span class="pill">Preferences</span></div>
+                </div>
+                <div class="card">
+                    <div class="title-md">Notifications</div>
+                    <label style="display:flex;align-items:center;gap:10px;margin-top:10px"><input type="checkbox"
+                            checked> Email alerts for events and connections</label>
+                    <label style="display:flex;align-items:center;gap:10px;margin-top:10px"><input type="checkbox"
+                            checked> Updates about campaigns</label>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    
+
+    <!-- Donate Modal -->
+    <div class="modal" id="donateModal">
+        <div class="panel">
+            
+            <h3 class="title-md" id="donTitle"></h3>
+            <div id="donStep1">
+                <p class="muted"></p>
+                <div style="display:flex;gap:8px;flex-wrap:wrap">
+                    
+                </div>
+                <div style="margin-top:10px">
+                    <p class="muted"></p>
+                </div>
+                <div style="margin-top:12px;display:flex;gap:8px">
+                    <button class="title-md" id="toStep2"></button>
+                </div>
+            </div>
+            <div id="donStep2" hidden>
+                <p class="muted"></p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                    <input id="donName" placeholder="Full Name"
+                        style="padding:.7rem;border-radius:10px;border:1px solid #ddd">
+                    <input id="donEmail" type="email" placeholder="Email"
+                        style="padding:.7rem;border-radius:10px;border:1px solid #ddd">
+                </div>
+                <div style="display:flex;gap:8px;margin-top:12px">
+                    <button class="btn outline" id="backTo1">Back</button>
+                    <button class="btn" id="toStep3">Next</button>
+                </div>
+            </div>
+            <div id="donStep3" hidden>
+                <p class="muted">Step 3 of 3 • Payment method</p>
+                <div style="display:flex;gap:10px;flex-wrap:wrap">
+                    <button class="btn outline">Card</button>
+                    <button class="btn outline">UPI</button>
+                    <button class="btn outline">Netbanking</button>
+                </div>
+                <p class="muted" style="margin-top:10px">Payment gateway placeholder (Stripe/Razorpay integration).</p>
+                <div style="display:flex;gap:8px;margin-top:12px">
+                    <button class="btn outline" id="backTo2">Back</button>
+                    <button class="btn" id="confirmPay">Pay Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer (last visible block) -->
+    <footer class="section" style="padding-top:40px; padding-bottom: 24px;">
+        <div class="container">
+            <div class="columns" style="margin-bottom:24px">
+                <div>
+                    <div style="display:flex;align-items:center;gap:10px;font-weight:800;margin-bottom:20px">
+                        <img src="logo2.png" alt="Brand logo" loading="lazy"
+                            style="height:28px;width:auto;border-radius:6px">
+                    </div>
+                    <p style="margin:0 0 14px;opacity:.9">Hundreds of advancement teams use Alumni360 to engage
+                        constituents meaningfully and grow their donor pipeline.</p>
+                    <div>
+                        <form
+                            onsubmit="event.preventDefault(); this.querySelector('input').value = ''; alert('Thank you for subscribing!');">
+                            <label for="email" style="display:block;margin-bottom:6px;opacity:.9">Subscribe for
+                                updates</label>
+                            <div style="display:flex;gap:8px">
+                                <input id="email" type="email" required placeholder="name@institution.edu"
+                                    style="flex:1;padding:.8rem;border-radius:10px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.1);color:#fff" />
+                                <button class="btn" type="submit"
+                                    style="background:#fff;color:#0e1525">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <div style="font-weight:800;margin-bottom:8px">Features</div>
+                    <div style="display:grid;gap:8px">
+                        <a href="#" data-section="directory">Alumni Directory</a>
+                        <a href="#" data-section="mentorship">Mentorship</a>
+                        <a href="#" data-section="jobs">Job Board</a>
+                        <a href="#" data-section="events">Events</a>
+                        <a href="#" data-section="donations">Fundraising</a>
+                    </div>
+                </div>
+                <div>
+                    <div style="font-weight:800;margin-bottom:8px">Resources</div>
+                    <div style="display:grid;gap:8px">
+                        <a href="#">Success Stories</a>
+                        <a href="#">Blog</a>
+                        <a href="#">Privacy Policy</a>
+                        <a href="#" data-section="settings">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+            <div
+                style="border-top:1px solid rgba(255,255,255,.15);padding-top:12px;display:flex;justify-content:space-between;gap:10px;opacity:.8">
+                <span>&copy; <span id="year"></span> Tech Titans</span>
+                <span>All rights reserved</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Helpers
+        const $ = (s, sc = document) => sc.querySelector(s);
+        const $$ = (s, sc = document) => Array.from(sc.querySelectorAll(s));
+
+        // Keep footer last; show only active view
+        function pruneBottomStrays() {
+            $$('#main > .section:not([data-view])').forEach(el => el.remove());
+        }
+        function showSection(key) {
+            $$('[data-view]').forEach(sec => sec.hidden = sec.getAttribute('data-view') !== key);
+            $$('#sideNav a').forEach(a => a.classList.toggle('active', a.dataset.section === key));
+            if (window.innerWidth <= 980) sidebar.classList.remove('open');
+            pruneBottomStrays();
+        }
+
+        // Header dropdowns
+        function wireDropdown(dd) {
+            const btn = dd.querySelector('button');
+            function close() { dd.classList.remove('open'); document.removeEventListener('click', onDoc); }
+            function onDoc(e) { if (!dd.contains(e.target)) close(); }
+            btn.addEventListener('click', (e) => { e.stopPropagation(); dd.classList.toggle('open'); if (dd.classList.contains('open')) document.addEventListener('click', onDoc); });
+        }
+        wireDropdown($('#notifDd')); wireDropdown($('#profileDd'));
+
+        // Sidebar toggle (mobile)
+        const sidebar = $('#sidebar');
+        $('#openSidebar').addEventListener('click', () => sidebar.classList.toggle('open'));
+
+        // Global search -> Directory
+        $('#globalSearch').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                showSection('directory');
+                $('#dirQuery').value = e.target.value;
+                applyDirFilters();
+            }
+        });
+
+        // DIRECTORY: build filter options from HTML cards
+        const dirGrid = $('#dirResults');
+        function getDirCards() { return $$('#dirResults .profile-card'); }
+        function buildDirOptions() {
+            const years = new Set(), majors = new Set(), industries = new Set();
+            getDirCards().forEach(c => {
+                years.add(c.dataset.year || ''); majors.add(c.dataset.major || ''); industries.add(c.dataset.industry || '');
+            });
+            const yearSel = $('#fYear'), majorSel = $('#fMajor'), indSel = $('#fIndustry');
+            [...years].filter(Boolean).sort((a, b) => b - a).forEach(y => yearSel.insertAdjacentHTML('beforeend', `<option>${y}</option>`));
+            [...majors].filter(Boolean).sort().forEach(m => majorSel.insertAdjacentHTML('beforeend', `<option>${m}</option>`));
+            [...industries].filter(Boolean).sort().forEach(i => indSel.insertAdjacentHTML('beforeend', `<option>${i}</option>`));
+        }
+        buildDirOptions();
+
+        // Directory filter/apply/clear/sort
+        function applyDirFilters() {
+            const q = $('#dirQuery').value.trim().toLowerCase();
+            const fy = $('#fYear').value, mj = $('#fMajor').value, co = $('#fCompany').value.trim().toLowerCase();
+            const ind = $('#fIndustry').value, loc = $('#fLocation').value.trim().toLowerCase();
+            let visible = 0;
+            getDirCards().forEach(c => {
+                const name = (c.dataset.name || '').toLowerCase();
+                const title = (c.dataset.title || '').toLowerCase();
+                const comp = (c.dataset.company || '').toLowerCase();
+                const city = (c.dataset.location || '').toLowerCase();
+                const passQ = !q || [name, title, comp, city].some(x => x.includes(q));
+                const passY = !fy || c.dataset.year === fy;
+                const passM = !mj || c.dataset.major === mj;
+                const passC = !co || comp.includes(co);
+                const passI = !ind || c.dataset.industry === ind;
+                const passL = !loc || city.includes(loc);
+                const show = passQ && passY && passM && passC && passI && passL;
+                c.style.display = show ? '' : 'none';
+                if (show) visible++;
+            });
+            $('#dirCount').textContent = `${visible} result${visible === 1 ? '' : 's'}`;
+            sortDir(); // keep sort order after filter
+        }
+        function clearDirFilters() {
+            $('#fYear').value = ''; $('#fMajor').value = ''; $('#fCompany').value = ''; $('#fIndustry').value = ''; $('#fLocation').value = '';
+            $('#dirQuery').value = ''; applyDirFilters();
+        }
+        function sortDir() {
+            const sort = $('#dirSort').value;
+            const cards = getDirCards().filter(c => c.style.display !== 'none');
+            cards.sort((a, b) => {
+                if (sort === 'name') return (a.dataset.name || '').localeCompare(b.dataset.name || '');
+                if (sort === 'year') return (b.dataset.year || '').localeCompare(a.dataset.year || '');
+                return 0;
+            });
+            // Re-append in sorted order (only visible, others keep their position)
+            const frag = document.createDocumentFragment();
+            const all = getDirCards();
+            const hidden = all.filter(c => c.style.display === 'none');
+            cards.forEach(c => frag.appendChild(c));
+            hidden.forEach(c => frag.appendChild(c));
+            dirGrid.innerHTML = '';
+            dirGrid.appendChild(frag);
+        }
+        $('#toggleFilters').addEventListener('click', () => {
+            const p = $('#filterPanel'); const open = !p.classList.contains('open');
+            p.classList.toggle('open', open);
+            $('#toggleFilters').setAttribute('aria-expanded', String(open));
+            p.setAttribute('aria-hidden', String(!open));
+        });
+        $('#applyFilters').addEventListener('click', applyDirFilters);
+        $('#clearFilters').addEventListener('click', clearDirFilters);
+        $('#dirQuery').addEventListener('input', applyDirFilters);
+        $('#dirSort').addEventListener('change', sortDir);
+        applyDirFilters();
+
+        // EVENTS: tab filtering using HTML data attributes
+        function setEventTab(active) {
+            $$('#eventTabs .tab').forEach(t => {
+                const on = t.dataset.tab === active;
+                t.classList.toggle('active', on);
+                t.setAttribute('aria-selected', String(on));
+            });
+            const now = new Date();
+            $$('#eventResults .event-card').forEach(card => {
+                const date = new Date(card.dataset.date + 'T00:00:00');
+                const reg = card.dataset.registered === 'true';
+                let show = true;
+                if (active === 'upcoming') show = date >= now;
+                if (active === 'registered') show = reg;
+                if (active === 'past') show = date < now;
+                card.style.display = show ? '' : 'none';
+            });
+        }
+        $$('#eventTabs .tab').forEach(t => t.addEventListener('click', () => setEventTab(t.dataset.tab)));
+        setEventTab('upcoming');
+
+        // Event Detail (based on clicked card)
+        function openEventFromCard(card) {
+            $('#evtTitle').textContent = card.dataset.name || 'Event';
+            $('#evtMeta').textContent = `${card.dataset.date} • ${card.dataset.location} • Attendees: ${card.dataset.attendees}`;
+            $('#evtDesc').textContent = card.dataset.desc || '';
+            const registered = card.dataset.registered === 'true';
+            $('#evtRsvp').textContent = registered ? 'Manage RSVP' : 'RSVP';
+            $('#evtRsvp').onclick = () => {
+                alert(registered ? 'You are registered. See you there!' : 'RSVP confirmed!');
+                closeModal('#eventDetail');
+            };
+            $('#evtTicket').onclick = () => alert('Ticket purchase flow placeholder');
+            openModal('#eventDetail');
+        }
+        $('#eventResults').addEventListener('click', (e) => {
+            const btn = e.target.closest('.evt-open'); if (!btn) return;
+            const card = e.target.closest('.event-card'); if (card) openEventFromCard(card);
+        });
+
+        // DONATIONS: tab switch and donate modal title from clicked campaign
+        function setDonTab(tab) {
+            $$('#donTabs .tab').forEach(t => {
+                const on = t.dataset.tab === tab;
+                t.classList.toggle('active', on);
+                t.setAttribute('aria-selected', String(on));
+            });
+            $('#donCampaigns').hidden = tab !== 'campaigns';
+            $('#donHistory').hidden = tab !== 'history';
+        }
+        $$('#donTabs .tab').forEach(t => t.addEventListener('click', () => setDonTab(t.dataset.tab)));
+        setDonTab('campaigns');
+
+        // Donate modal flow
+        let currentCampaignTitle = '';
+        document.addEventListener('click', (e) => {
+            const donateBtn = e.target.closest('.donate-open');
+            if (donateBtn) {
+                const card = donateBtn.closest('.campaign');
+                currentCampaignTitle = card?.dataset.title || 'Campaign';
+                $('#donTitle').textContent = `Donate — ${currentCampaignTitle}`;
+                $('#donAmount').value = ''; $('#donName').value = ''; $('#donEmail').value = '';
+                step(1); openModal('#donateModal');
+            }
+        });
+        $$('.amt').forEach(b => b.addEventListener('click', () => $('#donAmount').value = b.textContent.replace(/[^\d]/g, '')));
+
+        function step(n) {
+            $('#donStep1').hidden = n !== 1;
+            $('#donStep2').hidden = n !== 2;
+            $('#donStep3').hidden = n !== 3;
+        }
+        $('#toStep2').addEventListener('click', () => {
+            const amt = +($('#donAmount').value || 0);
+            if (!amt || amt <= 0) return alert('Enter a valid amount');
+            step(2);
+        });
+        $('#backTo1').addEventListener('click', () => step(1));
+        $('#toStep3').addEventListener('click', () => {
+            if (!$('#donName').value.trim() || !$('#donEmail').value.trim()) return alert('Enter name and email');
+            step(3);
+        });
+        $('#backTo2').addEventListener('click', () => step(2));
+        $('#confirmPay').addEventListener('click', () => {
+            const amt = +$('#donAmount').value;
+            if (!amt) return;
+            alert(`Payment successful! Donated ₹${amt.toLocaleString()} to ${currentCampaignTitle}.`);
+            // Optional: append to history
+            const row = document.createElement('tr');
+            const today = new Date().toISOString().slice(0, 10);
+            row.innerHTML = `<td>${today}</td><td>${currentCampaignTitle}</td><td>₹${amt.toLocaleString()}</td><td>#R-${Date.now()}</td>`;
+            $('#historyRows').prepend(row);
+            closeModal('#donateModal');
+            setDonTab('history');
+        });
+
+        // Modals
+        let onEsc;
+        function openModal(sel) {
+            const m = document.querySelector(sel);
+            if (!m) return;
+            onEsc = (ev) => { if (ev.key === 'Escape') closeModal(sel); };
+            document.addEventListener('keydown', onEsc);
+            m.addEventListener('click', (e) => { if (e.target === m) closeModal(sel); });
+            m.classList.add('open');
+            document.body.classList.add('noscroll');
+        }
+        function closeModal(sel) {
+            const m = document.querySelector(sel);
+            if (!m) return;
+            m.classList.remove('open');
+            document.body.classList.remove('noscroll');
+            if (onEsc) document.removeEventListener('keydown', onEsc);
+        }
+        $$('[data-close]').forEach(el => el.addEventListener('click', () => closeModal('#' + el.closest('.modal').id)));
+
+        // In‑content navigation
+        $$('[data-section]').forEach(el => el.addEventListener('click', (e) => { e.preventDefault(); showSection(el.dataset.section) }));
+
+        // Init
+        pruneBottomStrays();
+    </script>
+</body>
+
+</html>
